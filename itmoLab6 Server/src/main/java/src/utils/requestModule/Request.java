@@ -26,4 +26,9 @@ public class Request implements Serializable {
         return typeOfRequest;
     }
 
+    @Override
+    public String toString() {
+        return "Request [commandName=" + commandName + ", argumentsToCommand=" + argumentsToCommand + ", typeOfRequest="
+                + typeOfRequest + "]";
+    }
 }

@@ -6,6 +6,7 @@
 /home/semjon/Programming/itmoPrlab6Main/itmoLab6 Server/src/main/java/src/logic/streams/OutputManager.java
 /home/semjon/Programming/itmoPrlab6Main/itmoLab6 Server/src/main/java/src/logic/data/ValidationMode.java
 /home/semjon/Programming/itmoPrlab6Main/itmoLab6 Server/src/main/java/src/Main.java
+/home/semjon/Programming/itmoPrlab6Main/itmoLab6 Server/src/main/java/src/utils/requestModule/TypeOfRequest.java
 /home/semjon/Programming/itmoPrlab6Main/itmoLab6 Server/src/main/java/src/commands/GroupCountingById.java
 /home/semjon/Programming/itmoPrlab6Main/itmoLab6 Server/src/main/java/src/commands/Invoker.java
 /home/semjon/Programming/itmoPrlab6Main/itmoLab6 Server/src/main/java/src/utils/Formatter.java
@@ -47,5 +48,6 @@
 /home/semjon/Programming/itmoPrlab6Main/itmoLab6 Server/src/main/java/src/logic/exceptions/FieldRestrictionException.java
 /home/semjon/Programming/itmoPrlab6Main/itmoLab6 Server/src/main/java/src/commands/Update.java
 /home/semjon/Programming/itmoPrlab6Main/itmoLab6 Server/src/main/java/src/utils/StringConverter.java
+/home/semjon/Programming/itmoPrlab6Main/itmoLab6 Server/src/main/java/src/utils/requestModule/Request.java
 /home/semjon/Programming/itmoPrlab6Main/itmoLab6 Server/src/main/java/src/commands/RemoveById.java
 /home/semjon/Programming/itmoPrlab6Main/itmoLab6 Server/src/main/java/src/annotations/Fillable.java

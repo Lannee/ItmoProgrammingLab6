@@ -1,8 +1,13 @@
 package src.logic.connection;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+
+import src.utils.requestModule.Request;
 
 public class RequestCatcher {
     private DatagramSocket socket;
@@ -18,12 +23,15 @@ public class RequestCatcher {
         }
     }
 
-    public void run() {
+    public void run() throws ClassNotFoundException {
         try {
             while (running) {
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
                 socket.receive(packet);
-                System.out.println(new String(packet.getData()));
+                ByteArrayInputStream byteOS = new ByteArrayInputStream(packet.getData());
+                ObjectInputStream objIS = new ObjectInputStream(byteOS);
+                Request incomeRequest = (Request) objIS.readObject();
+                System.out.println(incomeRequest.toString());
                 if (new String(packet.getData()).equals("exit")) {
                     running = false;
                     continue;

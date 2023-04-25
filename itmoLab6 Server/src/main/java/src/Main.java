@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 import src.logic.connection.RequestCatcher;
 
 public class Main {
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) throws UnknownHostException, ClassNotFoundException {
         // Client client = new Client(args);
         // client.runClient();
 

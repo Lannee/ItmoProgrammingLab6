@@ -1,9 +1,10 @@
 package src;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import src.logic.connection.Connection;
+import src.utils.requestModule.RequestFactory;
+import src.utils.requestModule.TypeOfRequest;
 
 public class Main {
     public static void main(String[] args) throws UnknownHostException {
@@ -11,6 +12,6 @@ public class Main {
         // client.runClient();
 
         Connection connection = new Connection("localhost", 8448);
-        connection.sendMessage("Zhopa");
+        connection.sendRequest(RequestFactory.createRequest("info", "", TypeOfRequest.COMMAND));
     }
 }

@@ -1,9 +1,13 @@
 package src.logic.connection;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+
+import src.utils.requestModule.Request;
 
 public class Connection {
     private String host;
@@ -14,12 +18,15 @@ public class Connection {
         this.port = port;
     }
 
-    public void sendMessage(String message) {
+    public void sendRequest(Request request) {
         try {
-            byte[] dataToSend = message.getBytes();
+            byte[] dataToSend;
+            ByteArrayOutputStream byteOS = new ByteArrayOutputStream();
+            ObjectOutputStream objOS = new ObjectOutputStream(byteOS);
+            objOS.writeObject(request);
+            dataToSend = byteOS.toByteArray();
             InetAddress address = InetAddress.getByName(host);
             DatagramPacket packet = new DatagramPacket(dataToSend, dataToSend.length, address, port);
-            System.out.println(packet.getData());
             DatagramSocket socket = new DatagramSocket();
             socket.send(packet);
             socket.close();
@@ -27,10 +34,4 @@ public class Connection {
             System.out.println(e.getMessage());
         }
     }
-
-    public String getMessageToSend() {
-        String message = "Zhopa";
-        return message.trim();
-    }
-
 }
