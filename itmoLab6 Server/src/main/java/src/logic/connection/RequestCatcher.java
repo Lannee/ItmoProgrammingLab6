@@ -3,12 +3,11 @@ package src.logic.connection;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 
 public class RequestCatcher {
     private DatagramSocket socket;
     private boolean running = true;
-    private byte[] buf = new byte[5];
+    private byte[] buf = new byte[524];
     
     public RequestCatcher () {
         try {
