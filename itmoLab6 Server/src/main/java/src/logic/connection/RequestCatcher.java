@@ -22,10 +22,8 @@ public class RequestCatcher {
     public void run() {
         try {
             while (running) {
-                System.out.println("running");
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
                 socket.receive(packet);
-                System.out.println(packet.getSocketAddress());
                 System.out.println(new String(packet.getData()));
                 if (new String(packet.getData()).equals("exit")) {
                     running = false;
