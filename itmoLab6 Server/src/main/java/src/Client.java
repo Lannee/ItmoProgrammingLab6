@@ -25,12 +25,12 @@ public class Client {
     public static final InputManager in = new ConsoleInputManager();
 
     public Client(String[] args) {
+        // collection storage loader from file
         if(args.length == 0) {
             out.print("Incorrect number of arguments\n");
             System.exit(2);
         }
         String fileName = args[0];
-//        String fileName = "FileJ";
         String filePath = System.getenv().get(fileName);
         if(filePath == null) {
             out.print("Environment variable \"" + fileName + "\" does not exist\n");

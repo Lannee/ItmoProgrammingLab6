@@ -1,20 +1,20 @@
 package src.logic.connection;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 import src.utils.requestModule.Request;
+import src.utils.requestModule.TypeOfRequest;
 
 public class RequestCatcher {
     private DatagramSocket socket;
     private boolean running = true;
     private byte[] buf = new byte[524];
-    
-    public RequestCatcher () {
+
+    public RequestCatcher() {
         try {
             socket = new DatagramSocket(8448);
             System.out.println("Server is ready!");
@@ -23,23 +23,18 @@ public class RequestCatcher {
         }
     }
 
-    public void run() throws ClassNotFoundException {
+    public Request run() {
+        Request incomeRequest;
         try {
-            while (running) {
-                DatagramPacket packet = new DatagramPacket(buf, buf.length);
-                socket.receive(packet);
-                ByteArrayInputStream byteOS = new ByteArrayInputStream(packet.getData());
-                ObjectInputStream objIS = new ObjectInputStream(byteOS);
-                Request incomeRequest = (Request) objIS.readObject();
-                System.out.println(incomeRequest.toString());
-                if (new String(packet.getData()).equals("exit")) {
-                    running = false;
-                    continue;
-                }
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+            DatagramPacket packet = new DatagramPacket(buf, buf.length);
+            socket.receive(packet);
+            ByteArrayInputStream byteOS = new ByteArrayInputStream(packet.getData());
+            ObjectInputStream objIS = new ObjectInputStream(byteOS);
+            incomeRequest = (Request) objIS.readObject();
+            socket.close();
+            return incomeRequest;
+        } catch (IOException | ClassNotFoundException e) {
+            return new Request("", "", TypeOfRequest.COMMAND);
         }
-        socket.close();
     }
 }

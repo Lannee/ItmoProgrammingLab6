@@ -3,6 +3,7 @@ package src.commands;
 import src.Client;
 import src.logic.data.Receiver;
 import src.logic.streams.InputManager;
+import src.utils.requestModule.Request;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -111,15 +112,12 @@ public class Invoker {
         return out.toString();
     }
 
-    public void parseCommand(String request) {
-        request = request.trim();
-        if(request.equals("")) return;
+    public void parseCommand(Request request) {
+        String[] words = request.getArgumentsToCommand().split("( )+", 2);
 
-        String[] words = request.split("( )+", 2);
-
-        String command = words[0].toLowerCase();
+        String command = request.getCommandName().toLowerCase();
         String[] args;
-        if(words.length == 1)
+        if(words.length == 0)
             args = new String[0];
         else
             args = parseArgs(words[1]);
