@@ -112,21 +112,26 @@ public class Invoker {
         return out.toString();
     }
 
-    public void parseCommand(Request request) {
-        String[] words = request.getArgumentsToCommand().split("( )+", 2);
+    public void parseCommand(String line) {
+        line = line.trim();
+        if(line.equals("")) return;
 
-        String command = request.getCommandName().toLowerCase();
+        String[] words = line.split(" ");
+
+        String command = words[0];
         String[] args;
-        if(words.length == 0)
-            args = new String[0];
-        else
-            args = parseArgs(words[1]);
+        if(words.length == 1) { args = new String[0]; }
+        else { args = Arrays.copyOfRange(words, 1, words.length); }
 
         if(declaredCommands.containsKey(command)) {
             declaredCommands.get(command).execute(args);
         } else {
             Client.out.print("Unknown command " + command + ". Type help to get information about all commands.\n");
         }
+    }
+
+    public void parseCommand(Request request) {
+        parseCommand(request.getCommandName() + " " + request.getArgumentsToCommand());
     }
     
     private String[] parseArgs(String line) {

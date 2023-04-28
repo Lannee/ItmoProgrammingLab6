@@ -31,10 +31,10 @@ public class RequestCatcher {
             ByteArrayInputStream byteOS = new ByteArrayInputStream(packet.getData());
             ObjectInputStream objIS = new ObjectInputStream(byteOS);
             incomeRequest = (Request) objIS.readObject();
-            socket.close();
-            return incomeRequest;
         } catch (IOException | ClassNotFoundException e) {
-            return new Request("", "", TypeOfRequest.COMMAND);
+            incomeRequest = new Request("null", "null", null);
+            System.out.println("Connection error");
         }
+        return incomeRequest;
     }
 }

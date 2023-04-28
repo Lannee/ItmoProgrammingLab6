@@ -51,7 +51,7 @@ public class Client {
             try {
                 out.print(invite + " ");
                 line = in.readLine();
-                invoker.parseCommand(line);
+                // invoker.parseCommand(line);
             } catch (IllegalArgumentException iae) {
                 out.print(iae.getMessage() + "\n");
             }

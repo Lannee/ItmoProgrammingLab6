@@ -58,12 +58,12 @@
             <version>2.4</version>
         </dependency>
 
-        <dependency>
+        <!-- <dependency>
             <groupId>org.example</groupId>
             <artifactId>aplicationModule</artifactId>
             <version>1.0</version>
             <scope>system</scope>
             <systemPath>${basedir}/../aplicationModule/target/aplicationModule-1.0-SNAPSHOT-jar-with-dependencies.jar</systemPath>
-        </dependency>
+        </dependency> -->
     </dependencies>
 </project>
