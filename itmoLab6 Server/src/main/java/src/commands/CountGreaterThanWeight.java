@@ -24,6 +24,8 @@ public class CountGreaterThanWeight implements Command {
             Client.out.print(amount + "\n");
         } catch (NumberFormatException e) {
             Client.out.print("Incorrect given value\n");
+        } catch (NoSuchFieldException e) {
+            Client.out.print("Stored type does not have typed field\n");
         }
     }
 

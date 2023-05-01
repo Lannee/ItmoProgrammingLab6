@@ -11,7 +11,6 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Predicate;
 
-
 /**
  * Responsible for performing various actions on the collection
  */
@@ -27,8 +26,7 @@ public class Receiver {
             collection.add(
                     getStoredType().cast(
                             ObjectUtils.createObjectInteractively(
-                                    collection.getClT()
-                            )));
+                                    collection.getClT())));
             return collection.getClT().getSimpleName() + " was successfully created\n";
         } catch (CannotCreateObjectException e) {
             return "Unable to create object: " + e.getMessage() + "\n";
@@ -38,11 +36,11 @@ public class Receiver {
     public String interactiveAdd(Long id) {
         try {
             Object obj = ObjectUtils.createObjectInteractively(collection.getClT());
-            if(id <= 0) throw new NumberFormatException("Incorrect argument value");
+            if (id <= 0)
+                throw new NumberFormatException("Incorrect argument value");
             ObjectUtils.setFieldValue(obj, "id", id);
             collection.add(
-                    getStoredType().cast(obj)
-            );
+                    getStoredType().cast(obj));
         } catch (NoSuchFieldException e) {
             return "Stored type does not support this command\n";
         } catch (IllegalArgumentException | CannotCreateObjectException e) {
@@ -51,10 +49,10 @@ public class Receiver {
         return "Successfully";
     }
 
-
     // What ******* is going on down here?????? Dunno how to fix it
     public void clear() {
-        if(ObjectUtils.agreement(Client.in, Client.out, "Are you sure you want to clear the collection (y/n) : ", false))
+        if (ObjectUtils.agreement(Client.in, Client.out, "Are you sure you want to clear the collection (y/n) : ",
+                false))
             collection.clear();
     }
 
@@ -70,45 +68,43 @@ public class Receiver {
         return getFormattedCollection(Comparator.reverseOrder());
     }
 
-    public <T> String countCompareToValueByField(String fieldName, String value, Comparator<Comparable<T>> comparator) throws NumberFormatException {
+    public <T> Integer countCompareToValueByField(String fieldName, String value, Comparator<Comparable<T>> comparator)
+            throws NumberFormatException, NoSuchFieldException {
         int counter = 0;
-        try {
-            Field field = collection.getClT().getDeclaredField(fieldName);
-            field.setAccessible(true);
-            Comparable givenValue = (Comparable) StringConverter.methodForType.get(field.getType()).apply(value);
-            if(!ObjectUtils.checkValueForRestrictions(field, givenValue)) {
-                throw new NumberFormatException();
-            }
-            for(Object element : collection.getElements()) {
-                try {
-                    if(comparator.compare(givenValue, (Comparable)field.get(element)) > 0) counter++;
-                } catch (IllegalAccessException impossible) { }
-            }
-
-
-        } catch (NoSuchFieldException nsfe) {
-            return "Stored type does not have " + fieldName + " field\n";
+        Field field = collection.getClT().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        Comparable givenValue = (Comparable) StringConverter.methodForType.get(field.getType()).apply(value);
+        if (!ObjectUtils.checkValueForRestrictions(field, givenValue)) {
+            throw new NumberFormatException();
         }
-
-        return String.valueOf(counter);
+        for (Object element : collection.getElements()) {
+            try {
+                if (comparator.compare(givenValue, (Comparable) field.get(element)) > 0)
+                    counter++;
+            } catch (IllegalAccessException impossible) {
+            }
+        }
+        return counter;
     }
 
     public void saveCollection() {
         collection.save();
     }
 
-    public Dragon getElementByFieldValue(String fieldName, Object value) throws NumberFormatException, NoSuchFieldException {
+    public Dragon getElementByFieldValue(String fieldName, Object value)
+            throws NumberFormatException, NoSuchFieldException {
 
         Field idField;
         idField = collection.getClT().getDeclaredField(fieldName);
         idField.setAccessible(true);
 
-        for(Dragon e : collection.getElements()) {
+        for (Dragon e : collection.getElements()) {
             try {
-                if(idField.get(e).equals(value)) {
+                if (idField.get(e).equals(value)) {
                     return e;
                 }
-            } catch (IllegalAccessException ex) {}
+            } catch (IllegalAccessException ex) {
+            }
         }
 
         return null;
@@ -127,20 +123,20 @@ public class Receiver {
     }
 
     public boolean removeOn(Predicate<Dragon> filter, boolean showRemoved) {
-        if(collection.size() == 0) {
+        if (collection.size() == 0) {
             Client.out.print("Cannot remove since the collection is empty\n");
             return false;
         }
 
         List<Dragon> removed = new LinkedList<>();
-        for(Dragon element : collection.getElements()) {
-            if(filter.test(element)) {
+        for (Dragon element : collection.getElements()) {
+            if (filter.test(element)) {
                 removed.add(element);
                 removeFromCollection(element);
             }
         }
 
-        if(showRemoved) {
+        if (showRemoved) {
             Client.out.print(Formatter.format(removed, collection.getClT()) + "\n");
         }
 
@@ -148,12 +144,12 @@ public class Receiver {
     }
 
     public boolean removeByIndex(int index, boolean showRemoved) {
-        if(collection.size() == 0) {
+        if (collection.size() == 0) {
             Client.out.print("Cannot remove since the collection is empty\n");
             return false;
         }
 
-        if(index > collection.size()) {
+        if (index > collection.size()) {
             Client.out.print("Cannot remove from collection: index is out of bound\n");
             return false;
         }
@@ -170,16 +166,17 @@ public class Receiver {
         Map<Object, Integer> groups = new HashMap<>();
         Field field = collection.getClT().getDeclaredField(fieldName);
         field.setAccessible(true);
-        for(Object element : collection.getElements()) {
+        for (Object element : collection.getElements()) {
             try {
                 Object key = field.get(element);
-                if(groups.containsKey(key)) {
+                if (groups.containsKey(key)) {
                     Integer value = groups.get(key);
                     groups.put(key, ++value);
                 } else {
                     groups.put(key, 1);
                 }
-            } catch (IllegalAccessException impossible) { }
+            } catch (IllegalAccessException impossible) {
+            }
         }
         return groups;
     }
