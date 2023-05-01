@@ -22,20 +22,20 @@ public class Receiver {
         collection.initialize(filePath);
     }
 
-    public void interactiveAdd() {
+    public String interactiveAdd() {
         try {
             collection.add(
                     getStoredType().cast(
                             ObjectUtils.createObjectInteractively(
                                     collection.getClT()
                             )));
-            Client.out.print(collection.getClT().getSimpleName() + " was successfully created\n");
+            return collection.getClT().getSimpleName() + " was successfully created\n";
         } catch (CannotCreateObjectException e) {
-            Client.out.print("Unable to create object: " + e.getMessage() + "\n");
+            return "Unable to create object: " + e.getMessage() + "\n";
         }
     }
 
-    public void interactiveAdd(Long id) {
+    public String interactiveAdd(Long id) {
         try {
             Object obj = ObjectUtils.createObjectInteractively(collection.getClT());
             if(id <= 0) throw new NumberFormatException("Incorrect argument value");
@@ -44,12 +44,15 @@ public class Receiver {
                     getStoredType().cast(obj)
             );
         } catch (NoSuchFieldException e) {
-            Client.out.print("Stored type does not support this command\n");
+            return "Stored type does not support this command\n";
         } catch (IllegalArgumentException | CannotCreateObjectException e) {
-            Client.out.print("Unable to create object: " + e.getMessage() + "\n");
+            return "Unable to create object: " + e.getMessage() + "\n";
         }
+        return "Successfully";
     }
 
+
+    // What ******* is going on down here?????? Dunno how to fix it
     public void clear() {
         if(ObjectUtils.agreement(Client.in, Client.out, "Are you sure you want to clear the collection (y/n) : ", false))
             collection.clear();
@@ -67,8 +70,8 @@ public class Receiver {
         return getFormattedCollection(Comparator.reverseOrder());
     }
 
-    public <T> Integer countCompareToValueByField(String fieldName, String value, Comparator<Comparable<T>> comparator) throws NumberFormatException {
-        Integer counter = 0;
+    public <T> String countCompareToValueByField(String fieldName, String value, Comparator<Comparable<T>> comparator) throws NumberFormatException {
+        int counter = 0;
         try {
             Field field = collection.getClT().getDeclaredField(fieldName);
             field.setAccessible(true);
@@ -84,10 +87,10 @@ public class Receiver {
 
 
         } catch (NoSuchFieldException nsfe) {
-            Client.out.print("Stored type does not have " + fieldName + " field\n");
+            return "Stored type does not have " + fieldName + " field\n";
         }
 
-        return counter;
+        return String.valueOf(counter);
     }
 
     public void saveCollection() {
