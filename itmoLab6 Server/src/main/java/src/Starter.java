@@ -1,9 +1,12 @@
 package src;
 
 import src.commands.Invoker;
-import src.logic.connection.RequestCatcher;
+import src.logic.connection.Connection;
 import src.logic.data.Receiver;
 import src.utils.requestModule.Request;
+import src.utils.responseModule.Response;
+import src.utils.responseModule.ResponseFactory;
+import src.utils.responseModule.ResponseStatus;
 
 public class Starter {
     private String fileName = "";
@@ -33,15 +36,20 @@ public class Starter {
         Invoker invoker = new Invoker(
                 new Receiver(filePath));
 
-        RequestCatcher requestCatcher = new RequestCatcher();
-        while (running) {
-            Request request = requestCatcher.run();
-            invoker.parseCommand(request);
-            if (request.getCommandName().equals("exit")) {
-                running = false;
-                continue;
-            }
-        }
+        Connection connectionWorker = new Connection("localhost", 8448);
+        // while (running) {
+            Request request = (Request) connectionWorker.catchRequest();
+            System.out.println(request);
+            Response resultResponse;
+            resultResponse = ResponseFactory.createResponse("HELLOOO", ResponseStatus.SUCCESSFULLY);
+            System.out.println(resultResponse);
+            connectionWorker.sendResponse(resultResponse);
+            // break;
+            // if (request.getCommandName().equals("exit")) {
+            //     running = false;
+            //     continue;
+            // }
+        // }
 
     }
 }

@@ -12,6 +12,7 @@ public class Main {
         // client.runClient();
 
         Connection connection = new Connection("localhost", 8448);
-        connection.sendRequest(RequestFactory.createRequest("info", "", TypeOfRequest.COMMAND));
+        // connection.sendRequest(RequestFactory.createRequest("info", "", TypeOfRequest.COMMAND));
+        System.out.println(connection.catchResponse());
     }
 }

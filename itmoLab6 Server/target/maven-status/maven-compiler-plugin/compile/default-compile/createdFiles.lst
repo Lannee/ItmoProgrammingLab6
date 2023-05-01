@@ -18,7 +18,6 @@ src/commands/ExecuteScript.class
 src/test.class
 src/utils/StringConverter.class
 src/logic/exceptions/FileReadModeException.class
-src/logic/connection/RequestCatcher.class
 src/commands/Command.class
 src/Main.class
 src/commands/Show.class

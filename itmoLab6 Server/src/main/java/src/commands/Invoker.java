@@ -9,7 +9,6 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Invoker {
@@ -113,9 +112,9 @@ public class Invoker {
         return out.toString();
     }
 
-    public void parseCommand(String line) {
+    public String parseCommand(String line) {
         line = line.trim();
-        if(line.equals("")) return;
+        if(line.equals("")) return "";
 
         String[] words = line.split(" ");
 
@@ -125,14 +124,14 @@ public class Invoker {
         else { args = Arrays.copyOfRange(words, 1, words.length); }
 
         if(declaredCommands.containsKey(command)) {
-            declaredCommands.get(command).execute(args);
+            return declaredCommands.get(command).execute(args);
         } else {
-            Client.out.print("Unknown command " + command + ". Type help to get information about all commands.\n");
+            return "Unknown command " + command + ". Type help to get information about all commands.\n";
         }
     }
 
-    public void parseCommand(Request request) {
-        parseCommand(request.getCommandName() + " " + request.getArgumentsToCommand());
+    public String parseCommand(Request request) {
+        return parseCommand(request.getCommandName() + " " + request.getArgumentsToCommand());
     }
     
     private String[] parseArgs(String line) {
