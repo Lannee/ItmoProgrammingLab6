@@ -4,7 +4,7 @@ package src.commands;
  * Command interface, sets the behavior for each team in the project
  */
 public interface Command {
-    void execute(String[] args);
+    String execute(String[] args);
 
     String getDescription();
 

@@ -20,9 +20,9 @@ public class Show implements Command {
     }
 
     @Override
-    public void execute(String[] args) {
+    public String execute(String[] args) {
         checkArgsConformity(args);
-        Client.out.print(receiver.getFormattedCollection() + "\n");
+        return receiver.getFormattedCollection() + "\n";
     }
 
     @Override

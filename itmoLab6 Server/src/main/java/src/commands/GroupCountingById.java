@@ -18,14 +18,16 @@ public class GroupCountingById implements Command {
     }
 
     @Override
-    public void execute(String[] args) {
+    public String execute(String[] args) {
         checkArgsConformity(args);
+        StringBuilder result = new StringBuilder();
         try {
             Map<Object, Integer> groups = receiver.groupByField("id");
-            groups.forEach((u, v) -> Client.out.print(u + " : " + v + "\n"));
+            groups.forEach((u, v) -> result.append(u + " : " + v + "\n"));
         } catch (NoSuchFieldException e) {
-            Client.out.print("Stored type does not support this command\n");
+            return "Stored type does not support this command\n";
         }
+        return result.toString();
     }
 
     @Override

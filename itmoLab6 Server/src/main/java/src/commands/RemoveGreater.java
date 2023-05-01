@@ -18,14 +18,16 @@ public class RemoveGreater implements Command {
         this.receiver = receiver;
     }
 
+    // Needed to be fixed.
     @Override
-    public void execute(String[] args) {
+    public String execute(String[] args) {
         checkArgsConformity(args);
         try {
             Object obj = ObjectUtils.createObjectInteractively(receiver.getStoredType());
             receiver.removeOn(e -> e.compareTo(receiver.getStoredType().cast(obj)) > 0, false);
+            return "";
         } catch (CannotCreateObjectException e) {
-            Client.out.print("Unable to create object: " + e.getMessage() + "\n");
+            return "Unable to create object: " + e.getMessage() + "\n";
         }
     }
 

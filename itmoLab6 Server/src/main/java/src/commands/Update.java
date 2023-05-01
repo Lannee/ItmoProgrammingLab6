@@ -18,8 +18,10 @@ public class Update implements Command {
         this.receiver = receiver;
     }
 
+
+    // Again. It's forbidden to get in & out streams from client. Needed to be fixed.
     @Override
-    public void execute(String[] args) {
+    public String execute(String[] args) {
         checkArgsConformity(args);
 
         try {
@@ -29,18 +31,18 @@ public class Update implements Command {
 
             if(obj == null) {
                 if(!ObjectUtils.agreement(Client.in, Client.out, "Element with this id does not exist, do you want to create it (y/n) : ", false)) {
-                    return;
+                    return "";
                 }
             }
 
             receiver.removeFromCollection(obj);
             receiver.interactiveAdd(id);
 
-            Client.out.print("Element with " + args()[0] + " " + id + " was successfully updated\n");
+            return "Element with " + args()[0] + " " + id + " was successfully updated\n";
         } catch (NoSuchFieldException e) {
-            Client.out.print("Stored type does not support this command\n");
+            return "Stored type does not support this command\n";
         } catch (NumberFormatException nfe) {
-            Client.out.print("Incorrect argument value\n");
+            return "Incorrect argument value\n";
         }
     }
 

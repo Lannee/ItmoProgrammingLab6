@@ -16,10 +16,12 @@ public class RemoveHead implements Command {
         this.receiver = receiver;
     }
 
+    // Needed to be fixed because function <removeOn> is called in reciever
     @Override
-    public void execute(String[] args) {
+    public String execute(String[] args) {
         checkArgsConformity(args);
         receiver.removeByIndex(0, true);
+        return "";
     }
 
     @Override

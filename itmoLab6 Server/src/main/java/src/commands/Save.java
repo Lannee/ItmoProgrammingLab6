@@ -16,9 +16,10 @@ public class Save implements Command {
     }
 
     @Override
-    public void execute(String[] args) {
+    public String execute(String[] args) {
         checkArgsConformity(args);
         receiver.saveCollection();
+        return "Successfully";
     }
 
     @Override

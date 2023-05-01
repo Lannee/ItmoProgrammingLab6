@@ -9,9 +9,9 @@ public class Exit implements Command {
     private static final String[] args = new String[0];
 
     @Override
-    public void execute(String[] args) {
+    public String execute(String[] args) {
         checkArgsConformity(args);
-        System.exit(0);
+        return "Successfully";
     }
 
     @Override

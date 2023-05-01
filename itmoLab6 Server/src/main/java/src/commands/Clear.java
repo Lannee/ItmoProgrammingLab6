@@ -15,9 +15,10 @@ public class Clear implements Command {
     }
 
     @Override
-    public void execute(String[] args) {
+    public String execute(String[] args) {
         checkArgsConformity(args);
         receiver.clear();
+        return "Successfully";
     }
 
     @Override

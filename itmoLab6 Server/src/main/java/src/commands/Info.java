@@ -17,9 +17,9 @@ public class Info implements Command {
     }
 
     @Override
-    public void execute(String[] args) {
+    public String execute(String[] args) {
         checkArgsConformity(args);
-        Client.out.print(receiver.getInfo() + "\n");
+        return receiver.getInfo() + "\n";
     }
 
     @Override

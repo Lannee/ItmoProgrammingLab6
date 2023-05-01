@@ -17,15 +17,15 @@ public class CountGreaterThanWeight implements Command {
     }
 
     @Override
-    public void execute(String[] args) {
+    public String execute(String[] args) {
         checkArgsConformity(args);
         try {
             int amount = receiver.countCompareToValueByField(args()[0], args[0], (u, v) -> -u.compareTo(v));
-            Client.out.print(amount + "\n");
+            return amount + "\n";
         } catch (NumberFormatException e) {
-            Client.out.print("Incorrect given value\n");
+            return "Incorrect given value\n";
         } catch (NoSuchFieldException e) {
-            Client.out.print("Stored type does not have typed field\n");
+            return "Stored type does not have typed field\n";
         }
     }
 

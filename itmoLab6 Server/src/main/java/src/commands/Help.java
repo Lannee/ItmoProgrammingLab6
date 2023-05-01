@@ -16,9 +16,9 @@ public class Help implements Command {
     }
 
     @Override
-    public void execute(String[] args) {
+    public String execute(String[] args) {
         checkArgsConformity(args);
-        Client.out.print(invoker.commandsInfo());
+        return invoker.commandsInfo();
     }
 
     @Override

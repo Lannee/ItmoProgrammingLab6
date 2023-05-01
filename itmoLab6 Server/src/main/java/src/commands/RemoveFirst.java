@@ -17,11 +17,12 @@ public class RemoveFirst implements Command {
     }
 
     @Override
-    public void execute(String[] args) {
+    public String execute(String[] args) {
         checkArgsConformity(args);
         if(receiver.removeByIndex(0, false)) {
-            Client.out.print("First object was successfully removed\n");
+            return "First object was successfully removed\n";
         }
+        return "";
     }
 
     @Override

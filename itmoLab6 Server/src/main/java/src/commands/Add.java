@@ -16,9 +16,9 @@ public class Add implements Command {
     }
 
     @Override
-    public void execute(String[] args) {
+    public String execute(String[] args) {
         checkArgsConformity(args);
-        receiver.interactiveAdd();
+        return receiver.interactiveAdd();
     }
 
     @Override

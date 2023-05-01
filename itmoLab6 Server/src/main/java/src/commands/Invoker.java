@@ -53,6 +53,7 @@ public class Invoker {
         files.clear();
     }
 
+    // Needed to be fixed. It's incorrect to access the input stream from server's Reciever
     public void execute_script(String file) {
         if(!new File(file).exists()) {
             Client.out.print("File \"" + file + "\" does not exist\n");

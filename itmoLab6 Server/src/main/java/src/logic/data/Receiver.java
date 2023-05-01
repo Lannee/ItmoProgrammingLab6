@@ -122,6 +122,7 @@ public class Receiver {
         return collection.remove(o);
     }
 
+    // Needed to be fixed.
     public boolean removeOn(Predicate<Dragon> filter, boolean showRemoved) {
         if (collection.size() == 0) {
             Client.out.print("Cannot remove since the collection is empty\n");
