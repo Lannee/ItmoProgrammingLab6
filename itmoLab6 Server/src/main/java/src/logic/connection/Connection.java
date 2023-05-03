@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
@@ -16,16 +17,22 @@ import src.utils.responseModule.Response;
 
 public class Connection {
     private String host;
-    private int port;
+    private int serversPort;
+    private SocketAddress clientSocketAddress;
     private byte[] buf = new byte[524];
     private DatagramSocket socket;
 
+    
+
     public Connection (String host, int port) {
         this.host = host;
-        this.port = port;
+        this.serversPort = port;
         try {
-            socket = new DatagramSocket(8449);
-        } catch (SocketException e) {}
+            socket = new DatagramSocket(port);
+            // socket.setReuseAddress(true); // needed for IP multicasting
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
     }
 
     public Request catchRequest() {
@@ -33,6 +40,7 @@ public class Connection {
         try {
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             socket.receive(packet);
+            clientSocketAddress = packet.getSocketAddress();
             ByteArrayInputStream byteOS = new ByteArrayInputStream(packet.getData());
             ObjectInputStream objIS = new ObjectInputStream(byteOS);
             incomeRequest = (Request) objIS.readObject();
@@ -43,18 +51,18 @@ public class Connection {
         return incomeRequest;
     }
 
-    // public void sendResponse(Response response) {
-    //     try {
-    //         byte[] dataToSend;
-    //         ByteArrayOutputStream byteOS = new ByteArrayOutputStream();
-    //         ObjectOutputStream objOS = new ObjectOutputStream(byteOS);
-    //         objOS.writeObject(response);
-    //         dataToSend = byteOS.toByteArray();
-    //         DatagramPacket packet = new DatagramPacket(dataToSend, dataToSend.length, InetAddress.getByName(host), port);
-    //         socket.send(packet);
-    //         System.out.println("Sended");
-    //     } catch (IOException e) {
-    //         System.out.println(e.getMessage());
-    //     }
-    // }
+    public void sendResponse(Response response) {
+        try {
+            byte[] dataToSend;
+            ByteArrayOutputStream byteOS = new ByteArrayOutputStream();
+            ObjectOutputStream objOS = new ObjectOutputStream(byteOS);
+            objOS.writeObject(response);
+            dataToSend = byteOS.toByteArray();
+            InetAddress hostAddress = InetAddress.getByName(host);
+            DatagramPacket packet = new DatagramPacket(dataToSend, dataToSend.length, clientSocketAddress);
+            socket.send(packet);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

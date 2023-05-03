@@ -39,11 +39,8 @@ public class Starter {
         Connection connectionWorker = new Connection("localhost", 8449);
         // while (running) {
             Request request = (Request) connectionWorker.catchRequest();
-            System.out.println(request);
-            // Response resultResponse;
-            // resultResponse = ResponseFactory.createResponse("HELLOOO", ResponseStatus.SUCCESSFULLY);
-            // System.out.println(resultResponse);
-            // connectionWorker.sendResponse(resultResponse);
+            Response resultResponse = ResponseFactory.createResponse(invoker.parseRequestCommand(request), ResponseStatus.SUCCESSFULLY);
+            connectionWorker.sendResponse(resultResponse);
             
             // break;
             // if (request.getCommandName().equals("exit")) {

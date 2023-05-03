@@ -13,6 +13,6 @@ public class Main {
 
         Connection connection = new Connection("localhost", 8449);
         connection.sendRequest(RequestFactory.createRequest("info", "", TypeOfRequest.COMMAND));
-        // System.out.println(connection.catchResponse());
+        System.out.println(connection.catchResponse());
     }
 }

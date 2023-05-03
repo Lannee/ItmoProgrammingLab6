@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import src.commands.Invoker;
+import src.logic.connection.Connection;
 import src.logic.connection.ResponseSender;
 import src.logic.data.Receiver;
 import src.utils.requestModule.Request;
@@ -19,9 +20,6 @@ public class Main {
         // Create server starter
         Starter serverStarter = new Starter();
         serverStarter.startServer(args);        
-
-        // ResponseSender responseSender = new ResponseSender("localhost", 8448);
-        // responseSender.sendResponse(ResponseFactory.createResponse("Succcc", ResponseStatus.SUCCESSFULLY));
 
     }
 }

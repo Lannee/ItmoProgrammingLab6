@@ -130,7 +130,7 @@ public class Invoker {
         }
     }
 
-    public String parseCommand(Request request) {
+    public String parseRequestCommand(Request request) {
         return parseCommand(request.getCommandName() + " " + request.getArgumentsToCommand());
     }
     

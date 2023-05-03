@@ -11,6 +11,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 
 import src.utils.requestModule.Request;
 import src.utils.responseModule.Response;
@@ -26,25 +27,28 @@ public class Connection {
         this.port = port;
         try {
             socket = new DatagramSocket();
-        } catch (SocketException e) {}
+            socket.setReuseAddress(true); // needed for IP multicasting
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
     }
 
-    // public Response catchResponse() {
-    //     Response incomeResponse;
-    //     try {
-    //         DatagramPacket packet = new DatagramPacket(buf, buf.length);
-    //         socket.receive(packet);
-    //         System.out.println("Catched");
-    //         ByteArrayInputStream byteOS = new ByteArrayInputStream(packet.getData());
-    //         ObjectInputStream objIS = new ObjectInputStream(byteOS);
-    //         incomeResponse = (Response) objIS.readObject();
-    //         socket.close();
-    //     } catch (IOException | ClassNotFoundException e) {
-    //         incomeResponse = new Response("", null);
-    //         System.out.println("Connection error");
-    //     }
-    //     return incomeResponse;
-    // }
+    public Response catchResponse() {
+        Response incomeResponse;
+        try {
+            DatagramPacket packet = new DatagramPacket(buf, buf.length);
+            socket.receive(packet);
+            System.out.println("Catched");
+            ByteArrayInputStream byteOS = new ByteArrayInputStream(packet.getData());
+            ObjectInputStream objIS = new ObjectInputStream(byteOS);
+            incomeResponse = (Response) objIS.readObject();
+            socket.close();
+        } catch (IOException | ClassNotFoundException e) {
+            incomeResponse = new Response("", null);
+            System.out.println("Connection error");
+        }
+        return incomeResponse;
+    }
 
     public void sendRequest(Request request) {
         try {
