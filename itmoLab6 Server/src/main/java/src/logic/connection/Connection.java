@@ -24,7 +24,7 @@ public class Connection {
         this.host = host;
         this.port = port;
         try {
-            socket = new DatagramSocket();
+            socket = new DatagramSocket(8449);
         } catch (SocketException e) {}
     }
 
@@ -43,18 +43,18 @@ public class Connection {
         return incomeRequest;
     }
 
-    public void sendResponse(Response response) {
-        try {
-            byte[] dataToSend;
-            ByteArrayOutputStream byteOS = new ByteArrayOutputStream();
-            ObjectOutputStream objOS = new ObjectOutputStream(byteOS);
-            objOS.writeObject(response);
-            dataToSend = byteOS.toByteArray();
-            DatagramPacket packet = new DatagramPacket(dataToSend, dataToSend.length, InetAddress.getByName(host), port);
-            socket.send(packet);
-            System.out.println("Sended");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+    // public void sendResponse(Response response) {
+    //     try {
+    //         byte[] dataToSend;
+    //         ByteArrayOutputStream byteOS = new ByteArrayOutputStream();
+    //         ObjectOutputStream objOS = new ObjectOutputStream(byteOS);
+    //         objOS.writeObject(response);
+    //         dataToSend = byteOS.toByteArray();
+    //         DatagramPacket packet = new DatagramPacket(dataToSend, dataToSend.length, InetAddress.getByName(host), port);
+    //         socket.send(packet);
+    //         System.out.println("Sended");
+    //     } catch (IOException e) {
+    //         System.out.println(e.getMessage());
+    //     }
+    // }
 }

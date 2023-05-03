@@ -29,22 +29,22 @@ public class Connection {
         } catch (SocketException e) {}
     }
 
-    public Response catchResponse() {
-        Response incomeResponse;
-        try {
-            DatagramPacket packet = new DatagramPacket(buf, buf.length);
-            socket.receive(packet);
-            System.out.println("Catched");
-            ByteArrayInputStream byteOS = new ByteArrayInputStream(packet.getData());
-            ObjectInputStream objIS = new ObjectInputStream(byteOS);
-            incomeResponse = (Response) objIS.readObject();
-            socket.close();
-        } catch (IOException | ClassNotFoundException e) {
-            incomeResponse = new Response("", null);
-            System.out.println("Connection error");
-        }
-        return incomeResponse;
-    }
+    // public Response catchResponse() {
+    //     Response incomeResponse;
+    //     try {
+    //         DatagramPacket packet = new DatagramPacket(buf, buf.length);
+    //         socket.receive(packet);
+    //         System.out.println("Catched");
+    //         ByteArrayInputStream byteOS = new ByteArrayInputStream(packet.getData());
+    //         ObjectInputStream objIS = new ObjectInputStream(byteOS);
+    //         incomeResponse = (Response) objIS.readObject();
+    //         socket.close();
+    //     } catch (IOException | ClassNotFoundException e) {
+    //         incomeResponse = new Response("", null);
+    //         System.out.println("Connection error");
+    //     }
+    //     return incomeResponse;
+    // }
 
     public void sendRequest(Request request) {
         try {

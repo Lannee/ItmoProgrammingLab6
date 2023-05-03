@@ -36,14 +36,15 @@ public class Starter {
         Invoker invoker = new Invoker(
                 new Receiver(filePath));
 
-        Connection connectionWorker = new Connection("localhost", 8448);
+        Connection connectionWorker = new Connection("localhost", 8449);
         // while (running) {
             Request request = (Request) connectionWorker.catchRequest();
             System.out.println(request);
-            Response resultResponse;
-            resultResponse = ResponseFactory.createResponse("HELLOOO", ResponseStatus.SUCCESSFULLY);
-            System.out.println(resultResponse);
-            connectionWorker.sendResponse(resultResponse);
+            // Response resultResponse;
+            // resultResponse = ResponseFactory.createResponse("HELLOOO", ResponseStatus.SUCCESSFULLY);
+            // System.out.println(resultResponse);
+            // connectionWorker.sendResponse(resultResponse);
+            
             // break;
             // if (request.getCommandName().equals("exit")) {
             //     running = false;
