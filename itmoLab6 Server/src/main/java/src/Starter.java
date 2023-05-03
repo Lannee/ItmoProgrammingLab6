@@ -36,7 +36,7 @@ public class Starter {
         Invoker invoker = new Invoker(
                 new Receiver(filePath));
 
-        Connection connectionWorker = new Connection("localhost", 8449);
+        Connection connectionWorker = new Connection(8449);
         // while (running) {
             Request request = (Request) connectionWorker.catchRequest();
             Response resultResponse = ResponseFactory.createResponse(invoker.parseRequestCommand(request), ResponseStatus.SUCCESSFULLY);

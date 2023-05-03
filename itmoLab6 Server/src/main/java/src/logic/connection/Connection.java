@@ -16,17 +16,13 @@ import src.utils.requestModule.Request;
 import src.utils.responseModule.Response;
 
 public class Connection {
-    private String host;
-    private int serversPort;
     private SocketAddress clientSocketAddress;
     private byte[] buf = new byte[524];
     private DatagramSocket socket;
 
     
 
-    public Connection (String host, int port) {
-        this.host = host;
-        this.serversPort = port;
+    public Connection (int port) {
         try {
             socket = new DatagramSocket(port);
             // socket.setReuseAddress(true); // needed for IP multicasting
@@ -58,7 +54,6 @@ public class Connection {
             ObjectOutputStream objOS = new ObjectOutputStream(byteOS);
             objOS.writeObject(response);
             dataToSend = byteOS.toByteArray();
-            InetAddress hostAddress = InetAddress.getByName(host);
             DatagramPacket packet = new DatagramPacket(dataToSend, dataToSend.length, clientSocketAddress);
             socket.send(packet);
         } catch (IOException e) {
