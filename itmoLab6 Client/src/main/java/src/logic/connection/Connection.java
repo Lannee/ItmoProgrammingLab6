@@ -38,14 +38,12 @@ public class Connection {
         try {
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             socket.receive(packet);
-            System.out.println("Catched");
             ByteArrayInputStream byteOS = new ByteArrayInputStream(packet.getData());
             ObjectInputStream objIS = new ObjectInputStream(byteOS);
             incomeResponse = (Response) objIS.readObject();
-            socket.close();
         } catch (IOException | ClassNotFoundException e) {
             incomeResponse = new Response("", null);
-            System.out.println("Connection error");
+            System.out.println("Connection error" + e.getMessage());
         }
         return incomeResponse;
     }

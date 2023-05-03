@@ -37,17 +37,18 @@ public class Starter {
                 new Receiver(filePath));
 
         Connection connectionWorker = new Connection(8449);
-        // while (running) {
+        while (running) {
             Request request = (Request) connectionWorker.catchRequest();
             Response resultResponse = ResponseFactory.createResponse(invoker.parseRequestCommand(request), ResponseStatus.SUCCESSFULLY);
+
+            // Need to create an algorythm that devide response data to some count bytes and send them to client.
             connectionWorker.sendResponse(resultResponse);
             
-            // break;
-            // if (request.getCommandName().equals("exit")) {
-            //     running = false;
-            //     continue;
-            // }
-        // }
+            if (request.getCommandName().equals("exit")) {
+                running = false;
+                continue;
+            }
+        }
 
     }
 }

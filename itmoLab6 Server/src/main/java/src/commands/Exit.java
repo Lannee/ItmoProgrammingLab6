@@ -11,7 +11,7 @@ public class Exit implements Command {
     @Override
     public String execute(String[] args) {
         checkArgsConformity(args);
-        return "Successfully";
+        return "Successfully\n";
     }
 
     @Override
