@@ -46,7 +46,7 @@ public class Receiver {
         } catch (IllegalArgumentException | CannotCreateObjectException e) {
             return "Unable to create object: " + e.getMessage() + "\n";
         }
-        return "Successfully";
+        return "Successfully\n";
     }
 
     // What ******* is going on down here?????? Dunno how to fix it
