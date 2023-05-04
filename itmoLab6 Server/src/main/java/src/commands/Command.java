@@ -10,6 +10,8 @@ public interface Command {
 
     String[] args();
 
+    boolean isCreatingObject();
+
     /**
      * Checks arguments matching
      * @param args1

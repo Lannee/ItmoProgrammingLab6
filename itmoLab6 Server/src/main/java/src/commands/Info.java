@@ -7,6 +7,7 @@ import src.logic.data.Receiver;
  * Outputs information about the collection to the standard output stream
  */
 public class Info implements Command {
+    private final static boolean isCreatingObject = false;
 
     public static final String[] args = new String[0];
 
@@ -30,5 +31,10 @@ public class Info implements Command {
     @Override
     public String[] args() {
         return args;
+    }
+
+    @Override
+    public boolean isCreatingObject() {
+        return isCreatingObject;
     }
 }

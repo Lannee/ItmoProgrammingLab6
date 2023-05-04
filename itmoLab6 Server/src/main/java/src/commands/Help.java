@@ -6,6 +6,7 @@ import src.Client;
  * Displays a list of all available commands
  */
 public class Help implements Command {
+    private final static boolean isCreatingObject = false;
 
     private static final String[] args = new String[0];
 
@@ -29,5 +30,10 @@ public class Help implements Command {
     @Override
     public String getDescription() {
         return "Displays a list of all available commands";
+    }
+
+    @Override
+    public boolean isCreatingObject() {
+        return isCreatingObject;
     }
 }

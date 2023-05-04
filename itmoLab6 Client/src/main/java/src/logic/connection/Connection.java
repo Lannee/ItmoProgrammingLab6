@@ -14,12 +14,13 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import src.utils.requestModule.Request;
-import src.utils.responseModule.Response;
+import module.responses.*;
 
 public class Connection {
+    private final static int PACKAGE_SIZE = 2048;
     private String host;
     private int port;
-    private byte[] buf = new byte[524];
+    private byte[] buf = new byte[PACKAGE_SIZE];
     private DatagramSocket socket;
 
     public Connection (String host, int port) {
@@ -34,7 +35,7 @@ public class Connection {
     }
 
     public Response catchResponse() {
-        Response incomeResponse;
+        Response incomeResponse = null;
         try {
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             socket.receive(packet);
@@ -44,7 +45,6 @@ public class Connection {
             incomeResponse = (Response) objIS.readObject();
             socket.close();
         } catch (IOException | ClassNotFoundException e) {
-            incomeResponse = new Response("", null);
             System.out.println("Connection error");
         }
         return incomeResponse;
@@ -57,11 +57,18 @@ public class Connection {
             ObjectOutputStream objOS = new ObjectOutputStream(byteOS);
             objOS.writeObject(request);
             dataToSend = byteOS.toByteArray();
+
             InetAddress hostAddress = InetAddress.getByName(host);
+
             DatagramPacket packet = new DatagramPacket(dataToSend, dataToSend.length, hostAddress, port);
             socket.send(packet);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public Response sendRequestGetResponse(Request request) {
+        sendRequest(request);
+        return catchResponse();
     }
 }

@@ -4,6 +4,7 @@ package src.commands;
  * Reads and executes the script from the specified file
  */
 public class ExecuteScript implements Command {
+    private final static boolean isCreatingObject = false;
 
     public final static String[] args = {"file_name"};
     private final Invoker invoker;
@@ -27,5 +28,10 @@ public class ExecuteScript implements Command {
     @Override
     public String[] args() {
         return args;
+    }
+
+    @Override
+    public boolean isCreatingObject() {
+        return isCreatingObject;
     }
 }

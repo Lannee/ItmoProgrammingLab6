@@ -1,5 +1,6 @@
 package src.commands;
 
+import module.commands.CommandDescription;
 import src.Client;
 import src.logic.data.Receiver;
 import src.logic.streams.InputManager;
@@ -140,5 +141,14 @@ public class Invoker {
                     .map(MatchResult::group)
                     .map(e -> e.replaceAll("\"", ""))
                     .toArray(String[]::new);
+    }
+
+    public List<CommandDescription> getCommandsDescriptions() {
+        List<CommandDescription> commandDescriptions = new ArrayList<>(declaredCommands.size());
+        declaredCommands.forEach((u, v) -> {
+            commandDescriptions.add(
+                    new CommandDescription(u, v.args(), v.isCreatingObject()));
+        });
+        return commandDescriptions;
     }
 }

@@ -8,6 +8,7 @@ import src.utils.StringConverter;
  * Removes an item from the collection by its id
  */
 public class RemoveById implements Command {
+    private final static boolean isCreatingObject = false;
 
     private static final String[] args = {"id"};
 
@@ -44,5 +45,10 @@ public class RemoveById implements Command {
     @Override
     public String[] args() {
         return args;
+    }
+
+    @Override
+    public boolean isCreatingObject() {
+        return isCreatingObject;
     }
 }

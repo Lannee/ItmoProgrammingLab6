@@ -10,22 +10,21 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 
 import src.utils.requestModule.Request;
-import src.utils.responseModule.Response;
+import module.responses.Response;
 
 public class Connection {
-    private String host;
+
+    private final static int PACKAGE_SIZE = 2048;
     private int serversPort;
     private SocketAddress clientSocketAddress;
-    private byte[] buf = new byte[524];
+    private byte[] buf = new byte[PACKAGE_SIZE];
     private DatagramSocket socket;
 
     
 
-    public Connection (String host, int port) {
-        this.host = host;
+    public Connection (int port) {
         this.serversPort = port;
         try {
             socket = new DatagramSocket(port);
@@ -58,7 +57,7 @@ public class Connection {
             ObjectOutputStream objOS = new ObjectOutputStream(byteOS);
             objOS.writeObject(response);
             dataToSend = byteOS.toByteArray();
-            InetAddress hostAddress = InetAddress.getByName(host);
+
             DatagramPacket packet = new DatagramPacket(dataToSend, dataToSend.length, clientSocketAddress);
             socket.send(packet);
         } catch (IOException e) {

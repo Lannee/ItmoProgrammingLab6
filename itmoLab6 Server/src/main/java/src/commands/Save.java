@@ -6,6 +6,7 @@ import src.logic.data.Receiver;
  * Saves the collection to the file
  */
 public class Save implements Command {
+    private final static boolean isCreatingObject = false;
 
     private static final String[] args = new String[0];
 
@@ -30,5 +31,10 @@ public class Save implements Command {
     @Override
     public String[] args() {
         return args;
+    }
+
+    @Override
+    public boolean isCreatingObject() {
+        return isCreatingObject;
     }
 }

@@ -10,6 +10,7 @@ import java.util.Comparator;
  * Prints the elements of the collection in ascending order
  */
 public class PrintAscending implements Command {
+    private final static boolean isCreatingObject = false;
 
     private static final String[] args = new String[0];
 
@@ -33,5 +34,10 @@ public class PrintAscending implements Command {
     @Override
     public String[] args() {
         return args;
+    }
+
+    @Override
+    public boolean isCreatingObject() {
+        return isCreatingObject;
     }
 }

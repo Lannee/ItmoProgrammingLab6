@@ -9,6 +9,7 @@ import src.utils.StringConverter;
  * Updates the value of a collection item whose id is equal to the specified one
  */
 public class Update implements Command {
+    private final static boolean isCreatingObject = true;
 
     public final static String[] args = {"id"};
 
@@ -54,5 +55,10 @@ public class Update implements Command {
     @Override
     public String[] args() {
         return args;
+    }
+
+    @Override
+    public boolean isCreatingObject() {
+        return isCreatingObject;
     }
 }

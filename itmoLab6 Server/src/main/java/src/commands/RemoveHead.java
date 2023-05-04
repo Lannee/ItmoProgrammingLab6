@@ -7,6 +7,7 @@ import src.logic.data.Receiver;
  * Prints the first element of the collection and deletes it
  */
 public class RemoveHead implements Command {
+    private final static boolean isCreatingObject = false;
 
     private static final String[] args = new String[0];
 
@@ -32,5 +33,10 @@ public class RemoveHead implements Command {
     @Override
     public String[] args() {
         return args;
+    }
+
+    @Override
+    public boolean isCreatingObject() {
+        return isCreatingObject;
     }
 }

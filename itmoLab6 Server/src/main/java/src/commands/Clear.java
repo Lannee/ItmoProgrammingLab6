@@ -6,6 +6,8 @@ import src.logic.data.Receiver;
  * Clears the collection
  */
 public class Clear implements Command {
+    private final static boolean isCreatingObject = false;
+
     private final static String[] args = new String[0];
 
     private final Receiver receiver;
@@ -29,5 +31,10 @@ public class Clear implements Command {
     @Override
     public String getDescription() {
         return "Clears the collection";
+    }
+
+    @Override
+    public boolean isCreatingObject() {
+        return isCreatingObject;
     }
 }

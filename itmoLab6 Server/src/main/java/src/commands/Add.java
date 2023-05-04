@@ -7,6 +7,8 @@ import src.logic.data.Receiver;
  */
 public class Add implements Command {
 
+    private final static boolean isCreatingObject = true;
+
     public final static String[] args = new String[0];
 
     private final Receiver receiver;
@@ -30,4 +32,10 @@ public class Add implements Command {
     public String[] args() {
         return args;
     }
+
+    @Override
+    public boolean isCreatingObject() {
+        return isCreatingObject;
+    }
+
 }

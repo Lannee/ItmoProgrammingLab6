@@ -9,6 +9,7 @@ import src.utils.ObjectUtils;
  * Removes all items from the collection that exceed the specified
  */
 public class RemoveGreater implements Command {
+    private final static boolean isCreatingObject = true;
 
     private static final String[] args = new String[0];
 
@@ -39,5 +40,10 @@ public class RemoveGreater implements Command {
     @Override
     public String[] args() {
         return args;
+    }
+
+    @Override
+    public boolean isCreatingObject() {
+        return isCreatingObject;
     }
 }
