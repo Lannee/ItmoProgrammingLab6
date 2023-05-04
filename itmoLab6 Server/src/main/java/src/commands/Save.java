@@ -19,7 +19,7 @@ public class Save implements Command {
     public String execute(String[] args) {
         checkArgsConformity(args);
         receiver.saveCollection();
-        return "Successfully";
+        return "Successfully\n";
     }
 
     @Override

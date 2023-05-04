@@ -16,8 +16,10 @@ import src.utils.requestModule.Request;
 import src.utils.responseModule.Response;
 
 public class Connection {
+    private final static int BUFFER_SIZE = 2048;
+
     private SocketAddress clientSocketAddress;
-    private byte[] buf = new byte[524];
+    private byte[] buf = new byte[BUFFER_SIZE];
     private DatagramSocket socket;
 
     
