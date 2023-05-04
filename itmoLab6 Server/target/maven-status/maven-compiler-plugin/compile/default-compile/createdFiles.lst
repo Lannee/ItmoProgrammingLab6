@@ -9,6 +9,7 @@ src/commands/CountGreaterThanWeight.class
 src/commands/Save.class
 src/utils/Formatter.class
 src/logic/exceptions/FileFormatException.class
+src/Server$1.class
 src/stored/Person.class
 src/utils/ObjectUtils$1.class
 src/logic/data/ValidationMode.class
