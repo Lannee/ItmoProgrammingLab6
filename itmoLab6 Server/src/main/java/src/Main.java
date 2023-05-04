@@ -5,9 +5,9 @@ public class Main {
         // Client client = new Client(args);
         // client.runClient();
 
+        System.out.println();
         // Create server
         Server server = new Server();
         server.start(args);
-
     }
 }
