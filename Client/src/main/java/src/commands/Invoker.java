@@ -48,9 +48,7 @@ public class Invoker {
         CommandDescription commandDescription = commands.getCommandDescription(command);
         if(commandDescription != null) {
             Request request = RequestFactory.createRequest(command, args, TypeOfRequest.COMMAND);
-//            connection.sendRequest(request);
 //            if(commandDescription.isCreatingObject()) {
-//
 //            }
             Response response = connection.sendRequestGetResponse(request);
             if(response instanceof CommandResponse commandResponse) {

@@ -42,7 +42,8 @@ public class Connection {
             incomeResponse = (Response) objIS.readObject();
 //            socket.close();
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Connection error");
+//            System.out.println("Connection error");
+            e.printStackTrace();
         }
         return incomeResponse;
     }
