@@ -1,12 +1,14 @@
 package src.commands;
 
 import module.commands.CommandDescription;
+import module.connection.requestModule.Request;
+import module.connection.requestModule.RequestFactory;
+import module.connection.requestModule.TypeOfRequest;
+import module.connection.responseModule.CommandsDescriptionResponse;
+import module.connection.responseModule.Response;
 import module.logic.exceptions.InvalidResponseException;
-import module.responses.*;
 import src.logic.connection.Connection;
-import module.utils.requestModule.*;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,5 +27,13 @@ public class CommandsHandler {
         if(!(response instanceof CommandsDescriptionResponse commandsDescriptionResponse)) throw new InvalidResponseException();
         commands = ((CommandsDescriptionResponse) response).getCommands();
         System.out.println(response);
+    }
+
+    public CommandDescription getCommandDescription(String commandName) {
+        for(CommandDescription commandDescription : commands) {
+            if(commandDescription.getCommandName().equals(commandName))
+                return commandDescription;
+        }
+        return null;
     }
 }

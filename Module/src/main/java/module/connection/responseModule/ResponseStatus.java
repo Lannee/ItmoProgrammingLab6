@@ -1,4 +1,4 @@
-package src.utils.responseModule;
+package module.connection.responseModule;
 
 public enum ResponseStatus {
     SUCCESSFULLY,

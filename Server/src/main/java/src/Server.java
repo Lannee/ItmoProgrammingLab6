@@ -1,18 +1,12 @@
 package src;
 
-import module.commands.CommandDescription;
-import module.responses.CommandResponse;
-import module.responses.CommandsDescriptionResponse;
-import module.responses.Response;
+import module.connection.responseModule.CommandResponse;
+import module.connection.responseModule.CommandsDescriptionResponse;
+import module.connection.responseModule.Response;
 import src.commands.Invoker;
 import src.logic.connection.Connection;
 import src.logic.data.Receiver;
-import src.utils.requestModule.Request;
-import src.utils.responseModule.ResponseFactory;
-import src.utils.responseModule.ResponseStatus;
-
-import java.util.LinkedList;
-import java.util.List;
+import module.connection.requestModule.Request;
 
 public class Server {
     private final static int SERVER_PORT = 50689;
@@ -40,10 +34,11 @@ public class Server {
 
         while(true) {
             Request request = connection.catchRequest();
+            System.out.println(request);
             Response response = null;
             switch (request.getTypeOfRequest()) {
                 case COMMAND -> {
-                    response = new CommandResponse("Все плохо, мне пришлось это переписывать"); // заменить на составление нормального запроса
+                    response = new CommandResponse(invoker.parseRequest(request));
                 }
                 case INITIALIZATION -> {
                     response = new CommandsDescriptionResponse(invoker.getCommandsDescriptions());

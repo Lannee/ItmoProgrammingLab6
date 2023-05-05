@@ -10,8 +10,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
-import module.utils.requestModule.Request;
-import module.responses.*;
+import module.connection.requestModule.Request;
+import module.connection.responseModule.Response;
 
 public class Connection {
     private final static int PACKAGE_SIZE = 2048;
@@ -40,7 +40,7 @@ public class Connection {
             ByteArrayInputStream byteOS = new ByteArrayInputStream(packet.getData());
             ObjectInputStream objIS = new ObjectInputStream(byteOS);
             incomeResponse = (Response) objIS.readObject();
-            socket.close();
+//            socket.close();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Connection error");
         }

@@ -10,8 +10,9 @@ import java.net.DatagramSocket;
 import java.net.SocketAddress;
 import java.net.SocketException;
 
-import src.utils.requestModule.Request;
-import module.responses.Response;
+import module.connection.requestModule.Request;
+import module.connection.requestModule.RequestFactory;
+import module.connection.responseModule.Response;
 
 public class Connection {
 
@@ -39,7 +40,7 @@ public class Connection {
             ObjectInputStream objIS = new ObjectInputStream(byteOS);
             incomeRequest = (Request) objIS.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            incomeRequest = new Request("null", "null", null);
+            incomeRequest = RequestFactory.nullRequest();
             System.out.println("Connection error" + e.getMessage());         
         }
         return incomeRequest;

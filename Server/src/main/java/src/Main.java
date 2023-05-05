@@ -2,9 +2,6 @@ package src;
 
 public class Main {
     public static void main(String[] args){
-        // Client client = new Client(args);
-        // client.runClient();
-        System.out.println("Semjon");
         // Create server
         Server server = new Server();
         server.start(args);

@@ -1,4 +1,4 @@
-package src.utils.requestModule;
+package module.connection.requestModule;
 
 public enum TypeOfRequest {
     COMMAND,

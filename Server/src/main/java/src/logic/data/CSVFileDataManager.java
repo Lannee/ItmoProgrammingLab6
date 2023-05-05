@@ -28,7 +28,7 @@ public class CSVFileDataManager<T extends Comparable<? super T>> extends FileDat
 
     @Override
     public void initialize(String filePath) {
-        /*File csvFile = new File(filePath);
+        File csvFile = new File(filePath);
 
         List<String[]> csvContent;
         String[] headers;
@@ -57,22 +57,22 @@ public class CSVFileDataManager<T extends Comparable<? super T>> extends FileDat
                             .cast(createObject(getClT(), headers, values)));
 
                 } catch (ReflectiveOperationException e) {
-                    Client.out.print("Unable to create an object\n");
+//                    Client.out.print("Unable to create an object\n");
                 }
             }
 
         } catch (FileFormatException e) {
-            if(!ObjectUtils.agreement(Client.in, Client.out, e.getMessage() + ". Do you want to rewrite this file (y/n) : ", false)) {
-                System.exit(0);
-            }
+//            if(!ObjectUtils.agreement(Client.in, Client.out, e.getMessage() + ". Do you want to rewrite this file (y/n) : ", false)) {
+//                System.exit(0);
+//            }
         } catch(FileReadModeException frme) {
-            Client.out.print("Cannot read the file\n");
+//            Client.out.print("Cannot read the file\n");
             System.exit(3);
         } catch (FileNotFoundException fnfe) {
-            Client.out.print("File does not exist or it is a directory\n");
+//            Client.out.print("File does not exist or it is a directory\n");
             System.exit(2);
         } catch (IOException e) {
-            Client.out.print("Unable to initialize collection\n");
+//            Client.out.print("Unable to initialize collection\n");
             System.exit(1);
         }
     }
@@ -87,7 +87,7 @@ public class CSVFileDataManager<T extends Comparable<? super T>> extends FileDat
         try(CSVWriter writer = new CSVWriter(new FileWriter(super.file))) {
             writer.writeAll(toCSV);
         } catch (IOException e) {
-            Client.out.print("Unable to save collection into the file.\n");
+//            Client.out.print("Unable to save collection into the file.\n");
         }
 
     }
@@ -173,12 +173,11 @@ public class CSVFileDataManager<T extends Comparable<? super T>> extends FileDat
         }
 
         return obj;
-    */
     }
 
-    @Override
-    public void save() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
-    }
+//    @Override
+//    public void save() {
+//        // TODO Auto-generated method stub
+//        throw new UnsupportedOperationException("Unimplemented method 'save'");
+//    }
 }

@@ -1,9 +1,8 @@
 package src.commands;
 
 import module.commands.CommandDescription;
+import module.connection.requestModule.Request;
 import src.logic.data.Receiver;
-import module.logic.streams.InputManager;
-import src.utils.requestModule.Request;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -117,22 +116,28 @@ public class Invoker {
         line = line.trim();
         if(line.equals("")) return "";
 
-        String[] words = line.split(" ");
+        String[] words = line.split(" ", 1);
 
-        String command = words[0];
+        String command = words[0].toLowerCase();
         String[] args;
-        if(words.length == 1) { args = new String[0]; }
-        else { args = Arrays.copyOfRange(words, 1, words.length); }
+        if(words.length == 1)
+            args = new String[0];
+        else
+            args = parseArgs(words[1]);
 
+        return executeCommand(command, args);
+    }
+
+    public String parseRequest(Request request) {
+        return executeCommand(request.getCommandName(), request.getArgumentsToCommand());
+    }
+
+    public String executeCommand(String command, String[] args) {
         if(declaredCommands.containsKey(command)) {
             return declaredCommands.get(command).execute(args);
         } else {
             return "Unknown command " + command + ". Type help to get information about all commands.\n";
         }
-    }
-
-    public String parseRequestCommand(Request request) {
-        return parseCommand(request.getCommandName() + " " + request.getArgumentsToCommand());
     }
     
     private String[] parseArgs(String line) {

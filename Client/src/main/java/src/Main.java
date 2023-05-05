@@ -1,9 +1,8 @@
 package src;
 
-import java.net.UnknownHostException;
 
 public class Main {
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) {
          Client client = new Client();
          client.runClient();
     }

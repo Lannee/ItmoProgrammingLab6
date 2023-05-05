@@ -1,4 +1,4 @@
-package module.responses;
+package module.connection.responseModule;
 
 import java.io.Serializable;
 
