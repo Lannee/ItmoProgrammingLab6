@@ -56,13 +56,13 @@ public class Invoker {
     // Change construction Client.out to Response.create.send
     public void execute_script(String file) {
         if(!new File(file).exists()) {
-            Client.out.print("File \"" + file + "\" does not exist\n");
+            // Client.out.print("File \"" + file + "\" does not exist\n");
             return;
         }
         if(files.containsKey(file)) {
             Integer value = files.get(file);
             if(value >= recursionDepth) {
-                Client.out.print("Recursion was cached. After executing file " + file + " " + recursionDepth + " times\n");
+                // Client.out.print("Recursion was cached. After executing file " + file + " " + recursionDepth + " times\n");
                 files.clear();
                 return;
             }
@@ -73,8 +73,8 @@ public class Invoker {
                 int input = 0;
                 do {
                     try {
-                        Client.out.print("Please enter recursion depth (1, 50) : ");
-                        input = Integer.parseInt(Client.in.readLine());
+                        // Client.out.print("Please enter recursion depth (1, 50) : ");
+                        // input = Integer.parseInt(Client.in.readLine());
                     } catch (NumberFormatException ignored) {}
                 } while (input < 1 || input > 50);
                 recursionDepth = input;
@@ -90,14 +90,14 @@ public class Invoker {
             while((line = lineReader.readLine()) != null) {
                 lines.add(line);
             }
-            InputManager inputManager = Client.in;
+            // InputManager inputManager = Client.in;
             ListIterator<String> iterator = lines.listIterator(lines.size());
             while(iterator.hasPrevious()) {
-                Client.in.write(iterator.previous());
+                // Client.in.write(iterator.previous());
             }
 
         } catch (IOException e) {
-            Client.out.print("Command cannot be executed: file " + file + " does not exist.\n");
+            // Client.out.print("Command cannot be executed: file " + file + " does not exist.\n");
         }
     }
 

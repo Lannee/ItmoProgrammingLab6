@@ -7,7 +7,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.SocketAddress;
 import java.net.SocketException;
 
@@ -17,15 +16,11 @@ import module.responses.Response;
 public class Connection {
 
     private final static int PACKAGE_SIZE = 2048;
-    private int serversPort;
     private SocketAddress clientSocketAddress;
     private byte[] buf = new byte[PACKAGE_SIZE];
     private DatagramSocket socket;
 
-    
-
     public Connection (int port) {
-        this.serversPort = port;
         try {
             socket = new DatagramSocket(port);
             // socket.setReuseAddress(true); // needed for IP multicasting

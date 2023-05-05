@@ -50,9 +50,9 @@ public class Receiver {
 
     // What ******* is going on down here?????? Dunno how to fix it
     public void clear() {
-        if (ObjectUtils.agreement(Client.in, Client.out, "Are you sure you want to clear the collection (y/n) : ",
-                false))
-            collection.clear();
+        // if (ObjectUtils.agreement(Client.in, Client.out, "Are you sure you want to clear the collection (y/n) : ",
+        //         false))
+        //     collection.clear();
     }
 
     public String getInfo() {
@@ -124,7 +124,7 @@ public class Receiver {
     // Needed to be fixed.
     public boolean removeOn(Predicate<Dragon> filter, boolean showRemoved) {
         if (collection.size() == 0) {
-            Client.out.print("Cannot remove since the collection is empty\n");
+            // Client.out.print("Cannot remove since the collection is empty\n");
             return false;
         }
 
@@ -137,7 +137,7 @@ public class Receiver {
         }
 
         if (showRemoved) {
-            Client.out.print(Formatter.format(removed, collection.getClT()) + "\n");
+            // Client.out.print(Formatter.format(removed, collection.getClT()) + "\n");
         }
 
         return !removed.isEmpty();
@@ -145,12 +145,12 @@ public class Receiver {
 
     public boolean removeByIndex(int index, boolean showRemoved) {
         if (collection.size() == 0) {
-            Client.out.print("Cannot remove since the collection is empty\n");
+            // Client.out.print("Cannot remove since the collection is empty\n");
             return false;
         }
 
-        if (index > collection.size()) {
-            Client.out.print("Cannot remove from collection: index is out of bound\n");
+        if (index >= collection.size()) {
+            // Client.out.print("Cannot remove from collection: index is out of bound\n");
             return false;
         }
 
