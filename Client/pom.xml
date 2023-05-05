@@ -60,10 +60,10 @@
 
         <dependency>
             <groupId>application.common</groupId>
-            <artifactId>applicationModule</artifactId>
+            <artifactId>Module</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>${basedir}/../applicationModule/target/applicationModule-1.0-SNAPSHOT-jar-with-dependencies.jar</systemPath>
+            <systemPath>${basedir}/../Module/target/Module-1.0-SNAPSHOT-jar-with-dependencies.jar</systemPath>
         </dependency>
     </dependencies>
 

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>application.common</groupId>
-    <artifactId>applicationModule</artifactId>
+    <artifactId>Module</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
