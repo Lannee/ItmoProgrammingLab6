@@ -1,10 +1,9 @@
 package src.logic.data;
 
-import src.Client;
-import src.logic.exceptions.CannotCreateObjectException;
-import src.stored.Dragon;
+import module.logic.exceptions.CannotCreateObjectException;
+import module.stored.Dragon;
 import src.utils.Formatter;
-import src.utils.ObjectUtils;
+import module.utils.ObjectUtils;
 import src.utils.StringConverter;
 
 import java.lang.reflect.Field;

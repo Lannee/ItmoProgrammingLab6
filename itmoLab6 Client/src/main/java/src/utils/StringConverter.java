@@ -1,7 +1,5 @@
 package src.utils;
 
-import src.logic.exceptions.FieldRestrictionException;
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -11,6 +9,8 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import module.logic.exceptions.FieldRestrictionException;
 
 /**
  * Util class for suitable String parsing

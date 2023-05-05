@@ -1,6 +1,5 @@
 package src.commands;
 
-import src.Client;
 import src.logic.data.Receiver;
 
 /**

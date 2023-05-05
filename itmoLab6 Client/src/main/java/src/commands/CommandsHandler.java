@@ -1,12 +1,10 @@
 package src.commands;
 
 import module.commands.CommandDescription;
+import module.logic.exceptions.InvalidResponseException;
 import module.responses.*;
 import src.logic.connection.Connection;
-import src.logic.exceptions.InvalidResponseException;
-import src.utils.requestModule.Request;
-import src.utils.requestModule.RequestFactory;
-import src.utils.requestModule.TypeOfRequest;
+import module.utils.requestModule.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

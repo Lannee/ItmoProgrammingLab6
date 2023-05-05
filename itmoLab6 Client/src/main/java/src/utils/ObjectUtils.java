@@ -1,12 +1,12 @@
 package src.utils;
 
 import src.Client;
-import src.annotations.*;
-import src.logic.exceptions.CannotCreateObjectException;
-import src.logic.exceptions.FieldRestrictionException;
-import src.logic.exceptions.NullFieldValueException;
-import src.logic.streams.InputManager;
-import src.logic.streams.OutputManager;
+import module.annotations.*;
+import module.logic.exceptions.CannotCreateObjectException;
+import module.logic.exceptions.FieldRestrictionException;
+import module.logic.exceptions.NullFieldValueException;
+import module.logic.streams.InputManager;
+import module.logic.streams.OutputManager;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

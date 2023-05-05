@@ -1,8 +1,7 @@
 package src.commands;
 
-import src.Client;
 import src.logic.data.Receiver;
-import src.utils.ObjectUtils;
+import module.utils.ObjectUtils;
 import src.utils.StringConverter;
 
 /**
@@ -31,9 +30,9 @@ public class Update implements Command {
             Object obj = receiver.getElementByFieldValue(args()[0], id);
 
             if(obj == null) {
-                if(!ObjectUtils.agreement(Client.in, Client.out, "Element with this id does not exist, do you want to create it (y/n) : ", false)) {
-                    return "";
-                }
+                // if(!ObjectUtils.agreement(Client.in, Client.out, "Element with this id does not exist, do you want to create it (y/n) : ", false)) {
+                //     return "";
+                // }
             }
 
             receiver.removeFromCollection(obj);

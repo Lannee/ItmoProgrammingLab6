@@ -1,7 +1,5 @@
 package src.commands;
 
-import src.Client;
-
 /**
  * Displays a list of all available commands
  */

@@ -1,6 +1,6 @@
 package src.utils;
 
-import src.logic.exceptions.FieldRestrictionException;
+import module.logic.exceptions.FieldRestrictionException;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

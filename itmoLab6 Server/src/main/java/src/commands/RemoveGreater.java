@@ -1,9 +1,8 @@
 package src.commands;
 
-import src.Client;
 import src.logic.data.Receiver;
-import src.logic.exceptions.CannotCreateObjectException;
-import src.utils.ObjectUtils;
+import module.logic.exceptions.CannotCreateObjectException;
+import module.utils.ObjectUtils;
 
 /**
  * Removes all items from the collection that exceed the specified

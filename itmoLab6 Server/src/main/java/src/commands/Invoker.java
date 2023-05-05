@@ -1,9 +1,8 @@
 package src.commands;
 
 import module.commands.CommandDescription;
-import src.Client;
 import src.logic.data.Receiver;
-import src.logic.streams.InputManager;
+import module.logic.streams.InputManager;
 import src.utils.requestModule.Request;
 
 import java.io.*;
@@ -54,6 +53,7 @@ public class Invoker {
     }
 
     // Needed to be fixed. It's incorrect to access the input stream from server's Reciever
+    // Change construction Client.out to Response.create.send
     public void execute_script(String file) {
         if(!new File(file).exists()) {
             Client.out.print("File \"" + file + "\" does not exist\n");

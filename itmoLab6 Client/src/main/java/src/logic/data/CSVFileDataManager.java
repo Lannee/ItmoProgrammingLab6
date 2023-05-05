@@ -3,11 +3,11 @@ package src.logic.data;
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 import src.Client;
-import src.annotations.Complex;
-import src.annotations.Nullable;
-import src.logic.exceptions.FileFormatException;
-import src.logic.exceptions.FileReadModeException;
-import src.utils.ObjectUtils;
+import module.annotations.Complex;
+import module.annotations.Nullable;
+import module.logic.exceptions.FileFormatException;
+import module.logic.exceptions.FileReadModeException;
+import module.utils.ObjectUtils;
 import src.utils.StringConverter;
 
 import java.io.*;
