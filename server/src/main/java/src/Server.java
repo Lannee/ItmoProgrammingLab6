@@ -3,6 +3,8 @@ package src;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.util.StatusPrinter;
 import module.commands.CommandDescription;
+import module.connection.DatagramConnection;
+import module.connection.IConnection;
 import module.connection.requestModule.Request;
 import module.connection.responseModule.*;
 import src.commands.Invoker;
@@ -12,10 +14,14 @@ import src.logic.data.Receiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.UnknownHostException;
+
 public class Server {
     private final static int SERVER_PORT = 50689;
     private String fileName = "";
     private boolean running = true;
+
+    private IConnection connection;
 
     private Invoker invoker;
     private static final Logger logger = LoggerFactory.getLogger(Server.class);
@@ -42,9 +48,15 @@ public class Server {
                 new Receiver(filePath));
         logger.info("Invoker and Receiver started.");
 
-        Connection connection = new Connection(SERVER_PORT);
+        try {
+            connection = new DatagramConnection(SERVER_PORT);
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+
         while(running) {
-            Request request = connection.catchRequest();
+            Request request = (Request) connection.receive();
+
             Response response = null;
             switch (request.getTypeOfRequest()) {
                 case COMMAND -> {
@@ -54,23 +66,24 @@ public class Server {
                     response = new CommandsDescriptionResponse(invoker.getCommandsDescriptions());
                 }
             }
+
             logger.info("Response Obj created.");
-            connection.sendResponse(response);
+            connection.send(response);
         }
     }
 
     public static String getFilePath(String[] args) {
-        return "base.csv";
+//        return "base.csv";
 
-        //        if (args.length == 0) {
-//            logger.error("Incorrect number of arguments.");
-//            System.exit(2);
-//        }
-//        String filePath = System.getenv().get(args[0]);
-//        if (filePath == null) {
-//            logger.error("Environment variable \"" + args[0] + "\" does not exist.");
-//            System.exit(1);
-//        }
-//        return filePath;
+        if (args.length == 0) {
+            logger.error("Incorrect number of arguments.");
+            System.exit(2);
+        }
+        String filePath = System.getenv().get(args[0]);
+        if (filePath == null) {
+            logger.error("Environment variable \"" + args[0] + "\" does not exist.");
+            System.exit(1);
+        }
+        return filePath;
     }
 }

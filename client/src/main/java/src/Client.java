@@ -1,5 +1,7 @@
 package src;
 
+import module.connection.ChannelConnection;
+import module.connection.IConnection;
 import module.logic.streams.ConsoleInputManager;
 import module.logic.streams.ConsoleOutputManager;
 import module.logic.streams.InputManager;
@@ -7,7 +9,6 @@ import module.logic.streams.OutputManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import src.commands.Invoker;
-import src.logic.connection.Connection;
 
 public class Client {
 
@@ -16,7 +17,7 @@ public class Client {
 
     private final Invoker invoker;
 
-    private final Connection connection;
+    private final IConnection connection;
 
     public final static String invite = ">>>";
 
@@ -37,20 +38,20 @@ public class Client {
 //    LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
 
     public Client() {
-        connection = new Connection(SERVER_HOST, SERVER_PORT);
+        connection = new ChannelConnection(SERVER_PORT);
         invoker = new Invoker(connection);
     }
 
     public void runClient() {
         logger.info("Client started.");
-        out.print("Hello, Welcome to\n");
-        out.print(logo);
-        out.print("Type \"help\" to get the information about all commands\n");
+//        out.print("Hello, Welcome to\n");
+//        out.print(logo);
+//        out.print("Type \"help\" to get the information about all commands\n");
         String line;
         logger.info("Client is ready to take commands and send them on server.");
         while (true) {
             try {
-                out.print(invite + " ");
+                System.out.print(invite + " ");
                 line = in.readLine();
                 logger.info("User typed: '{}'", line.trim());
                 out.print(invoker.parseCommand(line));

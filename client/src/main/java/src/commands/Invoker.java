@@ -1,6 +1,7 @@
 package src.commands;
 
 import module.commands.CommandDescription;
+import module.connection.IConnection;
 import module.connection.requestModule.Request;
 import module.connection.requestModule.RequestFactory;
 import module.connection.requestModule.TypeOfRequest;
@@ -9,7 +10,6 @@ import module.connection.responseModule.Response;
 import module.logic.exceptions.InvalidResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import src.logic.connection.Connection;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -17,13 +17,13 @@ public class Invoker {
 
     private final CommandsHandler commands;
 
-    private Connection connection;
+    private IConnection connection;
 
     private static final Pattern ARG_PAT = Pattern.compile("\"[^\"]+\"|\\S+");
 
     private static final Logger logger = LoggerFactory.getLogger(Invoker.class);
 
-    public Invoker(Connection connection) {
+    public Invoker(IConnection connection) {
         this.connection = connection;
         commands = new CommandsHandler(connection);
         try {
@@ -65,7 +65,9 @@ public class Invoker {
         Request request = RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND);
 //            if(commandDescription.isCreatingObject()) {
 //            }
-        Response response = connection.sendRequestGetResponse(request);
+//        Response response = connection.sendRequestGetResponse(request);
+        connection.send(request);
+        Response response = (Response) connection.receive();
         if(response instanceof CommandResponse commandResponse) {
             return commandResponse.getResponse();
         } else {
