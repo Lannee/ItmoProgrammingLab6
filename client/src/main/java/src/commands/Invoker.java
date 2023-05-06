@@ -10,9 +10,6 @@ import module.logic.exceptions.InvalidResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import src.logic.connection.Connection;
-
-import java.util.Arrays;
-import java.util.Optional;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
