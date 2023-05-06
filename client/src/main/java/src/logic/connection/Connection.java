@@ -10,6 +10,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
+import module.connection.packaging.Packet;
+import module.connection.packaging.PacketManager;
 import module.connection.requestModule.Request;
 import module.connection.responseModule.Response;
 import org.slf4j.Logger;

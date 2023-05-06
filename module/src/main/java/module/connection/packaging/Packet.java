@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class Packet implements Serializable {
 
-    public static final int PACKAGE_SIZE = 1154; // такое количество байт занимает данный объект в сериализованном виде
-    public static final int DATA_SIZE  = 1024;  // объем передаваемых данных
+    public static final int DATA_SIZE = 1024;  // объем передаваемых данных
+    public static final int PACKAGE_SIZE = DATA_SIZE + 130; // такое количество байт занимает данный объект в сериализованном виде
 
     private final int serialNumber;
     private final int packagesAmount;

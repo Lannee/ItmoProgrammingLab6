@@ -5,32 +5,31 @@ import module.connection.packaging.PacketManager;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 
-public class Connection {
+public class DatagramConnection implements IConnection {
 
     public static final int STANDARD_PORT = 8787;
 
     public static final int PACKAGE_SIZE = Packet.PACKAGE_SIZE;
 
-    private String host;
+//    private String host;
+    private InetAddress host;
+
     private int port;
 
     private final DatagramSocket socket;
 
-    public Connection() {
+    public DatagramConnection() throws UnknownHostException {
         this(STANDARD_PORT);
     }
 
-    public Connection(int port) {
-        this("", port);
+    public DatagramConnection(int port) throws UnknownHostException {
+        this("localhost", port);
     }
 
-    public Connection(String host, int port) {
-        this.host = host;
+    public DatagramConnection(String host, int port) throws UnknownHostException {
+        this.host = InetAddress.getByName(host);
         this.port = port;
 
         try {
@@ -40,17 +39,16 @@ public class Connection {
         }
     }
 
+    @Override
     public void send(Serializable object) {
         try {
             Packet[] packets = PacketManager.split(object);
-
-            InetAddress hostAddress = InetAddress.getByName(host);
 
             for(int i = 0; i < packets.length; i++) {
                 DatagramPacket datagramPacket = new DatagramPacket(
                         PacketManager.serialize(packets[i]),
                         PACKAGE_SIZE,
-                        hostAddress,
+                        host,
                         port);
 
                 socket.send(datagramPacket);
@@ -60,6 +58,7 @@ public class Connection {
         }
     }
 
+    @Override
     public Serializable receive() {
         Serializable object;
         try {
