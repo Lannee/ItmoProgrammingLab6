@@ -52,6 +52,7 @@ public class Invoker {
         else
             args = parseArgs(words[1]);
 
+
         CommandDescription commandDescription = commands.getCommandDescription(command);
         if(commandDescription != null) {
             Request request = RequestFactory.createRequest(command, args, TypeOfRequest.COMMAND);
@@ -61,6 +62,7 @@ public class Invoker {
             if(response instanceof CommandResponse commandResponse) {
                 return commandResponse.getResponse();
             } else {
+                logger.error("Error with cached response.");
                 return "Error";
             }
         } else {

@@ -10,6 +10,7 @@ import java.net.DatagramSocket;
 import java.net.SocketAddress;
 import java.net.SocketException;
 
+import module.connection.requestModule.TypeOfRequest;
 import module.connection.responseModule.Response;
 import module.connection.requestModule.Request;
 import org.slf4j.Logger;
@@ -46,6 +47,11 @@ public class Connection {
             ByteArrayInputStream byteOS = new ByteArrayInputStream(packet.getData());
             ObjectInputStream objIS = new ObjectInputStream(byteOS);
             incomeRequest = (Request) objIS.readObject();
+            if (incomeRequest.getTypeOfRequest().equals(TypeOfRequest.COMMAND)){
+                logger.info("Command-name in request: '{}', arguments: '{}'.", incomeRequest.getCommandName(), incomeRequest.getArgumentsToCommand());
+            } else {
+                logger.info("Client requested Commands Map & specs.");
+            }
         } catch (IOException | ClassNotFoundException e) {
             incomeRequest = new Request("null", null, null);
             logger.error("Connection error" + e.getMessage());
