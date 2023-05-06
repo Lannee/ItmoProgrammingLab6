@@ -1,6 +1,0 @@
-2023-05-06 17:06:18,903 INFO [main] s.l.c.Connection [Connection.java:34] Connection initialized.
-2023-05-06 17:06:18,916 INFO [main] s.l.c.Connection [Connection.java:68] Request sent to server with address localhost/127.0.0.1.
-2023-05-06 17:06:18,917 INFO [main] s.l.c.Connection [Connection.java:45] Response received.
-2023-05-06 17:06:18,937 INFO [main] s.c.Invoker [Invoker.java:37] Invoker initialized.
-2023-05-06 17:06:18,938 INFO [main] s.Client [Client.java:45] Client started.
-2023-05-06 17:06:18,938 INFO [main] s.Client [Client.java:50] Client is ready to take commands and send them on server.
