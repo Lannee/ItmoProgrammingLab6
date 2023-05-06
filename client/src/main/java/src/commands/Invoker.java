@@ -48,25 +48,32 @@ public class Invoker {
             args = new String[0];
         else
             args = parseArgs(words[1]);
+        return validateCommand(command, args);
+    }
 
-
-        CommandDescription commandDescription = commands.getCommandDescription(command);
+    public String validateCommand(String commandName, String[] args) {
+        CommandDescription commandDescription = commands.getCommandDescription(commandName);
         if(commandDescription != null) {
-            Request request = RequestFactory.createRequest(command, args, TypeOfRequest.COMMAND);
-//            if(commandDescription.isCreatingObject()) {
-//            }
-            Response response = connection.sendRequestGetResponse(request);
-            if(response instanceof CommandResponse commandResponse) {
-                return commandResponse.getResponse();
-            } else {
-                logger.error("Error with cached response.");
-                return "Error";
-            }
+            return formRequestAndGetResponse(commandName, args);
         } else {
-            logger.error("Unknown command '{}'. Type help to get information about all commands.", command);
-            return "Unknown command " + command + ". Type help to get information about all commands.\n";
+            logger.error("Unknown command '{}'. Type help to get information about all commands.", commandName);
+            return "Unknown command " + commandName + ". Type help to get information about all commands.\n";
         }
     }
+
+    public String formRequestAndGetResponse (String commandName, String[] args) {
+        Request request = RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND);
+//            if(commandDescription.isCreatingObject()) {
+//            }
+        Response response = connection.sendRequestGetResponse(request);
+        if(response instanceof CommandResponse commandResponse) {
+            return commandResponse.getResponse();
+        } else {
+            logger.error("Error with cached response.");
+            return "Error";
+        }
+    }
+
 
     private String[] parseArgs(String line) {
         return ARG_PAT.matcher(line)

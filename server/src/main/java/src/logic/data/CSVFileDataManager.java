@@ -7,6 +7,9 @@ import module.annotations.Nullable;
 import module.logic.exceptions.FileFormatException;
 import module.logic.exceptions.FileReadModeException;
 import module.utils.ObjectUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import src.Server;
 import src.utils.StringConverter;
 
 import java.io.*;
@@ -21,6 +24,7 @@ import java.util.*;
  * @param <T> - Stored type
  */
 public class CSVFileDataManager<T extends Comparable<? super T>> extends FileDataManager<T> {
+    private static final Logger logger = LoggerFactory.getLogger(CSVFileDataManager.class);
 
     public CSVFileDataManager(Class<T> clT){
         super(clT);
@@ -66,13 +70,13 @@ public class CSVFileDataManager<T extends Comparable<? super T>> extends FileDat
 //                System.exit(0);
 //            }
         } catch(FileReadModeException frme) {
-//            Client.out.print("Cannot read the file\n");
+            logger.error("Cannot read the file\n");
             System.exit(3);
         } catch (FileNotFoundException fnfe) {
-            System.out.print("File does not exist or it is a directory\n");
+            logger.error("File does not exist or it is a directory\n");
             System.exit(2);
         } catch (IOException e) {
-//            Client.out.print("Unable to initialize collection\n");
+            logger.error("Unable to initialize collection\n");
             System.exit(1);
         }
     }
