@@ -12,6 +12,8 @@ import java.net.SocketException;
 
 import module.connection.requestModule.Request;
 import module.connection.responseModule.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Connection {
     private final static int PACKAGE_SIZE = 2048;
@@ -20,12 +22,16 @@ public class Connection {
     private byte[] buf = new byte[PACKAGE_SIZE];
     private DatagramSocket socket;
 
+    private static final Logger logger = LoggerFactory.getLogger(Connection.class);
+
+
     public Connection (String host, int port) {
         this.host = host;
         this.port = port;
         try {
             socket = new DatagramSocket();
             socket.setReuseAddress(true); // needed for IP multicasting
+            logger.info("Connection initialized.");
         } catch (SocketException e) {
             e.printStackTrace();
         }
@@ -36,14 +42,13 @@ public class Connection {
         try {
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             socket.receive(packet);
-            System.out.println("Catched");
+            logger.info("Response received.");
             ByteArrayInputStream byteOS = new ByteArrayInputStream(packet.getData());
             ObjectInputStream objIS = new ObjectInputStream(byteOS);
             incomeResponse = (Response) objIS.readObject();
-//            socket.close();
         } catch (IOException | ClassNotFoundException e) {
-//            System.out.println("Connection error");
-            e.printStackTrace();
+            System.out.println("Connection error" + e.getMessage());
+            logger.error("Connection error {}", e.getMessage());
         }
         return incomeResponse;
     }
@@ -60,8 +65,10 @@ public class Connection {
 
             DatagramPacket packet = new DatagramPacket(dataToSend, dataToSend.length, hostAddress, port);
             socket.send(packet);
+            logger.info("Request sent to server with address " + hostAddress.toString() + ".");
         } catch (IOException e) {
             System.out.println(e.getMessage());
+            logger.error("Connection error {}", e.getMessage());
         }
     }
 

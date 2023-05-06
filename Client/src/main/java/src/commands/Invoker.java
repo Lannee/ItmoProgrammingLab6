@@ -7,6 +7,8 @@ import module.connection.requestModule.TypeOfRequest;
 import module.connection.responseModule.CommandResponse;
 import module.connection.responseModule.Response;
 import module.logic.exceptions.InvalidResponseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import src.logic.connection.Connection;
 
 import java.util.Arrays;
@@ -22,17 +24,22 @@ public class Invoker {
 
     private static final Pattern ARG_PAT = Pattern.compile("\"[^\"]+\"|\\S+");
 
+    private static final Logger logger = LoggerFactory.getLogger(Invoker.class);
+
     public Invoker(Connection connection) {
         this.connection = connection;
         commands = new CommandsHandler(connection);
         try {
             commands.initializeCommands();
         } catch (InvalidResponseException e) {
-            // log must be here
+            logger.error(e.getMessage());
         }
+        logger.info("Invoker initialized.");
     }
 
     public String parseCommand(String line) {
+
+//        Needed to create separate module that parse typed line
         line = line.trim();
         if(line.equals("")) return "";
 
@@ -57,6 +64,7 @@ public class Invoker {
                 return "Error";
             }
         } else {
+            logger.error("Unknown command '{}'. Type help to get information about all commands.", command);
             return "Unknown command " + command + ". Type help to get information about all commands.\n";
         }
     }

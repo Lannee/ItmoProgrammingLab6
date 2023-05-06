@@ -1,12 +1,16 @@
 package src;
 
-import module.connection.responseModule.CommandResponse;
-import module.connection.responseModule.CommandsDescriptionResponse;
-import module.connection.responseModule.Response;
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.core.util.StatusPrinter;
+import module.commands.CommandDescription;
+import module.connection.requestModule.Request;
+import module.connection.responseModule.*;
 import src.commands.Invoker;
 import src.logic.connection.Connection;
 import src.logic.data.Receiver;
-import module.connection.requestModule.Request;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Server {
     private final static int SERVER_PORT = 50689;
@@ -14,6 +18,9 @@ public class Server {
     private boolean running = true;
 
     private Invoker invoker;
+    private static final Logger logger = LoggerFactory.getLogger(Server.class);
+//    Command for spectate of working logger
+//    LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
 
     public String getFileName() {
         return fileName;
@@ -24,17 +31,20 @@ public class Server {
     }
 
     public void start(String[] args) {
+//        Printing spectator of logger
+//        StatusPrinter.print(lc);
+
+        logger.info("Starting server.");
 //        String filePath = getFilePath(args);
         String filePath = getFilePath(new String[]{"FileJ"});
 
         invoker = new Invoker(
                 new Receiver(filePath));
+        logger.info("Invoker and Receiver started.");
 
         Connection connection = new Connection(SERVER_PORT);
-
-        while(true) {
+        while(running) {
             Request request = connection.catchRequest();
-            System.out.println(request);
             Response response = null;
             switch (request.getTypeOfRequest()) {
                 case COMMAND -> {
@@ -44,35 +54,23 @@ public class Server {
                     response = new CommandsDescriptionResponse(invoker.getCommandsDescriptions());
                 }
             }
-
-            System.out.println(response);
+            logger.info("Response Obj created.");
             connection.sendResponse(response);
         }
-
-        // while (running) {
-//            Request request = (Request) connection.catchRequest();
-//            Response resultResponse = ResponseFactory.createResponse(invoker.parseRequestCommand(request), ResponseStatus.SUCCESSFULLY);
-//            connection.sendResponse(resultResponse);
-            
-            // break;
-            // if (request.getCommandName().equals("exit")) {
-            //     running = false;
-            //     continue;
-            // }
-        // }
-
     }
 
     public static String getFilePath(String[] args) {
-        if (args.length == 0) {
-            System.out.print("Incorrect number of arguments\n");
-            System.exit(2);
-        }
-        String filePath = System.getenv().get(args[0]);
-        if (filePath == null) {
-            System.out.print("Environment variable \"" + args[0] + "\" does not exist\n");
-            System.exit(1);
-        }
-        return filePath;
+        return "base.csv";
+
+        //        if (args.length == 0) {
+//            logger.error("Incorrect number of arguments.");
+//            System.exit(2);
+//        }
+//        String filePath = System.getenv().get(args[0]);
+//        if (filePath == null) {
+//            logger.error("Environment variable \"" + args[0] + "\" does not exist.");
+//            System.exit(1);
+//        }
+//        return filePath;
     }
 }

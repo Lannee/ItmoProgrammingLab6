@@ -69,7 +69,7 @@ public class CSVFileDataManager<T extends Comparable<? super T>> extends FileDat
 //            Client.out.print("Cannot read the file\n");
             System.exit(3);
         } catch (FileNotFoundException fnfe) {
-//            Client.out.print("File does not exist or it is a directory\n");
+            System.out.print("File does not exist or it is a directory\n");
             System.exit(2);
         } catch (IOException e) {
 //            Client.out.print("Unable to initialize collection\n");

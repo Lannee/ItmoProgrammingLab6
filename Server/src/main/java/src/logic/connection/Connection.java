@@ -10,9 +10,11 @@ import java.net.DatagramSocket;
 import java.net.SocketAddress;
 import java.net.SocketException;
 
-import module.connection.requestModule.Request;
-import module.connection.requestModule.RequestFactory;
 import module.connection.responseModule.Response;
+import module.connection.requestModule.Request;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import src.Server;
 
 public class Connection {
 
@@ -21,12 +23,16 @@ public class Connection {
     private byte[] buf = new byte[PACKAGE_SIZE];
     private DatagramSocket socket;
 
+    private static final Logger logger = LoggerFactory.getLogger(Connection.class);
+
+
     public Connection (int port) {
         try {
             socket = new DatagramSocket(port);
             // socket.setReuseAddress(true); // needed for IP multicasting
+            logger.info("Connection initialized.");
         } catch (SocketException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -36,12 +42,13 @@ public class Connection {
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             socket.receive(packet);
             clientSocketAddress = packet.getSocketAddress();
+            logger.info("Client with address " + clientSocketAddress.toString() + " sent request.");
             ByteArrayInputStream byteOS = new ByteArrayInputStream(packet.getData());
             ObjectInputStream objIS = new ObjectInputStream(byteOS);
             incomeRequest = (Request) objIS.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            incomeRequest = RequestFactory.nullRequest();
-            System.out.println("Connection error" + e.getMessage());         
+            incomeRequest = new Request("null", null, null);
+            logger.error("Connection error" + e.getMessage());
         }
         return incomeRequest;
     }
@@ -53,11 +60,11 @@ public class Connection {
             ObjectOutputStream objOS = new ObjectOutputStream(byteOS);
             objOS.writeObject(response);
             dataToSend = byteOS.toByteArray();
-
             DatagramPacket packet = new DatagramPacket(dataToSend, dataToSend.length, clientSocketAddress);
             socket.send(packet);
+            logger.info("Response sent to client with address " + clientSocketAddress.toString() + ".");
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 }

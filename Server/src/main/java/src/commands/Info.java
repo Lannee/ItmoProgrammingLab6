@@ -17,8 +17,8 @@ public class Info implements Command {
     }
 
     @Override
-    public String execute(String[] args) {
-        checkArgsConformity(args);
+    public String execute(String[] args) throws IllegalArgumentException {
+            checkArgsConformity(args);
         return receiver.getInfo() + "\n";
     }
 

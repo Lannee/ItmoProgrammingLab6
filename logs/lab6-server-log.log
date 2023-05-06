@@ -1,0 +1,90 @@
+2023-05-06 15:02:51,461 INFO [main] s.Server [Server.java:37] Starting server.
+2023-05-06 15:02:51,467 INFO [main] s.Server [Server.java:43] Invoker and Receiver started.
+2023-05-06 15:02:51,471 INFO [main] s.l.c.Connection [Connection.java:33] Connection initialized.
+2023-05-06 15:49:10,076 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:59070 sent request.
+2023-05-06 15:49:10,112 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:59070.
+2023-05-06 15:49:14,734 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:59070 sent request.
+2023-05-06 15:49:14,739 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:59070.
+2023-05-06 15:49:28,968 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:59070 sent request.
+2023-05-06 15:49:29,000 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:59070.
+2023-05-06 15:54:11,588 INFO [main] s.Server [Server.java:41] Starting server.
+2023-05-06 15:54:11,599 INFO [main] s.Server [Server.java:47] Invoker and Receiver started.
+2023-05-06 15:54:11,605 INFO [main] s.l.c.Connection [Connection.java:33] Connection initialized.
+2023-05-06 15:54:33,180 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:35209 sent request.
+2023-05-06 15:54:33,215 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:35209.
+2023-05-06 15:54:35,873 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:35209 sent request.
+2023-05-06 15:54:35,876 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:35209.
+2023-05-06 15:56:15,582 INFO [main] s.Server [Server.java:41] Starting server.
+2023-05-06 15:56:15,593 INFO [main] s.Server [Server.java:47] Invoker and Receiver started.
+2023-05-06 15:56:15,601 INFO [main] s.l.c.Connection [Connection.java:33] Connection initialized.
+2023-05-06 15:56:19,044 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:50680 sent request.
+2023-05-06 15:56:19,088 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:50680.
+2023-05-06 15:56:21,958 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:50680 sent request.
+2023-05-06 15:56:21,964 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:50680.
+2023-05-06 15:56:25,515 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:50680 sent request.
+2023-05-06 15:56:25,532 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:50680.
+2023-05-06 16:08:10,404 INFO [main] s.Server [Server.java:37] Starting server.
+2023-05-06 16:08:10,412 INFO [main] s.Server [Invoker.java:49] Invoker initialized.
+2023-05-06 16:08:10,412 INFO [main] s.Server [Server.java:43] Invoker and Receiver started.
+2023-05-06 16:08:10,416 INFO [main] s.l.c.Connection [Connection.java:33] Connection initialized.
+2023-05-06 16:08:16,402 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:59491 sent request.
+2023-05-06 16:08:16,420 INFO [main] s.Server [Server.java:57] Response Obj created.
+2023-05-06 16:08:16,441 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:59491.
+2023-05-06 16:08:27,056 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:59491 sent request.
+2023-05-06 16:08:27,058 INFO [main] s.Server [Invoker.java:143] Command executing.
+2023-05-06 16:08:27,061 INFO [main] s.Server [Server.java:57] Response Obj created.
+2023-05-06 16:08:27,063 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:59491.
+2023-05-06 16:09:27,673 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:59491 sent request.
+2023-05-06 16:09:27,674 INFO [main] s.Server [Invoker.java:143] Command executing.
+2023-05-06 16:26:25,659 INFO [main] s.Server [Server.java:37] Starting server.
+2023-05-06 16:26:25,667 INFO [main] s.Server [Invoker.java:49] Invoker initialized.
+2023-05-06 16:26:25,667 INFO [main] s.Server [Server.java:43] Invoker and Receiver started.
+2023-05-06 16:26:25,671 INFO [main] s.l.c.Connection [Connection.java:33] Connection initialized.
+2023-05-06 16:27:29,242 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:48714 sent request.
+2023-05-06 16:27:29,257 INFO [main] s.Server [Server.java:57] Response Obj created.
+2023-05-06 16:27:29,279 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:48714.
+2023-05-06 16:27:35,718 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:48714 sent request.
+2023-05-06 16:27:35,719 INFO [main] s.Server [Invoker.java:143] Command executing.
+2023-05-06 16:27:35,720 INFO [main] s.Server [Server.java:57] Response Obj created.
+2023-05-06 16:27:35,722 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:48714.
+2023-05-06 16:27:37,368 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:48714 sent request.
+2023-05-06 16:27:37,370 INFO [main] s.Server [Invoker.java:143] Command executing.
+2023-05-06 16:27:37,394 INFO [main] s.Server [Server.java:57] Response Obj created.
+2023-05-06 16:27:37,394 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:48714.
+2023-05-06 16:27:40,121 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:48714 sent request.
+2023-05-06 16:27:40,122 INFO [main] s.Server [Invoker.java:143] Command executing.
+2023-05-06 16:27:40,123 ERROR [main] s.Server [Invoker.java:147] Command info require different count of arguments.Invalid number of arguments
+2023-05-06 16:27:40,126 INFO [main] s.Server [Server.java:57] Response Obj created.
+2023-05-06 16:27:40,126 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:48714.
+2023-05-06 16:27:58,983 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:48714 sent request.
+2023-05-06 16:27:58,985 INFO [main] s.Server [Invoker.java:143] Command executing.
+2023-05-06 16:27:58,985 ERROR [main] s.Server [Invoker.java:147] Command help require different count of arguments.Invalid number of arguments
+2023-05-06 16:27:58,985 INFO [main] s.Server [Server.java:57] Response Obj created.
+2023-05-06 16:27:58,986 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:48714.
+2023-05-06 16:28:08,398 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:48714 sent request.
+2023-05-06 16:28:08,399 INFO [main] s.Server [Invoker.java:143] Command executing.
+2023-05-06 16:28:08,400 INFO [main] s.Server [Server.java:57] Response Obj created.
+2023-05-06 16:28:08,401 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:48714.
+2023-05-06 16:28:12,349 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:48714 sent request.
+2023-05-06 16:28:12,350 INFO [main] s.Server [Invoker.java:143] Command executing.
+2023-05-06 16:28:12,350 ERROR [main] s.Server [Invoker.java:147] Command update require different count of arguments.Invalid number of arguments
+2023-05-06 16:28:12,350 INFO [main] s.Server [Server.java:57] Response Obj created.
+2023-05-06 16:28:12,351 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:48714.
+2023-05-06 16:28:16,142 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:48714 sent request.
+2023-05-06 16:28:16,143 INFO [main] s.Server [Invoker.java:143] Command executing.
+2023-05-06 16:28:16,155 INFO [main] s.Server [Server.java:57] Response Obj created.
+2023-05-06 16:28:16,155 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:48714.
+2023-05-06 16:30:01,118 INFO [main] s.Server [Server.java:37] Starting server.
+2023-05-06 16:30:01,124 INFO [main] s.Server [Invoker.java:49] Invoker initialized.
+2023-05-06 16:30:01,124 INFO [main] s.Server [Server.java:43] Invoker and Receiver started.
+2023-05-06 16:30:01,128 INFO [main] s.l.c.Connection [Connection.java:33] Connection initialized.
+2023-05-06 16:30:07,516 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:40843 sent request.
+2023-05-06 16:30:07,529 INFO [main] s.Server [Server.java:57] Response Obj created.
+2023-05-06 16:30:07,545 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:40843.
+2023-05-06 17:06:18,915 INFO [main] s.l.c.Connection [Connection.java:45] Client with address /127.0.0.1:41523 sent request.
+2023-05-06 17:06:18,916 INFO [main] s.Server [Server.java:57] Response Obj created.
+2023-05-06 17:06:18,917 INFO [main] s.l.c.Connection [Connection.java:65] Response sent to client with address /127.0.0.1:41523.
+2023-05-06 17:06:21,233 INFO [main] s.Server [Server.java:37] Starting server.
+2023-05-06 17:06:21,242 INFO [main] s.Server [Invoker.java:49] Invoker initialized.
+2023-05-06 17:06:21,242 INFO [main] s.Server [Server.java:43] Invoker and Receiver started.
+2023-05-06 17:06:21,246 INFO [main] s.l.c.Connection [Connection.java:33] Connection initialized.

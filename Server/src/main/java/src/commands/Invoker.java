@@ -2,6 +2,9 @@ package src.commands;
 
 import module.commands.CommandDescription;
 import module.connection.requestModule.Request;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import src.Server;
 import src.logic.data.Receiver;
 
 import java.io.*;
@@ -22,6 +25,7 @@ public class Invoker {
 
     private static final Pattern ARG_PAT = Pattern.compile("\"[^\"]+\"|\\S+");
 
+    private static final Logger logger = LoggerFactory.getLogger(Server.class);
 
     public Invoker(Receiver receiver) {
         this.receiver = receiver;
@@ -41,6 +45,8 @@ public class Invoker {
         declaredCommands.put("remove_greater", new RemoveGreater(receiver));
         declaredCommands.put("count_greater_than_weight", new CountGreaterThanWeight(receiver));
         declaredCommands.put("group_counting_by_id", new GroupCountingById(receiver));
+
+        logger.info("Invoker initialized.");
     }
 
     public int getRecursionSize() {
@@ -124,7 +130,7 @@ public class Invoker {
             args = new String[0];
         else
             args = parseArgs(words[1]);
-
+        logger.info("Command was parsed.");
         return executeCommand(command, args);
     }
 
@@ -133,9 +139,16 @@ public class Invoker {
     }
 
     public String executeCommand(String command, String[] args) {
-        if(declaredCommands.containsKey(command)) {
-            return declaredCommands.get(command).execute(args);
+        if (declaredCommands.containsKey(command)) {
+            logger.info("Command executing.");
+            try {
+                return declaredCommands.get(command).execute(args);
+            } catch (IllegalArgumentException e) {
+                logger.error("Command {} require different count of arguments." + e.getMessage(), command);
+                return "Invalid count of arguments";
+            }
         } else {
+            logger.error("Unknown command.");
             return "Unknown command " + command + ". Type help to get information about all commands.\n";
         }
     }

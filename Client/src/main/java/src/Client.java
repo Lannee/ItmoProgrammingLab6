@@ -4,6 +4,8 @@ import module.logic.streams.ConsoleInputManager;
 import module.logic.streams.ConsoleOutputManager;
 import module.logic.streams.InputManager;
 import module.logic.streams.OutputManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import src.commands.Invoker;
 import src.logic.connection.Connection;
 
@@ -30,24 +32,31 @@ public class Client {
     public static final OutputManager out = new ConsoleOutputManager();
     public static final InputManager in = new ConsoleInputManager();
 
+    private static final Logger logger = LoggerFactory.getLogger(Client.class);
+//    Command for spectate of working logger
+//    LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+
     public Client() {
         connection = new Connection(SERVER_HOST, SERVER_PORT);
         invoker = new Invoker(connection);
     }
 
     public void runClient() {
-
-//        out.print("Hello, Welcome to\n");
-//        out.print(logo);
-//        out.print("Type \"help\" to get the information about all commands\n");
+        logger.info("Client started.");
+        out.print("Hello, Welcome to\n");
+        out.print(logo);
+        out.print("Type \"help\" to get the information about all commands\n");
         String line;
+        logger.info("Client is ready to take commands and send them on server.");
         while (true) {
             try {
                 out.print(invite + " ");
                 line = in.readLine();
+                logger.info("User typed: '{}'", line.trim());
                 System.out.println(invoker.parseCommand(line));
             } catch (IllegalArgumentException iae) {
                 out.print(iae.getMessage() + "\n");
+                logger.error(iae.getMessage());
             }
         }
     }

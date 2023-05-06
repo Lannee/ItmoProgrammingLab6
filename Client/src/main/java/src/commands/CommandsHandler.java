@@ -26,7 +26,6 @@ public class CommandsHandler {
         Response response = connection.sendRequestGetResponse(request);
         if(!(response instanceof CommandsDescriptionResponse commandsDescriptionResponse)) throw new InvalidResponseException();
         commands = ((CommandsDescriptionResponse) response).getCommands();
-        System.out.println(response);
     }
 
     public CommandDescription getCommandDescription(String commandName) {

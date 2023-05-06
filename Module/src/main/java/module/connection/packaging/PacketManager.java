@@ -3,6 +3,8 @@ package module.connection.packaging;
 import java.io.*;
 import java.util.Arrays;
 
+import static java.lang.Math.*;
+
 public class PacketManager {
 
     public static Packet[] split(Serializable object) {
@@ -13,7 +15,7 @@ public class PacketManager {
             objOS.writeObject(object);
             byte[] dataToSend = byteOS.toByteArray();
 
-            int packagesAmount = Math.ceilDiv(dataToSend.length, Packet.DATA_SIZE);
+            int packagesAmount = ceilDiv(dataToSend.length, Packet.DATA_SIZE);
             packets = new Packet[packagesAmount];
 
             for(int i = 0; i < packagesAmount; i++) {
