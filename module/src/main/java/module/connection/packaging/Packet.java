@@ -1,6 +1,7 @@
 package module.connection.packaging;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class Packet implements Serializable {
 
@@ -10,7 +11,7 @@ public class Packet implements Serializable {
     private final int serialNumber;
     private final int packagesAmount;
 
-    private final byte[] data = new byte[DATA_SIZE];
+    private byte[] data = new byte[DATA_SIZE];
 
     public Packet(int serialNumber, int packagesAmount) {
         this.serialNumber = serialNumber;
@@ -18,9 +19,7 @@ public class Packet implements Serializable {
     }
 
     public Packet(byte[] data, int serialNumber, int packagesAmount) {
-        assert data.length >= DATA_SIZE;
-
-        System.arraycopy(data, 0, this.data, 0, DATA_SIZE);
+        this.data = Arrays.copyOf(data, DATA_SIZE);
         this.serialNumber = serialNumber;
         this.packagesAmount = packagesAmount;
     }
@@ -35,5 +34,14 @@ public class Packet implements Serializable {
 
     public int getPackagesAmount() {
         return packagesAmount;
+    }
+
+    @Override
+    public String toString() {
+        return "Packet{" +
+                "serialNumber=" + serialNumber +
+                ", packagesAmount=" + packagesAmount +
+                ", data=" + Arrays.toString(data) +
+                '}';
     }
 }

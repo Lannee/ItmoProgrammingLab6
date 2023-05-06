@@ -21,21 +21,12 @@ public class ChannelConnection implements IConnection {
 
     private final DatagramChannel datagramChannel;
 
-    public ChannelConnection() {
+    public ChannelConnection() throws UnknownHostException {
         this(STANDARD_PORT);
     }
 
-    public ChannelConnection(int port) {
-        try {
-            this.host = InetAddress.getLocalHost();
-        } catch (UnknownHostException impossible) {}
-
-        this.port = port;
-        try {
-            datagramChannel = DatagramChannel.open();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public ChannelConnection(int port) throws UnknownHostException {
+        this("localhost", port);
     }
 
     public ChannelConnection(String host, int port) throws UnknownHostException {
@@ -91,7 +82,8 @@ public class ChannelConnection implements IConnection {
             object = PacketManager.assemble(packets);
 
         } catch (IOException io) {
-            throw new RuntimeException(io);
+            io.printStackTrace();
+            return null;
         }
 
         return object;

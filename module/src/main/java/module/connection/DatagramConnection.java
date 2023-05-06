@@ -44,9 +44,9 @@ public class DatagramConnection implements IConnection {
         try {
             Packet[] packets = PacketManager.split(object);
 
-            for(int i = 0; i < packets.length; i++) {
+            for (Packet packet : packets) {
                 DatagramPacket datagramPacket = new DatagramPacket(
-                        PacketManager.serialize(packets[i]),
+                        PacketManager.serialize(packet),
                         PACKAGE_SIZE,
                         host,
                         port);
@@ -68,10 +68,9 @@ public class DatagramConnection implements IConnection {
             int counter = 0;
             int packagesAmount = 1;
             do {
-                DatagramPacket datagramPacket = new DatagramPacket(bytes, PACKAGE_SIZE);
+                DatagramPacket datagramPacket = new DatagramPacket(bytes, PACKAGE_SIZE, host, port);
                 socket.receive(datagramPacket);
                 Packet packet = (Packet) PacketManager.deserialize(bytes);
-
                 if(counter == 0) {
                     packagesAmount = packet.getPackagesAmount();
                     packets = new Packet[packagesAmount];
