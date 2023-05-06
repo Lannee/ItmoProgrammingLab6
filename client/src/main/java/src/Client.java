@@ -44,9 +44,9 @@ public class Client {
 
     public void runClient() {
         logger.info("Client started.");
-//        out.print("Hello, Welcome to\n");
-//        out.print(logo);
-//        out.print("Type \"help\" to get the information about all commands\n");
+        out.print("Hello, Welcome to\n");
+        out.print(logo);
+        out.print("Type \"help\" to get the information about all commands\n");
         String line;
         logger.info("Client is ready to take commands and send them on server.");
         while (true) {
