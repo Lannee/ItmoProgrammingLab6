@@ -62,8 +62,6 @@
             <groupId>application.common</groupId>
             <artifactId>Module</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/../Module/target/Module-1.0-SNAPSHOT-jar-with-dependencies.jar</systemPath>
         </dependency>
 
         <!-- <dependency>
