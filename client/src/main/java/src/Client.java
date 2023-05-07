@@ -1,6 +1,7 @@
 package src;
 
 import module.connection.ChannelConnection;
+import module.connection.DatagramConnection;
 import module.connection.IConnection;
 import module.logic.streams.ConsoleInputManager;
 import module.logic.streams.ConsoleOutputManager;
@@ -10,14 +11,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import src.commands.Invoker;
 
+import java.net.UnknownHostException;
+
 public class Client {
 
     private final static String SERVER_HOST = "localhost";
     private final static int SERVER_PORT = 50689;
 
-    private final Invoker invoker;
+    private Invoker invoker;
 
-    private final IConnection connection;
+    private IConnection connection;
 
     public final static String invite = ">>>";
 
@@ -38,8 +41,12 @@ public class Client {
 //    LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
 
     public Client() {
-        connection = new ChannelConnection(SERVER_PORT);
-        invoker = new Invoker(connection);
+        try {
+            connection = new DatagramConnection("localhost", SERVER_PORT);
+            invoker = new Invoker(connection);
+        } catch (UnknownHostException uhe) {
+            uhe.printStackTrace();
+        }
     }
 
     public void runClient() {

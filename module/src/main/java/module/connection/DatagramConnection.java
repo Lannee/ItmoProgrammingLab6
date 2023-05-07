@@ -18,22 +18,39 @@ public class DatagramConnection implements IConnection {
 
     private int port;
 
+    private boolean isListeningPort;
+
     private final DatagramSocket socket;
 
     public DatagramConnection() throws UnknownHostException {
-        this(STANDARD_PORT);
+        this(false);
+    }
+
+    public DatagramConnection(boolean isListeningPort) throws UnknownHostException {
+        this(STANDARD_PORT, isListeningPort);
     }
 
     public DatagramConnection(int port) throws UnknownHostException {
-        this("localhost", port);
+        this(port, false);
+    }
+
+    public DatagramConnection(int port, boolean isListeningPort) throws UnknownHostException {
+        this("localhost", port, isListeningPort);
     }
 
     public DatagramConnection(String host, int port) throws UnknownHostException {
+        this(host, port, false);
+    }
+    public DatagramConnection(String host, int port, boolean isListeningPort) throws UnknownHostException {
         this.host = InetAddress.getByName(host);
         this.port = port;
+        this.isListeningPort = isListeningPort;
 
         try {
-            socket = new DatagramSocket();
+            if(isListeningPort)
+                socket = new DatagramSocket(port);
+            else
+                socket = new DatagramSocket();
         } catch (SocketException e) {
             throw new RuntimeException(e);
         }
@@ -68,12 +85,18 @@ public class DatagramConnection implements IConnection {
             int counter = 0;
             int packagesAmount = 1;
             do {
-                DatagramPacket datagramPacket = new DatagramPacket(bytes, PACKAGE_SIZE, host, port);
+                DatagramPacket datagramPacket = new DatagramPacket(bytes, PACKAGE_SIZE);
                 socket.receive(datagramPacket);
                 Packet packet = (Packet) PacketManager.deserialize(bytes);
+
                 if(counter == 0) {
                     packagesAmount = packet.getPackagesAmount();
                     packets = new Packet[packagesAmount];
+
+                    if(isListeningPort) {
+                        this.host = datagramPacket.getAddress();
+                        this.port = datagramPacket.getPort();
+                    }
                 }
 
                 packets[counter] = packet;

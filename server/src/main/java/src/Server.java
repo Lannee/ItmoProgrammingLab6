@@ -49,14 +49,14 @@ public class Server {
         logger.info("Invoker and Receiver started.");
 
         try {
-            connection = new DatagramConnection(SERVER_PORT);
+            connection = new DatagramConnection(SERVER_PORT, true);
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }
 
         while(running) {
             Request request = (Request) connection.receive();
-
+            System.out.println(request);
             Response response = null;
             switch (request.getTypeOfRequest()) {
                 case COMMAND -> {
@@ -69,6 +69,7 @@ public class Server {
 
             logger.info("Response Obj created.");
             connection.send(response);
+            logger.info("Response sent.");
         }
     }
 
