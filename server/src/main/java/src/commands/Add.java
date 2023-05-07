@@ -1,5 +1,7 @@
 package src.commands;
 
+import module.commands.CommandArgument;
+import module.stored.Dragon;
 import src.logic.data.Receiver;
 
 /**
@@ -9,7 +11,7 @@ public class Add implements Command {
 
     private final static boolean isCreatingObject = true;
 
-    public final static String[] args = new String[0];
+    public final static CommandArgument[] args = {new CommandArgument("element", Dragon.class, false)};
 
     private final Receiver receiver;
 
@@ -29,7 +31,7 @@ public class Add implements Command {
     }
 
     @Override
-    public String[] args() {
+    public CommandArgument[] args() {
         return args;
     }
 

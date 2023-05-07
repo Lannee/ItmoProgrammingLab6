@@ -1,5 +1,6 @@
 package src.commands;
 
+import module.commands.CommandArgument;
 import src.logic.data.Receiver;
 import src.utils.StringConverter;
 
@@ -8,8 +9,7 @@ import src.utils.StringConverter;
  */
 public class RemoveById implements Command {
     private final static boolean isCreatingObject = false;
-
-    private static final String[] args = {"id"};
+    private static final CommandArgument[] args = {new CommandArgument("id", int.class)};
 
     private final Receiver receiver;
 
@@ -23,7 +23,7 @@ public class RemoveById implements Command {
 
         try {
             Long id = Long.parseLong(args[0]);
-            Object obj = receiver.getElementByFieldValue(args()[0], id);
+            Object obj = receiver.getElementByFieldValue(args()[0].getArgumentName(), id);
             if(receiver.removeOn(e -> e == obj, false)) {
                 return "Object with " + args()[0] + " " + id + " was successfully removed\n";
             } else {
@@ -42,7 +42,7 @@ public class RemoveById implements Command {
     }
 
     @Override
-    public String[] args() {
+    public CommandArgument[] args() {
         return args;
     }
 

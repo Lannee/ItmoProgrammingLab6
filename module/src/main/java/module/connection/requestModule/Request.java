@@ -1,6 +1,7 @@
 package module.connection.requestModule;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class Request implements Serializable {
     private static final long serialVersionUID = 6529685098267757690L;
@@ -28,7 +29,7 @@ public class Request implements Serializable {
 
     @Override
     public String toString() {
-        return "Request [commandName=" + commandName + ", argumentsToCommand=" + argumentsToCommand + ", typeOfRequest="
+        return "Request [commandName=" + commandName + ", argumentsToCommand=" + Arrays.toString(argumentsToCommand) + ", typeOfRequest="
                 + typeOfRequest + "]";
     }
 }

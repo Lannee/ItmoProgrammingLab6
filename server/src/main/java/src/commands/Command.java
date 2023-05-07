@@ -1,5 +1,7 @@
 package src.commands;
 
+import module.commands.CommandArgument;
+
 /**
  * Command interface, sets the behavior for each team in the project
  */
@@ -8,7 +10,7 @@ public interface Command {
 
     String getDescription();
 
-    String[] args();
+    CommandArgument[] args();
 
     boolean isCreatingObject();
 

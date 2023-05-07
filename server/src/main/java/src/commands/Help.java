@@ -1,12 +1,14 @@
 package src.commands;
 
+import module.commands.CommandArgument;
+
 /**
  * Displays a list of all available commands
  */
 public class Help implements Command {
     private final static boolean isCreatingObject = false;
 
-    private static final String[] args = new String[0];
+    private static final CommandArgument[] args = new CommandArgument[0];
 
     private final Invoker invoker;
 
@@ -18,10 +20,11 @@ public class Help implements Command {
     public String execute(String[] args) {
         checkArgsConformity(args);
         return invoker.commandsInfo();
+//        return "";
     }
 
     @Override
-    public String[] args() {
+    public CommandArgument[] args() {
         return args;
     }
 

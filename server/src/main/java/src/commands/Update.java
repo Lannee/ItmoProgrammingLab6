@@ -1,5 +1,7 @@
 package src.commands;
 
+import module.commands.CommandArgument;
+import module.stored.Dragon;
 import src.logic.data.Receiver;
 import module.utils.ObjectUtils;
 import src.utils.StringConverter;
@@ -10,7 +12,8 @@ import src.utils.StringConverter;
 public class Update implements Command {
     private final static boolean isCreatingObject = true;
 
-    public final static String[] args = {"id"};
+    public final static CommandArgument[] args = {new CommandArgument("id", int.class),
+            new CommandArgument("element", Dragon.class, false)};
 
     private final Receiver receiver;
 
@@ -27,7 +30,7 @@ public class Update implements Command {
         try {
             Long id = (Long) StringConverter.methodForType.get(Long.class).apply(args[0]);
             if(id <= 0) throw new NumberFormatException();
-            Object obj = receiver.getElementByFieldValue(args()[0], id);
+            Object obj = receiver.getElementByFieldValue(args()[0].getArgumentName(), id);
 
             if(obj == null) {
                 // if(!ObjectUtils.agreement(Client.in, Client.out, "Element with this id does not exist, do you want to create it (y/n) : ", false)) {
@@ -52,7 +55,7 @@ public class Update implements Command {
     }
 
     @Override
-    public String[] args() {
+    public CommandArgument[] args() {
         return args;
     }
 

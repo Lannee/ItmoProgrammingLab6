@@ -1,5 +1,6 @@
 package src.commands;
 
+import module.commands.CommandArgument;
 import src.logic.data.Receiver;
 
 /**
@@ -8,8 +9,7 @@ import src.logic.data.Receiver;
 public class CountGreaterThanWeight implements Command {
     private final static boolean isCreatingObject = false;
 
-
-    private final static String[] args = {"weight"};
+    private final static CommandArgument[] args = {new CommandArgument("weight", float.class)};
 
     private final Receiver receiver;
 
@@ -21,7 +21,7 @@ public class CountGreaterThanWeight implements Command {
     public String execute(String[] args) {
         checkArgsConformity(args);
         try {
-            int amount = receiver.countCompareToValueByField(args()[0], args[0], (u, v) -> -u.compareTo(v));
+            int amount = receiver.countCompareToValueByField(args()[0].getArgumentName(), args[0], (u, v) -> -u.compareTo(v));
             return amount + "\n";
         } catch (NumberFormatException e) {
             return "Incorrect given value\n";
@@ -31,7 +31,7 @@ public class CountGreaterThanWeight implements Command {
     }
 
     @Override
-    public String[] args() {
+    public CommandArgument[] args() {
         return args;
     }
 

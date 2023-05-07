@@ -1,5 +1,6 @@
 package src.commands;
 
+import module.commands.CommandArgument;
 import module.commands.CommandDescription;
 import module.connection.requestModule.Request;
 import org.slf4j.Logger;
@@ -106,15 +107,36 @@ public class Invoker {
         }
     }
 
+
+    // needed to be moved on client
     public String commandsInfo() {
         StringBuilder out = new StringBuilder();
         declaredCommands.forEach((key, value) -> {
-            out.append(key +
-                    (value.args().length == 0 ?
-                            "" :
-                            " [" + String.join(", ", value.args()) + "]") +
-                    " (" + value.getDescription() + ")\n");
+            out.append(key);
+            if(value.args().length > 0) {
+                String enteredByUserArguments = String.join(
+                        ", ",
+                        Arrays.stream(value.args()).
+                            filter(CommandArgument::isEnteredByUser).
+                            map(Object::toString).toArray(String[]::new)
+                );
+
+                String notEnteredByUserArguments = String.join(
+                        ", ",
+                        Arrays.stream(value.args()).
+                                filter(e -> !e.isEnteredByUser()).
+                                map(Object::toString).toArray(String[]::new)
+                );
+
+                if(!enteredByUserArguments.equals(""))
+                    out.append(" ").append(enteredByUserArguments);
+                if(!notEnteredByUserArguments.equals(""))
+                    out.append(" {").append(notEnteredByUserArguments).append("}");
+            }
+
+            out.append(" : ").append(value.getDescription()).append("\n");
         });
+
         return out.toString();
     }
 

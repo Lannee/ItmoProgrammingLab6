@@ -6,10 +6,10 @@ import java.util.Arrays;
 public class CommandDescription implements Serializable {
 
     private final String commandName;
-    private String[] arguments;
+    private CommandArgument[] arguments;
     private final boolean isCreatingObject;
 
-    public CommandDescription(String commandName, String[] arguments, boolean isCreatingObject) {
+    public CommandDescription(String commandName, CommandArgument[] arguments, boolean isCreatingObject) {
         this.commandName = commandName;
         this.arguments = arguments;
         this.isCreatingObject = isCreatingObject;
@@ -19,7 +19,7 @@ public class CommandDescription implements Serializable {
         return commandName;
     }
 
-    public String[] getArguments() {
+    public CommandArgument[] getArguments() {
         return arguments;
     }
 

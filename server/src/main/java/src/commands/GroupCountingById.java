@@ -1,5 +1,6 @@
 package src.commands;
 
+import module.commands.CommandArgument;
 import src.logic.data.Receiver;
 
 import java.util.Map;
@@ -10,7 +11,7 @@ import java.util.Map;
 public class GroupCountingById implements Command {
     private final static boolean isCreatingObject = false;
 
-    private static final String[] args = new String[0];
+    private static final CommandArgument[] args = new CommandArgument[0];
 
     private final Receiver receiver;
 
@@ -37,7 +38,7 @@ public class GroupCountingById implements Command {
     }
 
     @Override
-    public String[] args() {
+    public CommandArgument[] args() {
         return args;
     }
 

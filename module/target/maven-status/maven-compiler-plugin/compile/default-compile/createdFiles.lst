@@ -1,3 +1,4 @@
 module\utils\ObjectUtils$1.class
+module\commands\CommandArgument.class
 module\utils\BaseTypesRestrictions.class
 module\utils\StringConverter.class

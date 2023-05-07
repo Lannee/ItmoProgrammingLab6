@@ -1,12 +1,14 @@
 package src.commands;
 
+import module.commands.CommandArgument;
+
 /**
  * Reads and executes the script from the specified file
  */
 public class ExecuteScript implements Command {
     private final static boolean isCreatingObject = false;
 
-    public final static String[] args = {"file_name"};
+    public final static CommandArgument[] args = {new CommandArgument("file_name", String.class)};
     private final Invoker invoker;
 
     public ExecuteScript(Invoker invoker) {
@@ -26,7 +28,7 @@ public class ExecuteScript implements Command {
     }
 
     @Override
-    public String[] args() {
+    public CommandArgument[] args() {
         return args;
     }
 

@@ -1,5 +1,6 @@
 package src.commands;
 
+import module.commands.CommandArgument;
 import src.logic.data.Receiver;
 
 /**
@@ -8,7 +9,7 @@ import src.logic.data.Receiver;
 public class RemoveHead implements Command {
     private final static boolean isCreatingObject = false;
 
-    private static final String[] args = new String[0];
+    private static final CommandArgument[] args = new CommandArgument[0];
 
     private final Receiver receiver;
 
@@ -30,7 +31,7 @@ public class RemoveHead implements Command {
     }
 
     @Override
-    public String[] args() {
+    public CommandArgument[] args() {
         return args;
     }
 

@@ -1,5 +1,7 @@
 package src.commands;
 
+import module.commands.CommandArgument;
+import module.stored.Dragon;
 import src.logic.data.Receiver;
 import module.logic.exceptions.CannotCreateObjectException;
 import module.utils.ObjectUtils;
@@ -10,9 +12,9 @@ import module.utils.ObjectUtils;
 public class RemoveGreater implements Command {
     private final static boolean isCreatingObject = true;
 
-    private static final String[] args = new String[0];
-
     private final Receiver receiver;
+
+    private static final CommandArgument[] args = {new CommandArgument("element", Dragon.class, false)};
 
     public RemoveGreater(Receiver receiver) {
         this.receiver = receiver;
@@ -37,7 +39,7 @@ public class RemoveGreater implements Command {
     }
 
     @Override
-    public String[] args() {
+    public CommandArgument[] args() {
         return args;
     }
 
