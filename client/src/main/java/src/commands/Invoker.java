@@ -35,8 +35,6 @@ public class Invoker {
     }
 
     public String parseCommand(String line) {
-
-//        Needed to create separate module that parse typed line
         line = line.trim();
         if(line.equals("")) return "";
 
