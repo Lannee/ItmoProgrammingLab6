@@ -1,15 +1,15 @@
 package src.commands;
 
 import module.commands.CommandArgument;
+import module.commands.CommandType;
 import src.logic.data.Receiver;
 
 /**
  * Print the number of elements whose weight field value is greater than the specified one
  */
 public class CountGreaterThanWeight implements Command {
-    private final static boolean isCreatingObject = false;
-
     private final static CommandArgument[] args = {new CommandArgument("weight", float.class)};
+    public final static CommandType commandType = CommandType.LINE_ARGUMENT_COMMAND;
 
     private final Receiver receiver;
 
@@ -41,7 +41,7 @@ public class CountGreaterThanWeight implements Command {
     }
 
     @Override
-    public boolean isCreatingObject() {
-        return isCreatingObject;
+    public CommandType getCommandType() {
+        return commandType;
     }
 }

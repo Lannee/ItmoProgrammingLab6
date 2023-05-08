@@ -1,18 +1,17 @@
 package src.commands;
 
 import module.commands.CommandArgument;
+import module.commands.CommandType;
 import src.logic.data.Receiver;
 
-import java.util.Arrays;
 import java.util.Comparator;
 
 /**
  * Prints the elements of the collection in ascending order
  */
 public class PrintAscending implements Command {
-    private final static boolean isCreatingObject = false;
-
     private static final CommandArgument[] args = new CommandArgument[0];
+    public final static CommandType commandType = CommandType.NON_ARGUMENT_COMMAND;
 
     private final Receiver receiver;
 
@@ -37,7 +36,7 @@ public class PrintAscending implements Command {
     }
 
     @Override
-    public boolean isCreatingObject() {
-        return isCreatingObject;
+    public CommandType getCommandType() {
+        return commandType;
     }
 }

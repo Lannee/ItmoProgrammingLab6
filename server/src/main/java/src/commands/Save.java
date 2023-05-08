@@ -1,15 +1,15 @@
 package src.commands;
 
 import module.commands.CommandArgument;
+import module.commands.CommandType;
 import src.logic.data.Receiver;
 
 /**
  * Saves the collection to the file
  */
 public class Save implements Command {
-    private final static boolean isCreatingObject = false;
-
     private static final CommandArgument[] args = new CommandArgument[0];
+    public final static CommandType commandType = CommandType.NON_ARGUMENT_COMMAND;
 
     private final Receiver receiver;
 
@@ -35,7 +35,7 @@ public class Save implements Command {
     }
 
     @Override
-    public boolean isCreatingObject() {
-        return isCreatingObject;
+    public CommandType getCommandType() {
+        return commandType;
     }
 }

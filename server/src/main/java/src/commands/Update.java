@@ -1,19 +1,18 @@
 package src.commands;
 
 import module.commands.CommandArgument;
+import module.commands.CommandType;
 import module.stored.Dragon;
 import src.logic.data.Receiver;
-import module.utils.ObjectUtils;
 import src.utils.StringConverter;
 
 /**
  * Updates the value of a collection item whose id is equal to the specified one
  */
 public class Update implements Command {
-    private final static boolean isCreatingObject = true;
-
     public final static CommandArgument[] args = {new CommandArgument("id", int.class),
             new CommandArgument("element", Dragon.class, false)};
+    public final static CommandType commandType = CommandType.LINE_AND_OBJECT_ARGUMENT_COMMAND;
 
     private final Receiver receiver;
 
@@ -60,7 +59,7 @@ public class Update implements Command {
     }
 
     @Override
-    public boolean isCreatingObject() {
-        return isCreatingObject;
+    public CommandType getCommandType() {
+        return commandType;
     }
 }

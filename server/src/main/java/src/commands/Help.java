@@ -1,14 +1,14 @@
 package src.commands;
 
 import module.commands.CommandArgument;
+import module.commands.CommandType;
 
 /**
  * Displays a list of all available commands
  */
 public class Help implements Command {
-    private final static boolean isCreatingObject = false;
-
     private static final CommandArgument[] args = new CommandArgument[0];
+    public final static CommandType commandType = CommandType.NON_ARGUMENT_COMMAND;
 
     private final Invoker invoker;
 
@@ -34,7 +34,7 @@ public class Help implements Command {
     }
 
     @Override
-    public boolean isCreatingObject() {
-        return isCreatingObject;
+    public CommandType getCommandType() {
+        return commandType;
     }
 }

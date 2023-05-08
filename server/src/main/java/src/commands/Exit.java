@@ -2,14 +2,15 @@ package src.commands;
 
 
 import module.commands.CommandArgument;
+import module.commands.CommandType;
 
 /**
  * Exit program
  */
 public class Exit implements Command {
-    private final static boolean isCreatingObject = false;
-
     private static final CommandArgument[] args = new CommandArgument[0];
+    public final static CommandType commandType = CommandType.NON_ARGUMENT_COMMAND;
+
 
     @Override
     public String execute(String[] args) {
@@ -28,7 +29,7 @@ public class Exit implements Command {
     }
 
     @Override
-    public boolean isCreatingObject() {
-        return isCreatingObject;
+    public CommandType getCommandType() {
+        return commandType;
     }
 }

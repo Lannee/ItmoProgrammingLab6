@@ -1,6 +1,7 @@
 package src.commands;
 
 import module.commands.CommandArgument;
+import module.commands.CommandType;
 
 import java.util.Arrays;
 
@@ -14,7 +15,7 @@ public interface Command {
 
     CommandArgument[] args();
 
-    boolean isCreatingObject();
+    CommandType getCommandType();
     /**
      * Checks arguments matching
      * @param args1
