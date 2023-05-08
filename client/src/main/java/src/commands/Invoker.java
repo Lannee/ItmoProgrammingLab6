@@ -10,6 +10,10 @@ import module.connection.responseModule.Response;
 import module.logic.exceptions.InvalidResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import src.logic.callers.ArgumentCaller;
+import src.logic.callers.BaseCaller;
+import src.logic.callers.Callable;
+
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -22,6 +26,8 @@ public class Invoker {
     private static final Pattern ARG_PAT = Pattern.compile("\"[^\"]+\"|\\S+");
 
     private static final Logger logger = LoggerFactory.getLogger(Invoker.class);
+
+    private Callable caller;
 
     public Invoker(IConnection connection) {
         this.connection = connection;
@@ -36,33 +42,28 @@ public class Invoker {
 
     public String parseCommand(String line) {
         line = line.trim();
-        if(line.equals("")) return "";
-
-        String[] words = line.split(" ", 2);
-
-        String command = words[0].toLowerCase();
-        String[] args;
-        if(words.length == 1)
-            args = new String[0];
-        else
-            args = parseArgs(words[1]);
+        caller = new ArgumentCaller();
+        caller.handleCommand(line);
+        String command = caller.getCommand();
+        String[] args = caller.getArguments();
         return validateCommand(command, args);
     }
 
     public String validateCommand(String commandName, String[] args) {
         CommandDescription commandDescription = commands.getCommandDescription(commandName);
         if(commandDescription != null) {
-            return formRequestAndGetResponse(commandName, args);
+            return formRequestAndGetResponse(commandName, args, commandDescription);
         } else {
             logger.error("Unknown command '{}'. Type help to get information about all commands.", commandName);
             return "Unknown command " + commandName + ". Type help to get information about all commands.\n";
         }
     }
 
-    public String formRequestAndGetResponse (String commandName, String[] args) {
+    public String formRequestAndGetResponse (String commandName, String[] args, CommandDescription commandDescription) {
         Request request = RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND);
-//            if(commandDescription.isCreatingObject()) {
-//            }
+            if(commandDescription.isCreatingObject()) {
+                caller.getObjectArgument();
+            }
 //        Response response = connection.sendRequestGetResponse(request);
         connection.send(request);
         Response response = (Response) connection.receive();

@@ -1,8 +1,8 @@
 package src.logic.callers;
 
-public class ArgumentCaller extends AbstractCaller {
-    @Override
-    public CallStatus handleCommand(String line) {
+public class ArgumentCaller extends BaseCaller {
+    public CallStatus getObjectArgument() {
+//        to create array from strings of Dragon Object
         return CallStatus.SUCCESSFULLY;
     }
 }
