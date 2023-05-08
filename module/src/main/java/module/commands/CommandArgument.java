@@ -8,18 +8,16 @@ public class CommandArgument implements Serializable {
 
     private final String argumentName;
     private final Class<?> argumentType;
-    private final CommandArgsType commandArgsType;
-    private final boolean isCreatingObject;
+    private final boolean isEnteredByUser;
 
-    public CommandArgument(String argumentName, Class<?> argumentType, boolean isCreatingObject) {
-        this(argumentName, argumentType, CommandArgsType.LINEARGUMENTCOMMAND, false);
+    public CommandArgument(String argumentName, Class<?> argumentType) {
+        this(argumentName, argumentType, true);
     }
 
-    public CommandArgument(String argumentName, Class<?> argumentType, CommandArgsType commandArgsType, boolean isCreatingObject) {
+    public CommandArgument(String argumentName, Class<?> argumentType, boolean isEnteredByUser) {
         this.argumentName = argumentName;
         this.argumentType = argumentType;
-        this.commandArgsType = commandArgsType;
-        this.isCreatingObject = isCreatingObject;
+        this.isEnteredByUser = isEnteredByUser;
     }
 
     public String getArgumentName() {
@@ -30,16 +28,12 @@ public class CommandArgument implements Serializable {
         return argumentType;
     }
 
-    public CommandArgsType getCommandArgsType() {
-        return commandArgsType;
+    public boolean isEnteredByUser() {
+        return isEnteredByUser;
     }
 
     @Override
     public String toString() {
         return argumentName;
-    }
-
-    public boolean isCreatingObject() {
-        return isCreatingObject;
     }
 }

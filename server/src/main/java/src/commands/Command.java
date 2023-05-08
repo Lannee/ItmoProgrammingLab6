@@ -2,6 +2,8 @@ package src.commands;
 
 import module.commands.CommandArgument;
 
+import java.util.Arrays;
+
 /**
  * Command interface, sets the behavior for each team in the project
  */
@@ -19,7 +21,7 @@ public interface Command {
      * @param args2
      */
     default void checkArgsConformity(String[] args) {
-        if(args.length != args().length) throw new IllegalArgumentException("Invalid number of arguments");
+        if(args.length != Arrays.stream(args()).filter(CommandArgument::isEnteredByUser).count()) throw new IllegalArgumentException("Invalid number of arguments");
     }
 
     static void checkArgsConformity(String[] args1, String[] args2) {

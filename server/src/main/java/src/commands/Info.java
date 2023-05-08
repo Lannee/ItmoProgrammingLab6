@@ -7,11 +7,11 @@ import src.logic.data.Receiver;
  * Outputs information about the collection to the standard output stream
  */
 public class Info implements Command {
+    private final static boolean isCreatingObject = false;
+
     public static final CommandArgument[] args = new CommandArgument[0];
 
     private final Receiver receiver;
-    private final static boolean isCreatingObject = false;
-
 
     public Info(Receiver receiver) {
         this.receiver = receiver;
@@ -19,7 +19,7 @@ public class Info implements Command {
 
     @Override
     public String execute(String[] args) throws IllegalArgumentException {
-            checkArgsConformity(args);
+        checkArgsConformity(args);
         return receiver.getInfo() + "\n";
     }
 

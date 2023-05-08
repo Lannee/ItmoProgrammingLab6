@@ -117,14 +117,14 @@ public class Invoker {
                 String enteredByUserArguments = String.join(
                         ", ",
                         Arrays.stream(value.args()).
-                            filter(CommandArgument::isCreatingObject).
-                            map(Object::toString).toArray(String[]::new)
+                                filter(CommandArgument::isEnteredByUser).
+                                map(Object::toString).toArray(String[]::new)
                 );
 
                 String notEnteredByUserArguments = String.join(
                         ", ",
                         Arrays.stream(value.args()).
-                                filter(e -> !e.isCreatingObject()).
+                                filter(e -> !e.isEnteredByUser()).
                                 map(Object::toString).toArray(String[]::new)
                 );
 
@@ -174,13 +174,13 @@ public class Invoker {
             return "Unknown command " + command + ". Type help to get information about all commands.\n";
         }
     }
-    
+
     private String[] parseArgs(String line) {
         return ARG_PAT.matcher(line)
-                    .results()
-                    .map(MatchResult::group)
-                    .map(e -> e.replaceAll("\"", ""))
-                    .toArray(String[]::new);
+                .results()
+                .map(MatchResult::group)
+                .map(e -> e.replaceAll("\"", ""))
+                .toArray(String[]::new);
     }
 
     public List<CommandDescription> getCommandsDescriptions() {

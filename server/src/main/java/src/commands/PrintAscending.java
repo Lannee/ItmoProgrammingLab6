@@ -10,8 +10,9 @@ import java.util.Comparator;
  * Prints the elements of the collection in ascending order
  */
 public class PrintAscending implements Command {
-    private static final CommandArgument[] args = new CommandArgument[0];
     private final static boolean isCreatingObject = false;
+
+    private static final CommandArgument[] args = new CommandArgument[0];
 
     private final Receiver receiver;
 

@@ -7,8 +7,9 @@ import module.commands.CommandArgument;
  * Exit program
  */
 public class Exit implements Command {
-    private static final CommandArgument[] args = new CommandArgument[0];
     private final static boolean isCreatingObject = false;
+
+    private static final CommandArgument[] args = new CommandArgument[0];
 
     @Override
     public String execute(String[] args) {
