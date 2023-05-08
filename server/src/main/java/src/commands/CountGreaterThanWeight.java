@@ -7,11 +7,11 @@ import src.logic.data.Receiver;
  * Print the number of elements whose weight field value is greater than the specified one
  */
 public class CountGreaterThanWeight implements Command {
-    private final static boolean isCreatingObject = false;
-
-    private final static CommandArgument[] args = {new CommandArgument("weight", float.class)};
+    private final static CommandArgument[] args = {new CommandArgument("weight", float.class, false)};
 
     private final Receiver receiver;
+
+    private final static boolean isCreatingObject = false;
 
     public CountGreaterThanWeight(Receiver receiver) {
         this.receiver = receiver;
@@ -36,12 +36,12 @@ public class CountGreaterThanWeight implements Command {
     }
 
     @Override
-    public String getDescription() {
-        return "Print the number of elements whose " + args[0] + " field value is greater than the specified one";
+    public boolean isCreatingObject() {
+        return isCreatingObject;
     }
 
     @Override
-    public boolean isCreatingObject() {
-        return isCreatingObject;
+    public String getDescription() {
+        return "Print the number of elements whose " + args[0] + " field value is greater than the specified one";
     }
 }

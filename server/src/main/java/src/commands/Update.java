@@ -1,5 +1,6 @@
 package src.commands;
 
+import module.commands.CommandArgsType;
 import module.commands.CommandArgument;
 import module.stored.Dragon;
 import src.logic.data.Receiver;
@@ -12,10 +13,11 @@ import src.utils.StringConverter;
 public class Update implements Command {
     private final static boolean isCreatingObject = true;
 
-    public final static CommandArgument[] args = {new CommandArgument("id", int.class),
-            new CommandArgument("element", Dragon.class, false)};
+    public final static CommandArgument[] args = {new CommandArgument("id", int.class, isCreatingObject),
+            new CommandArgument("element", Dragon.class, CommandArgsType.LINEANDOBJECTARGUMENTCOMMAND, isCreatingObject)};
 
     private final Receiver receiver;
+
 
     public Update(Receiver receiver) {
         this.receiver = receiver;

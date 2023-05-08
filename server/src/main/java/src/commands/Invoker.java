@@ -117,14 +117,14 @@ public class Invoker {
                 String enteredByUserArguments = String.join(
                         ", ",
                         Arrays.stream(value.args()).
-                            filter(CommandArgument::isEnteredByUser).
+                            filter(CommandArgument::isCreatingObject).
                             map(Object::toString).toArray(String[]::new)
                 );
 
                 String notEnteredByUserArguments = String.join(
                         ", ",
                         Arrays.stream(value.args()).
-                                filter(e -> !e.isEnteredByUser()).
+                                filter(e -> !e.isCreatingObject()).
                                 map(Object::toString).toArray(String[]::new)
                 );
 

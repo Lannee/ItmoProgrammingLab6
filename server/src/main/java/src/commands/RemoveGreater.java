@@ -1,5 +1,6 @@
 package src.commands;
 
+import module.commands.CommandArgsType;
 import module.commands.CommandArgument;
 import module.stored.Dragon;
 import src.logic.data.Receiver;
@@ -10,11 +11,10 @@ import module.utils.ObjectUtils;
  * Removes all items from the collection that exceed the specified
  */
 public class RemoveGreater implements Command {
+    private final Receiver receiver;
     private final static boolean isCreatingObject = true;
 
-    private final Receiver receiver;
-
-    private static final CommandArgument[] args = {new CommandArgument("element", Dragon.class, false)};
+    private static final CommandArgument[] args = {new CommandArgument("element", Dragon.class, CommandArgsType.OBJARGUMENTCOMMAND, isCreatingObject)};
 
     public RemoveGreater(Receiver receiver) {
         this.receiver = receiver;

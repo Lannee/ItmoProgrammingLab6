@@ -7,9 +7,8 @@ import src.logic.data.Receiver;
  * Saves the collection to the file
  */
 public class Save implements Command {
-    private final static boolean isCreatingObject = false;
-
     private static final CommandArgument[] args = new CommandArgument[0];
+    private final static boolean isCreatingObject = false;
 
     private final Receiver receiver;
 

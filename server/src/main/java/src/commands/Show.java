@@ -10,9 +10,8 @@ import java.util.Comparator;
  * Prints all the elements of the collection in a string representation
  */
 public class Show implements Command {
-    private final static boolean isCreatingObject = false;
-
     private static final CommandArgument[] args = new CommandArgument[0];
+    private final static boolean isCreatingObject = false;
 
     private final Receiver receiver;
 

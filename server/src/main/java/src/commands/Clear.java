@@ -7,11 +7,10 @@ import src.logic.data.Receiver;
  * Clears the collection
  */
 public class Clear implements Command {
-    private final static boolean isCreatingObject = false;
-
     private final static CommandArgument[] args = new CommandArgument[0];
 
     private final Receiver receiver;
+    private final static boolean isCreatingObject = false;
 
     public Clear(Receiver receiver) {
         this.receiver = receiver;
@@ -30,12 +29,12 @@ public class Clear implements Command {
     }
 
     @Override
-    public String getDescription() {
-        return "Clears the collection";
+    public boolean isCreatingObject() {
+        return isCreatingObject;
     }
 
     @Override
-    public boolean isCreatingObject() {
-        return isCreatingObject;
+    public String getDescription() {
+        return "Clears the collection";
     }
 }

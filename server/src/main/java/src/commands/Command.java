@@ -13,7 +13,6 @@ public interface Command {
     CommandArgument[] args();
 
     boolean isCreatingObject();
-
     /**
      * Checks arguments matching
      * @param args1

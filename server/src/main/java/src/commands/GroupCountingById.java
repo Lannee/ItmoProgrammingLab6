@@ -9,11 +9,11 @@ import java.util.Map;
  * Groups the elements of the collection by the value of the id field, displays the number of elements in each group
  */
 public class GroupCountingById implements Command {
-    private final static boolean isCreatingObject = false;
-
     private static final CommandArgument[] args = new CommandArgument[0];
 
     private final Receiver receiver;
+
+    private final static boolean isCreatingObject = false;
 
     public GroupCountingById(Receiver receiver) {
         this.receiver = receiver;

@@ -6,9 +6,8 @@ import module.commands.CommandArgument;
  * Displays a list of all available commands
  */
 public class Help implements Command {
-    private final static boolean isCreatingObject = false;
-
     private static final CommandArgument[] args = new CommandArgument[0];
+    private final static boolean isCreatingObject = false;
 
     private final Invoker invoker;
 
@@ -29,12 +28,12 @@ public class Help implements Command {
     }
 
     @Override
-    public String getDescription() {
-        return "Displays a list of all available commands";
+    public boolean isCreatingObject() {
+        return isCreatingObject;
     }
 
     @Override
-    public boolean isCreatingObject() {
-        return isCreatingObject;
+    public String getDescription() {
+        return "Displays a list of all available commands";
     }
 }

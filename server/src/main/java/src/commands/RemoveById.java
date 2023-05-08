@@ -8,8 +8,8 @@ import src.utils.StringConverter;
  * Removes an item from the collection by its id
  */
 public class RemoveById implements Command {
+    private static final CommandArgument[] args = {new CommandArgument("id", int.class, false)};
     private final static boolean isCreatingObject = false;
-    private static final CommandArgument[] args = {new CommandArgument("id", int.class)};
 
     private final Receiver receiver;
 

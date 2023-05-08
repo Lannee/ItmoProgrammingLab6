@@ -7,9 +7,8 @@ import src.logic.data.Receiver;
  * Prints the first element of the collection and deletes it
  */
 public class RemoveHead implements Command {
-    private final static boolean isCreatingObject = false;
-
     private static final CommandArgument[] args = new CommandArgument[0];
+    private final static boolean isCreatingObject = false;
 
     private final Receiver receiver;
 
