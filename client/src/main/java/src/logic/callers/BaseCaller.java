@@ -1,5 +1,7 @@
 package src.logic.callers;
 
+import module.logic.exceptions.CannotCreateObjectException;
+
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -19,6 +21,11 @@ public class BaseCaller implements Callable {
         else
             arguments = parseArgs(words[1]);
         return CallStatus.SUCCESSFULLY;
+    }
+
+    @Override
+    public CallStatus getObjectArgument() throws CannotCreateObjectException {
+        return CallStatus.FAILED;
     }
 
     private String[] parseArgs(String line) {
