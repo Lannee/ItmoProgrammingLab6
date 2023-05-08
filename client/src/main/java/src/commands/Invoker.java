@@ -1,12 +1,14 @@
 package src.commands;
 
 import module.commands.CommandDescription;
+import module.commands.CommandType;
 import module.connection.IConnection;
 import module.connection.requestModule.Request;
 import module.connection.requestModule.RequestFactory;
 import module.connection.requestModule.TypeOfRequest;
 import module.connection.responseModule.CommandResponse;
 import module.connection.responseModule.Response;
+import module.logic.exceptions.CannotCreateObjectException;
 import module.logic.exceptions.InvalidResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,20 +61,62 @@ public class Invoker {
         }
     }
 
-    public String formRequestAndGetResponse (String commandName, String[] args, CommandDescription commandDescription) {
-        Request request = RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND);
-//            if(commandDescription.isCreatingObject()) {
-//                caller.getObjectArgument();
-//            }
-//        Response response = connection.sendRequestGetResponse(request);
+//    public String formRequestAndGetResponse (String commandName, String[] args, CommandDescription commandDescription) {
+//
+//        Request request = RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND);
+////            if(commandDescription.isCreatingObject()) {
+////                caller.getObjectArgument();
+////            }
+////        Response response = connection.sendRequestGetResponse(request);
+//        connection.send(request);
+//        Response response = (Response) connection.receive();
+//        if(response instanceof CommandResponse commandResponse) {
+//            return commandResponse.getResponse();
+//        } else {
+//            logger.error("Error with cached response.");
+//            return "Error";
+//        }
+//    }
+
+    public String formRequestAndGetResponse(String commandName, String[] args, CommandDescription commandDescription) {
+        Request request;
+        switch (commandDescription.getCommandType()) {
+            case OBJECT_ARGUMENT_COMMAND:
+                try {
+                    caller.getObjectArgument();
+                    CommandResponse response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
+                    logger.info("Response with message '{}' received", response.getResponse());
+                } catch (CannotCreateObjectException e) {
+                    logger.error("Cannot create response");
+                    return "Error";
+                }
+                break;
+            case LINE_AND_OBJECT_ARGUMENT_COMMAND:
+                try {
+                    caller.getObjectArgument();
+                    CommandResponse response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
+                    logger.info("Response with message '{}'  received", response.getResponse());
+                    // if () { Some logic to recognise was request correct, to form new request and send to server and ret new request }
+                } catch (CannotCreateObjectException e) {
+                    logger.error("Cannot create response");
+                    return "Error";
+                }
+                break;
+            default:
+                CommandResponse response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
+                return response.getResponse();
+        }
+        logger.error("Response didn't receive");
+        return "Error";
+    }
+
+    public CommandResponse sendRequestAndGetResponse(Request request) {
         connection.send(request);
         Response response = (Response) connection.receive();
-        if(response instanceof CommandResponse commandResponse) {
-            return commandResponse.getResponse();
-        } else {
-            logger.error("Error with cached response.");
-            return "Error";
+        if (response instanceof CommandResponse commandResponse) {
+            return commandResponse;
         }
+        return null;
     }
 
 

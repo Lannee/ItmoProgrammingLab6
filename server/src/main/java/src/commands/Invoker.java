@@ -187,7 +187,7 @@ public class Invoker {
         List<CommandDescription> commandDescriptions = new ArrayList<>(declaredCommands.size());
         declaredCommands.forEach((u, v) -> {
             commandDescriptions.add(
-                    new CommandDescription(u, v.args(), v.isCreatingObject()));
+                    new CommandDescription(u, v.args(), v.getCommandType()));
         });
         return commandDescriptions;
     }

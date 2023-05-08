@@ -23,6 +23,10 @@ public class CommandDescription implements Serializable {
         return arguments;
     }
 
+    public CommandType getCommandType() {
+        return commandType;
+    }
+
     @Override
     public String toString() {
         return "CommandDescription{" +
