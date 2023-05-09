@@ -23,11 +23,12 @@ public class Update implements Command {
 
     // Again. It's forbidden to get in & out streams from client. Needed to be fixed.
     @Override
-    public String execute(String[] args) {
+    public String execute(Object[] args) {
         checkArgsConformity(args);
 
         try {
-            Long id = (Long) StringConverter.methodForType.get(Long.class).apply(args[0]);
+            Long id = (Long) args[0];
+//            Long id = (Long) StringConverter.methodForType.get(Long.class).apply(args[0]);
             if(id <= 0) throw new NumberFormatException();
             Object obj = receiver.getElementByFieldValue(args()[0].getArgumentName(), id);
 

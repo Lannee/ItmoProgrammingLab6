@@ -18,11 +18,12 @@ public class RemoveById implements Command {
     }
 
     @Override
-    public String execute(String[] args) {
+    public String execute(Object[] args) {
         checkArgsConformity(args);
 
         try {
-            Long id = Long.parseLong(args[0]);
+//            Long id = Long.parseLong(args[0]);
+            Long id = (Long) args[0];
             Object obj = receiver.getElementByFieldValue(args()[0].getArgumentName(), id);
             if(receiver.removeOn(e -> e == obj, false)) {
                 return "Object with " + args()[0] + " " + id + " was successfully removed\n";

@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import src.logic.callers.ArgumentCaller;
 import src.logic.callers.BaseCaller;
 import src.logic.callers.Callable;
+import src.utils.StringConverter;
 
 import java.util.Arrays;
 import java.util.regex.MatchResult;
@@ -56,7 +57,26 @@ public class Invoker {
 
     public String validateCommand(String commandName, String[] args) {
         CommandDescription commandDescription = commands.getCommandDescription(commandName);
+
         if(commandDescription != null) {
+            CommandArgument[] arguments  = commandDescription.getArguments();
+
+            if(args.length != Arrays.stream(arguments).filter(CommandArgument::isEnteredByUser).count()) return "Invalid number of arguments";
+
+            Object[] parsedArguments = new Object[args.length];
+
+            for(int i = 0; i < arguments.length; i++) {
+                CommandArgument argument = arguments[i];
+                if(!argument.isEnteredByUser())
+                    break;
+
+                try {
+                    parsedArguments[i] = StringConverter.methodForType.get(argument.getArgumentType()).apply(args[i]);
+                } catch (NumberFormatException nfe) {
+                    return "Invalid argument type";
+                }
+            }
+
             return formRequestAndGetResponse(commandName, args, commandDescription);
         } else {
             logger.error("Unknown command '{}'. Type help to get information about all commands.", commandName);
@@ -109,10 +129,10 @@ public class Invoker {
             }
             case LINE_AND_OBJECT_ARGUMENT_COMMAND -> {
                 try {
-                    CommandResponse response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
+                    CommandResponse response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.CONFIRMATION));
                     if (response.getResponse().equals("Good")) {
                         caller.getObjectArgument(commandDescription.getArguments()[0].getArgumentType());
-                        CommandResponse response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
+                        response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
                         logger.info("Response with message '{}'  received", response.getResponse());
                     }
                     // if () { Some logic to recognise was request correct, to form new request and send to server and ret new request }

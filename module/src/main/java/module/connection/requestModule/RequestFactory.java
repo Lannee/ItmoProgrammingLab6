@@ -1,7 +1,7 @@
 package module.connection.requestModule;
 
 public class RequestFactory {
-    public static Request createRequest(String commandName, String[] argumentsToCommand, TypeOfRequest typeOfRequest) {
+    public static Request createRequest(String commandName, Object[] argumentsToCommand, TypeOfRequest typeOfRequest) {
         return new Request(commandName, argumentsToCommand, typeOfRequest);
     }
 

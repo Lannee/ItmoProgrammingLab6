@@ -18,7 +18,7 @@ public class Show implements Command {
     }
 
     @Override
-    public String execute(String[] args) {
+    public String execute(Object[] args) {
         checkArgsConformity(args);
         return receiver.getFormattedCollection() + "\n";
     }

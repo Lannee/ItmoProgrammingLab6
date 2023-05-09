@@ -18,10 +18,10 @@ public class CountGreaterThanWeight implements Command {
     }
 
     @Override
-    public String execute(String[] args) {
+    public String execute(Object[] args) {
         checkArgsConformity(args);
         try {
-            int amount = receiver.countCompareToValueByField(args()[0].getArgumentName(), args[0], (u, v) -> -u.compareTo(v));
+            int amount = receiver.countCompareToValueByField(args()[0].getArgumentName(), (Comparable) args[0], (u, v) -> -u.compareTo(v));
             return amount + "\n";
         } catch (NumberFormatException e) {
             return "Incorrect given value\n";

@@ -6,10 +6,10 @@ import java.util.Arrays;
 public class Request implements Serializable {
     private static final long serialVersionUID = 6529685098267757690L;
     private String commandName;
-    private String[] argumentsToCommand;
+    private Object[] argumentsToCommand;
     private TypeOfRequest typeOfRequest;
 
-    public Request (String CommandName, String[] ArgumentsToCommand, TypeOfRequest TypeOfRequest) {
+    public Request (String CommandName, Object[] ArgumentsToCommand, TypeOfRequest TypeOfRequest) {
         this.commandName = CommandName;
         this.argumentsToCommand = ArgumentsToCommand;
         this.typeOfRequest = TypeOfRequest;
@@ -19,7 +19,7 @@ public class Request implements Serializable {
         return commandName;
     }
 
-    public String[] getArgumentsToCommand() {
+    public Object[] getArgumentsToCommand() {
         return argumentsToCommand;
     }
 

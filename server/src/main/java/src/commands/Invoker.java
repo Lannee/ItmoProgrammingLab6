@@ -160,7 +160,7 @@ public class Invoker {
         return executeCommand(request.getCommandName(), request.getArgumentsToCommand());
     }
 
-    public String executeCommand(String command, String[] args) {
+    public String executeCommand(String command, Object[] args) {
         if (declaredCommands.containsKey(command)) {
             logger.info("Command executing.");
             try {

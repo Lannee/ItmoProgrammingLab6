@@ -22,7 +22,7 @@ public class RemoveGreater implements Command {
 
     // Needed to be fixed.
     @Override
-    public String execute(String[] args) {
+    public String execute(Object[] args) {
         checkArgsConformity(args);
         try {
             Object obj = ObjectUtils.createObjectInteractively(receiver.getStoredType());

@@ -67,18 +67,18 @@ public class Receiver {
         return getFormattedCollection(Comparator.reverseOrder());
     }
 
-    public <T> Integer countCompareToValueByField(String fieldName, String value, Comparator<Comparable<T>> comparator)
+    public <T> Integer countCompareToValueByField(String fieldName, Comparable value, Comparator<Comparable<T>> comparator)
             throws NumberFormatException, NoSuchFieldException {
         int counter = 0;
         Field field = collection.getClT().getDeclaredField(fieldName);
         field.setAccessible(true);
-        Comparable givenValue = (Comparable) StringConverter.methodForType.get(field.getType()).apply(value);
-        if (!ObjectUtils.checkValueForRestrictions(field, givenValue)) {
+//        Comparable givenValue = (Comparable) StringConverter.methodForType.get(field.getType()).apply(value);
+        if (!ObjectUtils.checkValueForRestrictions(field, value)) {
             throw new NumberFormatException();
         }
         for (Object element : collection.getElements()) {
             try {
-                if (comparator.compare(givenValue, (Comparable) field.get(element)) > 0)
+                if (comparator.compare(value, (Comparable) field.get(element)) > 0)
                     counter++;
             } catch (IllegalAccessException impossible) {
             }

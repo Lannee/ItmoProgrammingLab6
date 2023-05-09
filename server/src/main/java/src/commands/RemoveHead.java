@@ -19,7 +19,7 @@ public class RemoveHead implements Command {
 
     // Needed to be fixed because function <removeOn> is called in reciever
     @Override
-    public String execute(String[] args) {
+    public String execute(Object[] args) {
         checkArgsConformity(args);
         receiver.removeByIndex(0, true);
         return "";
