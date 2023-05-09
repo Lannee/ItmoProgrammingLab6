@@ -40,12 +40,11 @@ public class Server {
 //        String filePath = getFilePath(args);
         String filePath = getFilePath(new String[]{"FileJ"});
 
-        invoker = new Invoker(
-                new Receiver(filePath));
-        logger.info("Invoker and Receiver started.");
-
         try {
             connection = new DatagramConnection(SERVER_PORT, true);
+            invoker = new Invoker(connection,
+                    new Receiver(filePath));
+            logger.info("Invoker and Receiver started.");
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }

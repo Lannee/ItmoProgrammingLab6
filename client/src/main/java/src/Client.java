@@ -1,6 +1,5 @@
 package src;
 
-import module.connection.ChannelConnection;
 import module.connection.DatagramConnection;
 import module.connection.IConnection;
 import module.logic.streams.ConsoleInputManager;

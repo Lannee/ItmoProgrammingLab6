@@ -75,7 +75,7 @@
             <artifactId>module</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>../module/target/Module-1.0-SNAPSHOT-jar-with-dependencies.jar</systemPath>
+            <systemPath>${basedir}/../module/target/module-1.0-SNAPSHOT-jar-with-dependencies.jar</systemPath>
         </dependency>
     </dependencies>
 
