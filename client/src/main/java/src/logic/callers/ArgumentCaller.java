@@ -5,10 +5,10 @@ import module.stored.Dragon;
 import module.utils.ObjectUtils;
 
 public class ArgumentCaller extends BaseCaller {
-    public CallStatus getObjectArgument() throws CannotCreateObjectException {
-//        to create array from strings of Dragon Object
-        ObjectUtils.createObjectInteractively(Dragon.class);
-        return CallStatus.SUCCESSFULLY;
+    @Override
+    public Object getObjectArgument(Class<?> tClass) throws CannotCreateObjectException {
+        return ObjectUtils.createObjectInteractively(tClass);
+
     }
 
     public CallStatus getStringArrayFromObject() {

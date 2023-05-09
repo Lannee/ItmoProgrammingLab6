@@ -2,7 +2,6 @@ package src.commands;
 
 import module.commands.CommandArgument;
 import module.commands.CommandDescription;
-import module.commands.CommandType;
 import module.connection.IConnection;
 import module.connection.requestModule.Request;
 import module.connection.requestModule.RequestFactory;
@@ -15,7 +14,6 @@ import module.logic.exceptions.InvalidResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import src.logic.callers.ArgumentCaller;
-import src.logic.callers.BaseCaller;
 import src.logic.callers.Callable;
 import src.utils.StringConverter;
 
@@ -27,7 +25,7 @@ public class Invoker {
 
     private final CommandsHandler commands;
 
-    private IConnection connection;
+    private final IConnection connection;
 
     private static final Pattern ARG_PAT = Pattern.compile("\"[^\"]+\"|\\S+");
 
@@ -69,7 +67,6 @@ public class Invoker {
                 CommandArgument argument = arguments[i];
                 if(!argument.isEnteredByUser())
                     break;
-
                 try {
                     parsedArguments[i] = StringConverter.methodForType.get(argument.getArgumentType()).apply(args[i]);
                 } catch (NumberFormatException nfe) {
@@ -77,7 +74,7 @@ public class Invoker {
                 }
             }
 
-            return formRequestAndGetResponse(commandName, args, commandDescription);
+            return formRequestAndGetResponse(commandName, parsedArguments, commandDescription);
         } else {
             logger.error("Unknown command '{}'. Type help to get information about all commands.", commandName);
             return "Unknown command " + commandName + ". Type help to get information about all commands.\n";
@@ -101,75 +98,43 @@ public class Invoker {
 //        }
 //    }
 
-    public String formRequestAndGetResponse(String commandName, String[] args, CommandDescription commandDescription) {
-        Request request;
+    public String formRequestAndGetResponse(String commandName, Object[] args, CommandDescription commandDescription) {
+        CommandResponse response;
         switch (commandDescription.getCommandType()) {
-            case OBJECT_ARGUMENT_COMMAND -> {
-
+            case LINE_AND_OBJECT_ARGUMENT_COMMAND:
+                response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.CONFIRMATION));
+                logger.info("Response with message '{}' and status '{}' received.", response.getResponse(), response.getResponseStatus());
+                if (response.getResponseStatus() != ResponseStatus.WAITING) {
+                    return response.getResponse();
+                }
+            case OBJECT_ARGUMENT_COMMAND:
+                // Getting array of arguments of command
                 CommandArgument[] objectArguments = Arrays.stream(commandDescription.getArguments()).
                         filter(e -> !e.isEnteredByUser()).
                         toArray(CommandArgument[]::new);
 
                 for(CommandArgument objectArgument : objectArguments) {
-
-                }
-
-                try {
-                    Class[] argumentClassArray = argumentClassSearcher(commandDescription.getArguments());
-                    System.out.println(argumentClassArray);
-                    int iterator = 0;
-                    while (iterator < argumentClassArray.length && argumentClassArray[iterator] != null) {
-                        caller.getObjectArgument(argumentClassArray.getClass()); // Necessary to add into args variable to send to the server correct arguments
-                        CommandResponse response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
+                    try {
+                        args = addArgument(new Object[] {}, caller.getObjectArgument(objectArgument.getArgumentType()));
+                        response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.CONFIRMATION));
                         logger.info("Response with message '{}' and status '{}' received.", response.getResponse(), response.getResponseStatus());
-                        if (response.getResponseStatus() == ResponseStatus.SUCCESSFULLY ) {
+                        if (response.getResponseStatus() != ResponseStatus.WAITING) {
                             return response.getResponse();
                         }
-                        if (response.getResponseStatus() == ResponseStatus.FAILED) {
-                            break;
-                        }
-                        iterator++;
+                    } catch (CannotCreateObjectException e) {
+                        logger.error("Cannot create object as argument to command with its type.");
+                        return "Error with creating object as argument to command.";
                     }
-                    logger.error("Failed. Server rejected your typed values into objects.");
-                } catch (CannotCreateObjectException e) {
-                    logger.error("Cannot create response");
-                    return "Error";
                 }
-            }
-            case LINE_AND_OBJECT_ARGUMENT_COMMAND -> {
-                try {
-                    CommandResponse response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.CONFIRMATION));
-                    if (response.getResponse().equals("Good")) {
-                        caller.getObjectArgument(commandDescription.getArguments()[0].getArgumentType());
-                        response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
-                        logger.info("Response with message '{}'  received", response.getResponse());
-                    }
-                    // if () { Some logic to recognise was request correct, to form new request and send to server and ret new request }
-                } catch (CannotCreateObjectException e) {
-                    logger.error("Cannot create response");
-                    return "Error";
-                }
-            }
-            default -> {
-                CommandResponse response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
+                break;
+            default:
+                // If command is NON_ARGUMENT or LINE_ARGUMENT
+                response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
+                logger.info("Response with message '{}' and status '{}' received.", response.getResponse(), response.getResponseStatus());
                 return response.getResponse();
-            }
         }
-        logger.error("Response didn't receive");
-        return "Error";
-    }
-
-    // Method argumentClassSearcher return array of classes of each argument from CommandDescription
-    public Class[] argumentClassSearcher(CommandArgument[] commandArgumentsArray) {
-        Class[] argumentClassArray = new Class[commandArgumentsArray.length];
-        int argumentClassIter = 0;
-        for (int iter = 0; iter < commandArgumentsArray.length; iter++) {
-            if (commandArgumentsArray[iter].isEnteredByUser()) {
-                argumentClassArray[argumentClassIter] = commandArgumentsArray[iter].getArgumentType();
-                argumentClassIter++;
-            }
-        }
-        return argumentClassArray;
+        logger.error("Forming request and getting response were failed");
+        return "Error in forming request and getting response\n";
     }
 
     public CommandResponse sendRequestAndGetResponse(Request request) {
@@ -179,6 +144,14 @@ public class Invoker {
             return commandResponse;
         }
         return null;
+    }
+
+    public static Object[] addArgument(Object[] args, Object obj) {
+        int newArraySize = args.length + 1;
+        Object[] newArray = new Object[newArraySize];
+        System.arraycopy(args, 0, newArray, 0, args.length);
+        newArray[args.length] = obj;
+        return newArray;
     }
 
 
