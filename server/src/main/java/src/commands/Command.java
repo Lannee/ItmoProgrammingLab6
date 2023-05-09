@@ -26,7 +26,7 @@ public interface Command {
      * @param args2
      */
     default void checkArgsConformity(Object[] args) {
-        if(args.length != Arrays.stream(args()).filter(CommandArgument::isEnteredByUser).count()) throw new IllegalArgumentException("Invalid number of arguments");
+        if(args.length != Arrays.stream(args()).count()) throw new IllegalArgumentException("Invalid number of arguments\n");
     }
 
     static void checkArgsConformity(Object[] args1, Object[] args2) {
