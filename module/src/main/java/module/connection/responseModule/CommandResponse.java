@@ -4,8 +4,15 @@ public class CommandResponse extends Response {
 
     private final String stringResponse;
 
-    public CommandResponse(String response) {
+    private final ResponseStatus responseStatus;
+
+    public CommandResponse(String response, ResponseStatus responseStatus) {
         stringResponse = response;
+        this.responseStatus = responseStatus;
+    }
+
+    public CommandResponse(String response) {
+        this(response, ResponseStatus.SUCCESSFULLY);
     }
 
     public CommandResponse ofString(String response) {
@@ -14,5 +21,9 @@ public class CommandResponse extends Response {
 
     public String getResponse() {
         return stringResponse;
+    }
+
+    public ResponseStatus getResponseStatus() {
+        return responseStatus;
     }
 }

@@ -1,6 +1,7 @@
 package src.logic.callers;
 
 import module.logic.exceptions.CannotCreateObjectException;
+import src.utils.ObjectUtils;
 
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
@@ -24,7 +25,8 @@ public class BaseCaller implements Callable {
     }
 
     @Override
-    public CallStatus getObjectArgument() throws CannotCreateObjectException {
+    public CallStatus getObjectArgument(Class tClass) throws CannotCreateObjectException {
+        ObjectUtils.createObjectInteractively(tClass);
         return CallStatus.FAILED;
     }
 

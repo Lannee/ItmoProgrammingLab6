@@ -1,5 +1,6 @@
 package src.commands;
 
+import module.commands.CommandArgument;
 import module.commands.CommandDescription;
 import module.commands.CommandType;
 import module.connection.IConnection;
@@ -8,6 +9,7 @@ import module.connection.requestModule.RequestFactory;
 import module.connection.requestModule.TypeOfRequest;
 import module.connection.responseModule.CommandResponse;
 import module.connection.responseModule.Response;
+import module.connection.responseModule.ResponseStatus;
 import module.logic.exceptions.CannotCreateObjectException;
 import module.logic.exceptions.InvalidResponseException;
 import org.slf4j.Logger;
@@ -16,6 +18,7 @@ import src.logic.callers.ArgumentCaller;
 import src.logic.callers.BaseCaller;
 import src.logic.callers.Callable;
 
+import java.util.Arrays;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -81,33 +84,63 @@ public class Invoker {
     public String formRequestAndGetResponse(String commandName, String[] args, CommandDescription commandDescription) {
         Request request;
         switch (commandDescription.getCommandType()) {
-            case OBJECT_ARGUMENT_COMMAND:
+            case OBJECT_ARGUMENT_COMMAND -> {
                 try {
-                    caller.getObjectArgument();
-                    CommandResponse response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
-                    logger.info("Response with message '{}' received", response.getResponse());
+                    Class[] argumentClassArray = argumentClassSearcher(commandDescription.getArguments());
+                    System.out.println(argumentClassArray);
+                    int iterator = 0;
+                    while (iterator < argumentClassArray.length && argumentClassArray[iterator] != null) {
+                        caller.getObjectArgument(argumentClassArray.getClass()); // Necessary to add into args variable to send to the server correct arguments
+                        CommandResponse response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
+                        logger.info("Response with message '{}' and status '{}' received.", response.getResponse(), response.getResponseStatus());
+                        if (response.getResponseStatus() == ResponseStatus.SUCCESSFULLY ) {
+                            return response.getResponse();
+                        }
+                        if (response.getResponseStatus() == ResponseStatus.FAILED) {
+                            break;
+                        }
+                        iterator++;
+                    }
+                    logger.error("Failed. Server rejected your typed values into objects.");
                 } catch (CannotCreateObjectException e) {
                     logger.error("Cannot create response");
                     return "Error";
                 }
-                break;
-            case LINE_AND_OBJECT_ARGUMENT_COMMAND:
+            }
+            case LINE_AND_OBJECT_ARGUMENT_COMMAND -> {
                 try {
-                    caller.getObjectArgument();
                     CommandResponse response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
-                    logger.info("Response with message '{}'  received", response.getResponse());
+                    if (response.getResponse().equals("Good")) {
+                        caller.getObjectArgument(commandDescription.getArguments()[0].getArgumentType());
+                        CommandResponse response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
+                        logger.info("Response with message '{}'  received", response.getResponse());
+                    }
                     // if () { Some logic to recognise was request correct, to form new request and send to server and ret new request }
                 } catch (CannotCreateObjectException e) {
                     logger.error("Cannot create response");
                     return "Error";
                 }
-                break;
-            default:
+            }
+            default -> {
                 CommandResponse response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
                 return response.getResponse();
+            }
         }
         logger.error("Response didn't receive");
         return "Error";
+    }
+
+    // Method argumentClassSearcher return array of classes of each argument from CommandDescription
+    public Class[] argumentClassSearcher(CommandArgument[] commandArgumentsArray) {
+        Class[] argumentClassArray = new Class[commandArgumentsArray.length];
+        int argumentClassIter = 0;
+        for (int iter = 0; iter < commandArgumentsArray.length; iter++) {
+            if (commandArgumentsArray[iter].isEnteredByUser()) {
+                argumentClassArray[argumentClassIter] = commandArgumentsArray[iter].getArgumentType();
+                argumentClassIter++;
+            }
+        }
+        return argumentClassArray;
     }
 
     public CommandResponse sendRequestAndGetResponse(Request request) {
