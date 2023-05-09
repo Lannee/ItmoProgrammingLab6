@@ -105,6 +105,15 @@ public class Invoker {
         Request request;
         switch (commandDescription.getCommandType()) {
             case OBJECT_ARGUMENT_COMMAND -> {
+
+                CommandArgument[] objectArguments = Arrays.stream(commandDescription.getArguments()).
+                        filter(e -> !e.isEnteredByUser()).
+                        toArray(CommandArgument[]::new);
+
+                for(CommandArgument objectArgument : objectArguments) {
+
+                }
+
                 try {
                     Class[] argumentClassArray = argumentClassSearcher(commandDescription.getArguments());
                     System.out.println(argumentClassArray);
