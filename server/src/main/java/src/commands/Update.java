@@ -35,35 +35,27 @@ public class Update implements Command {
         Response response = null;
         try {
             Long id = (Long) args[0];
-            if(id <= 0) throw new NumberFormatException();
+            if (id <= 0) throw new NumberFormatException();
             Object obj = receiver.getElementByFieldValue(args()[0].getArgumentName(), id);
-
             if(obj != null) {
                 response = new CommandResponse("", ResponseStatus.WAITING);
                 connection.send(response);
                 Request request = (Request) connection.receive();
-
                 Object createdObject = request.getArgumentsToCommand()[0];
                 receiver.removeFromCollection(obj);
                 receiver.add(createdObject);
-
                 return "Object with " + args()[0].getArgumentName() + " " + id + " was successfully updated";
             } else {
-                response = new CommandResponse("Element with this id does not exist", ResponseStatus.FAILED);
+//                response = new CommandResponse("Element with this id does not exist", ResponseStatus.FAILED);
+                return "Element with this id does not exist";
             }
-
-            return "Element with " + args()[0] + " " + id + " was successfully updated\n";
         } catch (NoSuchFieldException e) {
-            response = new CommandResponse("Stored type does not support this command", ResponseStatus.ERROR);
+            return "Stored type does not support this command";
 //            return "Stored type does not support this command\n";
         } catch (NumberFormatException nfe) {
-            response = new CommandResponse("Incorrect argument value", ResponseStatus.ERROR);
+            return "Incorrect argument value";
 //            return "Incorrect argument value\n";
-        } finally {
-            connection.send(response);
         }
-
-        return "";
     }
 
     @Override

@@ -51,7 +51,7 @@ public class Server {
 
         while(running) {
             Request request = (Request) connection.receive();
-            System.out.println(request);
+            logger.info("Received request from client with command '{}' and arguments '{}'", request.getCommandName(), request.getArgumentsToCommand());
             Response response = null;
             switch (request.getTypeOfRequest()) {
                 case COMMAND, CONFIRMATION -> {

@@ -2,6 +2,9 @@ package module.connection;
 
 import module.connection.packaging.Packet;
 import module.connection.packaging.PacketManager;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -21,6 +24,7 @@ public class DatagramConnection implements IConnection {
     private boolean isListeningPort;
 
     private final DatagramSocket socket;
+    private static final Logger logger = LoggerFactory.getLogger(DatagramConnection.class);
 
     public DatagramConnection() throws UnknownHostException {
         this(false);
@@ -98,7 +102,6 @@ public class DatagramConnection implements IConnection {
                         this.port = datagramPacket.getPort();
                     }
                 }
-
                 packets[counter] = packet;
 
             } while (++counter != packagesAmount);
@@ -108,7 +111,6 @@ public class DatagramConnection implements IConnection {
         } catch (IOException io) {
             throw new RuntimeException(io);
         }
-
         return object;
     }
 }

@@ -103,7 +103,7 @@ public class Invoker {
         switch (commandDescription.getCommandType()) {
             case LINE_AND_OBJECT_ARGUMENT_COMMAND:
                 response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.CONFIRMATION));
-                logger.info("Response with status '{}' received.", response.getResponseStatus());
+                logger.info("Response with status '{}' received. Message - '{}'", response.getResponseStatus(), response.getResponse());
                 if (response.getResponseStatus() != ResponseStatus.WAITING) {
                     return response.getResponse();
                 }
@@ -117,7 +117,7 @@ public class Invoker {
                     try {
                         args = addArgument(new Object[] {}, caller.getObjectArgument(objectArgument.getArgumentType()));
                         response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.CONFIRMATION));
-                        logger.info("Response with status '{}' received.", response.getResponseStatus());
+                        logger.info("Response with status '{}' received. Message - '{}'", response.getResponseStatus(), response.getResponse());
                         if (response.getResponseStatus() != ResponseStatus.WAITING) {
                             return response.getResponse();
                         }
@@ -126,15 +126,15 @@ public class Invoker {
                         return "Error with creating object as argument to command.";
                     }
                 }
-                break;
+                response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
+                System.out.println("Почти вышел из switch");
+                return response.getResponse();
             default:
                 // If command is NON_ARGUMENT or LINE_ARGUMENT
                 response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
-                logger.info("Response with status '{}' received.", response.getResponseStatus());
+                logger.info("Response with status '{}' received. Message - '{}'", response.getResponseStatus(), response.getResponse());
                 return response.getResponse();
         }
-        logger.error("Forming request and getting response were failed");
-        return "Error in forming request and getting response";
     }
 
     public CommandResponse sendRequestAndGetResponse(Request request) {

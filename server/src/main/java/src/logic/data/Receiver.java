@@ -97,10 +97,10 @@ public class Receiver {
         Field idField;
         idField = collection.getClT().getDeclaredField(fieldName);
         idField.setAccessible(true);
-
         for (Dragon e : collection.getElements()) {
             try {
                 if (idField.get(e).equals(value)) {
+                    System.out.println(e);
                     return e;
                 }
             } catch (IllegalAccessException ex) {

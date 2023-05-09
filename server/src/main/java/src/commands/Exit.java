@@ -15,11 +15,6 @@ public class Exit implements Command {
 
     private IConnection connection;
 
-    private Receiver receiver;
-    public Exit(Receiver receiver) {
-        this.receiver = receiver;
-    }
-
     @Override
     public String execute(Object[] args) {
         checkArgsConformity(args);

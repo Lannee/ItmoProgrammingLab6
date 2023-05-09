@@ -23,7 +23,6 @@ public class Add implements Command {
 
     @Override
     public String execute(Object[] args) {
-        checkArgsConformity(args);
         receiver.add(args[0]);
         return "Object was successfully created";
     }
