@@ -70,7 +70,7 @@ public class Invoker {
                 try {
                     parsedArguments[i] = StringConverter.methodForType.get(argument.getArgumentType()).apply(args[i]);
                 } catch (NumberFormatException nfe) {
-                    return "Invalid argument type";
+                    return "Invalid argument type\n";
                 }
             }
 
@@ -103,7 +103,7 @@ public class Invoker {
         switch (commandDescription.getCommandType()) {
             case LINE_AND_OBJECT_ARGUMENT_COMMAND:
                 response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.CONFIRMATION));
-                logger.info("Response with message '{}' and status '{}' received.", response.getResponse(), response.getResponseStatus());
+                logger.info("Response with status '{}' received.", response.getResponseStatus());
                 if (response.getResponseStatus() != ResponseStatus.WAITING) {
                     return response.getResponse();
                 }
@@ -117,20 +117,20 @@ public class Invoker {
                     try {
                         args = addArgument(new Object[] {}, caller.getObjectArgument(objectArgument.getArgumentType()));
                         response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.CONFIRMATION));
-                        logger.info("Response with message '{}' and status '{}' received.", response.getResponse(), response.getResponseStatus());
+                        logger.info("Response with status '{}' received.", response.getResponseStatus());
                         if (response.getResponseStatus() != ResponseStatus.WAITING) {
                             return response.getResponse();
                         }
                     } catch (CannotCreateObjectException e) {
                         logger.error("Cannot create object as argument to command with its type.");
-                        return "Error with creating object as argument to command.";
+                        return "Error with creating object as argument to command.\n";
                     }
                 }
                 break;
             default:
                 // If command is NON_ARGUMENT or LINE_ARGUMENT
                 response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
-                logger.info("Response with message '{}' and status '{}' received.", response.getResponse(), response.getResponseStatus());
+                logger.info("Response with status '{}' received.", response.getResponseStatus());
                 return response.getResponse();
         }
         logger.error("Forming request and getting response were failed");

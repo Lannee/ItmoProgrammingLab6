@@ -68,7 +68,7 @@ public class Formatter {
                 SPSymbs.TABLE_CONNECTION_UP.getSymb(),
                 SPSymbs.TABLE_CORNER_BOTTOM_RIGHT.getSymb()));
 
-        return sb.toString();
+        return sb.toString() + "\n";
     }
 
     private static String padRight(String line, int length, Character symbol) {
