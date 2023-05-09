@@ -13,7 +13,7 @@ import src.utils.StringConverter;
  * Updates the value of a collection item whose id is equal to the specified one
  */
 public class Update implements Command {
-    public final static CommandArgument[] args = {new CommandArgument("id", int.class),
+    public final static CommandArgument[] args = {new CommandArgument("id", long.class),
             new CommandArgument("element", Dragon.class, false)};
     public final static CommandType commandType = CommandType.LINE_AND_OBJECT_ARGUMENT_COMMAND;
 
