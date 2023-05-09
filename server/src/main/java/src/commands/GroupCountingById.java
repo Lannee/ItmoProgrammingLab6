@@ -27,9 +27,10 @@ public class GroupCountingById implements Command {
         StringBuilder result = new StringBuilder();
         try {
             Map<Object, Integer> groups = receiver.groupByField("id");
-            groups.forEach((u, v) -> result.append(u + " : " + v + "\n"));
+            groups.forEach((u, v) -> result.append(u).append(" : ").append(v).append("\n"));
+            result.deleteCharAt(result.length() - 1);
         } catch (NoSuchFieldException e) {
-            return "Stored type does not support this command\n";
+            return "Stored type does not support this command";
         }
         return result.toString();
     }

@@ -24,7 +24,7 @@ public class PrintAscending implements Command {
     @Override
     public String execute(Object[] args) {
         checkArgsConformity(args);
-        return receiver.getFormattedCollection(Comparator.naturalOrder()) + "\n";
+        return receiver.getFormattedCollection(Comparator.naturalOrder());
     }
 
     @Override

@@ -46,6 +46,8 @@ public class Invoker {
 
     public String parseCommand(String line) {
         line = line.trim();
+        if(line.equals(""))
+            return "";
         caller = new ArgumentCaller();
         caller.handleCommand(line);
         String command = caller.getCommand();
