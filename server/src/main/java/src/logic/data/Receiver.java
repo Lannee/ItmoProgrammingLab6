@@ -24,6 +24,17 @@ public class Receiver {
         collection.add(getStoredType().cast(obj));
     }
 
+    public void add(Object obj, long id) {
+        try {
+            if (id <= 0)
+                throw new NumberFormatException("Incorrect argument value");
+
+            ObjectUtils.setFieldValue(obj, "id", id);
+            collection.add(getStoredType().cast(obj));
+
+        } catch (NoSuchFieldException | IllegalArgumentException impossible) {}
+    }
+
     public String interactiveAdd() {
         try {
             collection.add(
