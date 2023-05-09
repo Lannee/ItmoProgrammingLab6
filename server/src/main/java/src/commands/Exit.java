@@ -4,6 +4,7 @@ package src.commands;
 import module.commands.CommandArgument;
 import module.commands.CommandType;
 import module.connection.IConnection;
+import src.logic.data.Receiver;
 
 /**
  * Exit program
@@ -14,9 +15,15 @@ public class Exit implements Command {
 
     private IConnection connection;
 
+    private Receiver receiver;
+    public Exit(Receiver receiver) {
+        this.receiver = receiver;
+    }
+
     @Override
     public String execute(Object[] args) {
         checkArgsConformity(args);
+
         return "Successfully\n";
     }
 

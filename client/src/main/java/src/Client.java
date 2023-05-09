@@ -60,7 +60,7 @@ public class Client {
                 System.out.print(invite + " ");
                 line = in.readLine();
                 logger.info("User typed: '{}'", line.trim());
-                out.print(invoker.parseCommand(line));
+                out.print(invoker.parseCommand(line) + "\n");
             } catch (IllegalArgumentException iae) {
                 out.print(iae.getMessage() + "\n");
                 logger.error(iae.getMessage());

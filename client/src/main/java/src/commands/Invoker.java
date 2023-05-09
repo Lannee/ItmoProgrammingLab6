@@ -59,7 +59,7 @@ public class Invoker {
         if(commandDescription != null) {
             CommandArgument[] arguments  = commandDescription.getArguments();
 
-            if(args.length != Arrays.stream(arguments).filter(CommandArgument::isEnteredByUser).count()) return "Invalid number of arguments";
+            if(args.length != Arrays.stream(arguments).filter(CommandArgument::isEnteredByUser).count()) return "Invalid number of arguments.";
 
             Object[] parsedArguments = new Object[args.length];
 
@@ -70,14 +70,14 @@ public class Invoker {
                 try {
                     parsedArguments[i] = StringConverter.methodForType.get(argument.getArgumentType()).apply(args[i]);
                 } catch (NumberFormatException nfe) {
-                    return "Invalid argument type\n";
+                    return "Invalid argument type";
                 }
             }
 
             return formRequestAndGetResponse(commandName, parsedArguments, commandDescription);
         } else {
             logger.error("Unknown command '{}'. Type help to get information about all commands.", commandName);
-            return "Unknown command " + commandName + ". Type help to get information about all commands.\n";
+            return "Unknown command " + commandName + ". Type help to get information about all commands.";
         }
     }
 
@@ -123,7 +123,7 @@ public class Invoker {
                         }
                     } catch (CannotCreateObjectException e) {
                         logger.error("Cannot create object as argument to command with its type.");
-                        return "Error with creating object as argument to command.\n";
+                        return "Error with creating object as argument to command.";
                     }
                 }
                 break;
@@ -134,7 +134,7 @@ public class Invoker {
                 return response.getResponse();
         }
         logger.error("Forming request and getting response were failed");
-        return "Error in forming request and getting response\n";
+        return "Error in forming request and getting response";
     }
 
     public CommandResponse sendRequestAndGetResponse(Request request) {

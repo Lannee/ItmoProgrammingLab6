@@ -40,7 +40,7 @@ public class Invoker {
         declaredCommands.put("execute_script", new ExecuteScript(this));
         declaredCommands.put("add", new Add(receiver));
         declaredCommands.put("clear", new Clear(receiver));
-        declaredCommands.put("exit", new Exit());
+        declaredCommands.put("exit", new Exit(receiver));
         declaredCommands.put("save", new Save(receiver));
         declaredCommands.put("show", new Show(receiver));
         declaredCommands.put("remove_first", new RemoveFirst(receiver));
@@ -140,7 +140,7 @@ public class Invoker {
 
             out.append(" : ").append(value.getDescription()).append("\n");
         });
-
+        out.delete(out.toString().length() - 1, out.toString().length());
         return out.toString();
     }
 
