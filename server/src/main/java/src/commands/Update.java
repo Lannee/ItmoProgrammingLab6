@@ -21,12 +21,12 @@ public class Update implements Command {
 
     private final Receiver receiver;
 
-    public Update(Receiver receiver) {
+    public Update(IConnection connection, Receiver receiver) {
+        this.connection = connection;
         this.receiver = receiver;
     }
 
 
-    // Again. It's forbidden to get in & out streams from client. Needed to be fixed.
     @Override
     public String execute(Object[] args) {
         checkArgsConformity(args);

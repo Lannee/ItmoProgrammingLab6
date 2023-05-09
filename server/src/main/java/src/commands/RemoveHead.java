@@ -19,7 +19,6 @@ public class RemoveHead implements Command {
         this.receiver = receiver;
     }
 
-    // Needed to be fixed because function <removeOn> is called in reciever
     @Override
     public String execute(Object[] args) {
         checkArgsConformity(args);

@@ -22,7 +22,6 @@ public class RemoveGreater implements Command {
         this.receiver = receiver;
     }
 
-    // Needed to be fixed.
     @Override
     public String execute(Object[] args) {
         checkArgsConformity(args);

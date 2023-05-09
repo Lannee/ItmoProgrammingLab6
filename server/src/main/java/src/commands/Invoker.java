@@ -36,7 +36,7 @@ public class Invoker {
         this.receiver = receiver;
         declaredCommands.put("help", new Help(this));
         declaredCommands.put("info", new Info(receiver));
-        declaredCommands.put("update", new Update(receiver));
+        declaredCommands.put("update", new Update(connection, receiver));
         declaredCommands.put("execute_script", new ExecuteScript(this));
         declaredCommands.put("add", new Add(receiver));
         declaredCommands.put("clear", new Clear(receiver));
@@ -167,12 +167,14 @@ public class Invoker {
     public String executeCommand(String command, Object[] args) {
         if (declaredCommands.containsKey(command)) {
             logger.info("Command executing.");
-            try {
-                return declaredCommands.get(command).execute(args);
-            } catch (IllegalArgumentException e) {
-                logger.error("Command {} require different count of arguments." + e.getMessage(), command);
-                return "Invalid count of arguments";
-            }
+            return declaredCommands.get(command).execute(args);
+
+//            try {
+//                return declaredCommands.get(command).execute(args);
+//            } catch (IllegalArgumentException e) {
+//                logger.error("Command {} require different count of arguments." + e.getMessage(), command);
+//                return "Invalid count of arguments";
+//            }
         } else {
             logger.error("Unknown command.");
             return "Unknown command " + command + ". Type help to get information about all commands.\n";
