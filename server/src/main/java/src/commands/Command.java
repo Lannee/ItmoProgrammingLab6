@@ -2,6 +2,7 @@ package src.commands;
 
 import module.commands.CommandArgument;
 import module.commands.CommandType;
+import module.connection.IConnection;
 
 import java.util.Arrays;
 
@@ -16,6 +17,9 @@ public interface Command {
     CommandArgument[] args();
 
     CommandType getCommandType();
+
+    void setConnection(IConnection connection);
+
     /**
      * Checks arguments matching
      * @param args1

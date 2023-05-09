@@ -20,6 +20,10 @@ public class Receiver {
         collection.initialize(filePath);
     }
 
+    public void add(Object obj) {
+        collection.add(getStoredType().cast(obj));
+    }
+
     public String interactiveAdd() {
         try {
             collection.add(
@@ -48,11 +52,8 @@ public class Receiver {
         return "Successfully\n";
     }
 
-    // What ******* is going on down here?????? Dunno how to fix it
     public void clear() {
-        // if (ObjectUtils.agreement(Client.in, Client.out, "Are you sure you want to clear the collection (y/n) : ",
-        //         false))
-        //     collection.clear();
+        collection.clear();
     }
 
     public String getInfo() {
@@ -122,10 +123,9 @@ public class Receiver {
     }
 
     // Needed to be fixed.
-    public boolean removeOn(Predicate<Dragon> filter, boolean showRemoved) {
+    public String removeOn(Predicate<Dragon> filter, boolean showRemoved) {
         if (collection.size() == 0) {
-            // Client.out.print("Cannot remove since the collection is empty\n");
-            return false;
+            return "Cannot remove since the collection is empty";
         }
 
         List<Dragon> removed = new LinkedList<>();
@@ -137,21 +137,19 @@ public class Receiver {
         }
 
         if (showRemoved) {
-            // Client.out.print(Formatter.format(removed, collection.getClT()) + "\n");
+            return Formatter.format(removed, collection.getClT());
         }
 
-        return !removed.isEmpty();
+        return "";
     }
 
-    public boolean removeByIndex(int index, boolean showRemoved) {
+    public String removeByIndex(int index, boolean showRemoved) {
         if (collection.size() == 0) {
-            // Client.out.print("Cannot remove since the collection is empty\n");
-            return false;
+            return "Cannot remove since the collection is empty";
         }
 
         if (index >= collection.size()) {
-            // Client.out.print("Cannot remove from collection: index is out of bound\n");
-            return false;
+            return "Cannot remove from collection: index is out of bound";
         }
 
         Object obj = getElementByIndex(index);

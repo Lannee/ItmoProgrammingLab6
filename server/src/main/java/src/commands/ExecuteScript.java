@@ -2,6 +2,7 @@ package src.commands;
 
 import module.commands.CommandArgument;
 import module.commands.CommandType;
+import module.connection.IConnection;
 
 /**
  * Reads and executes the script from the specified file
@@ -11,6 +12,7 @@ public class ExecuteScript implements Command {
     public final static CommandType commandType = CommandType.OBJECT_ARGUMENT_COMMAND;
 
     private final Invoker invoker;
+    private IConnection connection;
 
     public ExecuteScript(Invoker invoker) {
         this.invoker = invoker;
@@ -36,5 +38,10 @@ public class ExecuteScript implements Command {
     @Override
     public CommandType getCommandType() {
         return commandType;
+    }
+
+    @Override
+    public void setConnection(IConnection connection) {
+        this.connection = connection;
     }
 }

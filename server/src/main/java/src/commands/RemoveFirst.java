@@ -2,6 +2,7 @@ package src.commands;
 
 import module.commands.CommandArgument;
 import module.commands.CommandType;
+import module.connection.IConnection;
 import src.logic.data.Receiver;
 
 /**
@@ -12,6 +13,7 @@ public class RemoveFirst implements Command {
     public final static CommandType commandType = CommandType.NON_ARGUMENT_COMMAND;
 
     private final Receiver receiver;
+    private IConnection connection;
 
     public RemoveFirst(Receiver receiver) {
         this.receiver = receiver;
@@ -20,10 +22,7 @@ public class RemoveFirst implements Command {
     @Override
     public String execute(Object[] args) {
         checkArgsConformity(args);
-        if(receiver.removeByIndex(0, false)) {
-            return "First object was successfully removed\n";
-        }
-        return "";
+        return receiver.removeByIndex(0, false);
     }
 
     @Override
@@ -39,5 +38,10 @@ public class RemoveFirst implements Command {
     @Override
     public CommandType getCommandType() {
         return commandType;
+    }
+
+    @Override
+    public void setConnection(IConnection connection) {
+        this.connection = connection;
     }
 }

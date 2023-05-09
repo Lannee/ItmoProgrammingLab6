@@ -2,6 +2,7 @@ package src.commands;
 
 import module.commands.CommandArgument;
 import module.commands.CommandDescription;
+import module.connection.IConnection;
 import module.connection.requestModule.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,8 @@ public class Invoker {
 
     private final Receiver receiver;
 
+    private final IConnection connection;
+
     private final Map<String, Integer> files = new HashMap<>();
 
     private Integer recursionDepth = 1;
@@ -28,7 +31,8 @@ public class Invoker {
 
     private static final Logger logger = LoggerFactory.getLogger(Server.class);
 
-    public Invoker(Receiver receiver) {
+    public Invoker(IConnection connection, Receiver receiver) {
+        this.connection = connection;
         this.receiver = receiver;
         declaredCommands.put("help", new Help(this));
         declaredCommands.put("info", new Info(receiver));

@@ -2,6 +2,7 @@ package src.commands;
 
 import module.commands.CommandArgument;
 import module.commands.CommandType;
+import module.connection.IConnection;
 import src.logic.data.Receiver;
 
 import java.util.Comparator;
@@ -14,6 +15,7 @@ public class PrintAscending implements Command {
     public final static CommandType commandType = CommandType.NON_ARGUMENT_COMMAND;
 
     private final Receiver receiver;
+    private IConnection connection;
 
     public PrintAscending(Receiver receiver) {
         this.receiver = receiver;
@@ -38,5 +40,10 @@ public class PrintAscending implements Command {
     @Override
     public CommandType getCommandType() {
         return commandType;
+    }
+
+    @Override
+    public void setConnection(IConnection connection) {
+        this.connection = connection;
     }
 }

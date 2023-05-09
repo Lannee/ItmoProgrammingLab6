@@ -2,6 +2,7 @@ package src.commands;
 
 import module.commands.CommandArgument;
 import module.commands.CommandType;
+import module.connection.IConnection;
 import module.stored.Dragon;
 import src.logic.data.Receiver;
 
@@ -14,6 +15,8 @@ public class Add implements Command {
     public final static CommandType commandType = CommandType.OBJECT_ARGUMENT_COMMAND;
     private final Receiver receiver;
 
+    private IConnection connection;
+
     public Add(Receiver receiver) {
         this.receiver = receiver;
     }
@@ -21,7 +24,8 @@ public class Add implements Command {
     @Override
     public String execute(Object[] args) {
         checkArgsConformity(args);
-        return receiver.interactiveAdd();
+        receiver.add(args[0]);
+        return "Object was successfully created";
     }
 
     @Override
@@ -37,5 +41,10 @@ public class Add implements Command {
     @Override
     public CommandType getCommandType() {
         return commandType;
+    }
+
+    @Override
+    public void setConnection(IConnection connection) {
+        this.connection = connection;
     }
 }

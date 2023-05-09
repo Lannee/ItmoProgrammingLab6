@@ -2,6 +2,9 @@ package src.commands;
 
 import module.commands.CommandArgument;
 import module.commands.CommandType;
+import module.connection.IConnection;
+import module.connection.requestModule.Request;
+import module.connection.responseModule.*;
 import module.stored.Dragon;
 import src.logic.data.Receiver;
 import src.utils.StringConverter;
@@ -13,6 +16,8 @@ public class Update implements Command {
     public final static CommandArgument[] args = {new CommandArgument("id", int.class),
             new CommandArgument("element", Dragon.class, false)};
     public final static CommandType commandType = CommandType.LINE_AND_OBJECT_ARGUMENT_COMMAND;
+
+    private IConnection connection;
 
     private final Receiver receiver;
 
@@ -26,27 +31,38 @@ public class Update implements Command {
     public String execute(Object[] args) {
         checkArgsConformity(args);
 
+        Response response = null;
         try {
             Long id = (Long) args[0];
-//            Long id = (Long) StringConverter.methodForType.get(Long.class).apply(args[0]);
             if(id <= 0) throw new NumberFormatException();
             Object obj = receiver.getElementByFieldValue(args()[0].getArgumentName(), id);
 
-            if(obj == null) {
-                // if(!ObjectUtils.agreement(Client.in, Client.out, "Element with this id does not exist, do you want to create it (y/n) : ", false)) {
-                //     return "";
-                // }
-            }
+            if(obj != null) {
+                response = new CommandResponse("", ResponseStatus.WAITING);
+                connection.send(response);
+                Request request = (Request) connection.receive();
 
-            receiver.removeFromCollection(obj);
-            receiver.interactiveAdd(id);
+                Object createdObject = request.getArgumentsToCommand()[0];
+                receiver.removeFromCollection(obj);
+                receiver.add(createdObject);
+
+                return "Object with " + args()[0].getArgumentName() + " " + id + " was successfully updated";
+            } else {
+                response = new CommandResponse("Element with this id does not exist", ResponseStatus.FAILED);
+            }
 
             return "Element with " + args()[0] + " " + id + " was successfully updated\n";
         } catch (NoSuchFieldException e) {
-            return "Stored type does not support this command\n";
+            response = new CommandResponse("Stored type does not support this command", ResponseStatus.ERROR);
+//            return "Stored type does not support this command\n";
         } catch (NumberFormatException nfe) {
-            return "Incorrect argument value\n";
+            response = new CommandResponse("Incorrect argument value", ResponseStatus.ERROR);
+//            return "Incorrect argument value\n";
+        } finally {
+            connection.send(response);
         }
+
+        return "";
     }
 
     @Override
@@ -62,5 +78,10 @@ public class Update implements Command {
     @Override
     public CommandType getCommandType() {
         return commandType;
+    }
+
+    @Override
+    public void setConnection(IConnection connection) {
+        this.connection = connection;
     }
 }
