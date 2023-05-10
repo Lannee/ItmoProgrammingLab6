@@ -14,16 +14,12 @@ import src.logic.data.Receiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Server {
     private final static int SERVER_PORT = 50689;
-    private String fileName = "";
     private boolean running = true;
-
-    private final List<Integer> users = new LinkedList<>();
 
     public final static String invite = ">>>";
 
@@ -35,32 +31,28 @@ public class Server {
     private Invoker invoker;
     private static final Logger logger = LoggerFactory.getLogger(Server.class);
 
-    public String getFileName() {
-        return fileName;
-    }
-
-    public boolean isRunning() {
-        return running;
-    }
-
     public void start(String[] args) {
 
         logger.info("Starting server.");
-//        String filePath = getFilePath(args);
-        String filePath = getFilePath(new String[]{"FileJ"});
+        String filePath = getFilePath(args);
+//        String filePath = getFilePath(new String[]{"FileJ"});
 
         try {
             connection = new DatagramConnection(SERVER_PORT, true);
             invoker = new Invoker(connection,
                     new Receiver(filePath));
             logger.info("Invoker and Receiver started.");
+        } catch (SocketException e) {
+            logger.error("This address is currently in use.");
+            running = false;
         } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
+            running = false;
+            logger.error("Unknown host.");
         }
 
         new Thread(() -> {
             String line;
-            while(true) {
+            while(running) {
                 try {
                     if(in.isBufferEmpty()) {
                         if(invoker.getRecursionSize() != 0)

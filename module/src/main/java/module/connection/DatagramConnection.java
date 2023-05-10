@@ -31,37 +31,39 @@ public class DatagramConnection implements IConnection {
     private final DatagramSocket socket;
     private static final Logger logger = LoggerFactory.getLogger(DatagramConnection.class);
 
-    public DatagramConnection() throws UnknownHostException {
+    public DatagramConnection() throws SocketException, UnknownHostException {
         this(false);
     }
 
-    public DatagramConnection(boolean isListeningPort) throws UnknownHostException {
+    public DatagramConnection(boolean isListeningPort) throws SocketException, UnknownHostException {
         this(STANDARD_PORT, isListeningPort);
     }
 
-    public DatagramConnection(int port) throws UnknownHostException {
+    public DatagramConnection(int port) throws SocketException, UnknownHostException {
         this(port, false);
     }
 
-    public DatagramConnection(int port, boolean isListeningPort) throws UnknownHostException {
+    public DatagramConnection(int port, boolean isListeningPort) throws SocketException, UnknownHostException {
         this("localhost", port, isListeningPort);
     }
 
-    public DatagramConnection(String host, int port) throws UnknownHostException {
+    public DatagramConnection(String host, int port) throws SocketException, UnknownHostException {
         this(host, port, false);
     }
-    public DatagramConnection(String host, int port, boolean isListeningPort) throws UnknownHostException {
-        this.host = InetAddress.getByName(host);
-        this.port = port;
-        this.isListeningPort = isListeningPort;
-
+    public DatagramConnection(String host, int port, boolean isListeningPort) throws SocketException, UnknownHostException {
         try {
+            this.host = InetAddress.getByName(host);
+            this.port = port;
+            this.isListeningPort = isListeningPort;
+
             if(isListeningPort) {
                 socket = new DatagramSocket(port);
             } else
                 socket = new DatagramSocket();
         } catch (SocketException e) {
-            throw new RuntimeException(e);
+            throw new SocketException();
+        } catch (UnknownHostException e) {
+            throw new UnknownHostException();
         }
     }
 
