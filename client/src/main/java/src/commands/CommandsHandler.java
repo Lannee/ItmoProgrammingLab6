@@ -9,6 +9,7 @@ import module.connection.responseModule.CommandsDescriptionResponse;
 import module.connection.responseModule.Response;
 import module.logic.exceptions.InvalidResponseException;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 

@@ -8,8 +8,10 @@ import java.io.Serializable;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
+import java.util.Arrays;
 
 public class ChannelConnection implements IConnection {
+    private static final long CONNECTION_TIMEOUT = 5000;
 
     public static final int STANDARD_PORT = 8787;
 
@@ -34,6 +36,7 @@ public class ChannelConnection implements IConnection {
         this.port = port;
         try {
             datagramChannel = DatagramChannel.open();
+            datagramChannel.configureBlocking(false);
             bindChannel(null);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -64,7 +67,9 @@ public class ChannelConnection implements IConnection {
 
     @Override
     public Serializable receive() {
+        long timeoutChecker = System.currentTimeMillis() + CONNECTION_TIMEOUT;
         Serializable object;
+        ByteBuffer emptyByteBuffer = ByteBuffer.allocate(PACKAGE_SIZE);
         try {
             Packet[] packets = new Packet[0];
             ByteBuffer byteBuffer = ByteBuffer.allocate(PACKAGE_SIZE);
@@ -73,25 +78,28 @@ public class ChannelConnection implements IConnection {
             int packagesAmount = 1;
             do {
                 datagramChannel.receive(byteBuffer);
+                if (byteBuffer.compareTo(emptyByteBuffer) == 0) {
+                    continue;
+                }
                 byteBuffer = byteBuffer.flip();
-                Packet packet = (Packet) PacketManager.deserialize(byteBuffer.array());
 
+                Packet packet = (Packet) PacketManager.deserialize(byteBuffer.array());
                 if(counter == 0) {
                     packagesAmount = packet.getPackagesAmount();
                     packets = new Packet[packagesAmount];
                 }
-
                 packets[counter] = packet;
-
-            } while (++counter != packagesAmount);
-
-            object = PacketManager.assemble(packets);
-
+                counter++;
+            } while (counter != packagesAmount && (timeoutChecker - System.currentTimeMillis()) >= 0);
+                if (!Arrays.equals(packets, new Packet[0])) {
+                    object = PacketManager.assemble(packets);
+                } else {
+                    throw new IOException("Server connection timeout!");
+                }
         } catch (IOException io) {
-            io.printStackTrace();
+            System.out.println(io.getMessage());
             return null;
         }
-
         return object;
     }
 }

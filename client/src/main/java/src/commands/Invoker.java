@@ -40,18 +40,14 @@ public class Invoker {
 
     private Callable caller;
 
-    public Invoker(IConnection connection) {
+    public Invoker(IConnection connection) throws IOException, InvalidResponseException {
         this.connection = connection;
         commands = new CommandsHandler(connection);
-        try {
-            commands.initializeCommands();
-        } catch (InvalidResponseException e) {
-            logger.error(e.getMessage());
-        }
+        commands.initializeCommands();
         logger.info("Invoker initialized.");
     }
 
-    public String parseCommand(String line) {
+    public String parseCommand(String line) throws NullPointerException {
         line = line.trim();
         if(line.equals(""))
             return "";
@@ -62,7 +58,7 @@ public class Invoker {
         return validateCommand(command, args);
     }
 
-    public String validateCommand(String commandName, String[] args) {
+    public String validateCommand(String commandName, String[] args) throws NullPointerException {
         CommandDescription commandDescription = commands.getCommandDescription(commandName);
 
         if(commandDescription != null) {
@@ -82,7 +78,6 @@ public class Invoker {
                     return "Invalid argument type";
                 }
             }
-
             return formRequestAndGetResponse(commandName, parsedArguments, commandDescription);
         } else {
             logger.error("Unknown command '{}'. Type help to get information about all commands.", commandName);
@@ -90,7 +85,7 @@ public class Invoker {
         }
     }
 
-    public String formRequestAndGetResponse(String commandName, Object[] args, CommandDescription commandDescription) {
+    public String formRequestAndGetResponse(String commandName, Object[] args, CommandDescription commandDescription) throws NullPointerException {
         CommandResponse response;
         switch (commandDescription.getCommandType()) {
             case LINE_AND_OBJECT_ARGUMENT_COMMAND:
@@ -136,7 +131,8 @@ public class Invoker {
 
     public CommandResponse sendRequestAndGetResponse(Request request) {
         connection.send(request);
-        Response response = (Response) connection.receive();
+        Response response = null;
+        response = (Response) connection.receive();
         if (response instanceof CommandResponse commandResponse) {
             return commandResponse;
         }
