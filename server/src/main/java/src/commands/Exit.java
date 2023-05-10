@@ -18,8 +18,8 @@ public class Exit implements Command {
     @Override
     public String execute(Object[] args) {
         checkArgsConformity(args);
-
-        return "Successfully\n";
+        System.exit(0);
+        return "Successfully";
     }
 
     @Override

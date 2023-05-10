@@ -4,6 +4,10 @@ import module.connection.DatagramConnection;
 import module.connection.IConnection;
 import module.connection.requestModule.Request;
 import module.connection.responseModule.*;
+import module.logic.streams.ConsoleInputManager;
+import module.logic.streams.ConsoleOutputManager;
+import module.logic.streams.InputManager;
+import module.logic.streams.OutputManager;
 import src.commands.Invoker;
 import src.logic.data.Receiver;
 
@@ -17,12 +21,15 @@ public class Server {
     private String fileName = "";
     private boolean running = true;
 
+    public final static String invite = ">>>";
+
+    public static final InputManager in = new ConsoleInputManager();
+    public static final OutputManager out = new ConsoleOutputManager();
+
     private IConnection connection;
 
     private Invoker invoker;
     private static final Logger logger = LoggerFactory.getLogger(Server.class);
-//    Command for spectate of working logger
-//    LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
 
     public String getFileName() {
         return fileName;
@@ -33,8 +40,6 @@ public class Server {
     }
 
     public void start(String[] args) {
-//        Printing spectator of logger
-//        StatusPrinter.print(lc);
 
         logger.info("Starting server.");
 //        String filePath = getFilePath(args);
@@ -50,9 +55,27 @@ public class Server {
         }
 
         while(running) {
+            new Thread(() -> {
+                String line;
+                while(true) {
+                    try {
+                        if(in.isBufferEmpty()) {
+                            if(invoker.getRecursionSize() != 0)
+                                invoker.clearRecursion();
+                            out.print(invite + " ");
+                        }
+                        line = in.readLine();
+                        invoker.parseCommand(line);
+                    } catch (IllegalArgumentException iae) {
+                        out.print(iae.getMessage() + "\n");
+                    }
+                }
+            }).start();
+
             Request request = (Request) connection.receive();
             logger.info("Received request from client with command '{}' and arguments '{}'", request.getCommandName(), request.getArgumentsToCommand());
             Response response = null;
+
             switch (request.getTypeOfRequest()) {
                 case COMMAND, CONFIRMATION -> {
                     response = new CommandResponse(invoker.parseRequest(request));
@@ -69,17 +92,17 @@ public class Server {
     }
 
     public static String getFilePath(String[] args) {
-        return "base.csv";
+//        return "base.csv";
 
-//        if (args.length == 0) {
-//            logger.error("Incorrect number of arguments.");
-//            System.exit(2);
-//        }
-//        String filePath = System.getenv().get(args[0]);
-//        if (filePath == null) {
-//            logger.error("Environment variable \"" + args[0] + "\" does not exist.");
-//            System.exit(1);
-//        }
-//        return filePath;
+        if (args.length == 0) {
+            logger.error("Incorrect number of arguments.");
+            System.exit(2);
+        }
+        String filePath = System.getenv().get(args[0]);
+        if (filePath == null) {
+            logger.error("Environment variable \"" + args[0] + "\" does not exist.");
+            System.exit(1);
+        }
+        return filePath;
     }
 }
