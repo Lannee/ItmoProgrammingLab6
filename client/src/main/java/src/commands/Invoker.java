@@ -62,8 +62,8 @@ public class Invoker {
 
     public String validateCommand(String commandName, String[] args) throws NullPointerException {
         CommandDescription commandDescription = commands.getCommandDescription(commandName);
-
         if(commandDescription != null) {
+            checkExit(commandName, args);
             CommandArgument[] arguments  = commandDescription.getArguments();
 
             if(args.length != Arrays.stream(arguments).filter(CommandArgument::isEnteredByUser).count()) return "Invalid number of arguments.";
@@ -93,6 +93,9 @@ public class Invoker {
             case LINE_AND_OBJECT_ARGUMENT_COMMAND:
                 response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.CONFIRMATION));
                 logger.info("Response with status '{}' received. Message - '{}'", response.getResponseStatus(), response.getResponse());
+                if(response.getResponseStatus() == ResponseStatus.CONNECTION_REJECTED) {
+                    return "Connection rejected. Server is working with another user";
+                }
                 if (response.getResponseStatus() != ResponseStatus.WAITING) {
                     return response.getResponse();
                 }
@@ -107,6 +110,9 @@ public class Invoker {
                         args = addArgument(new Object[] {}, caller.getObjectArgument(objectArgument.getArgumentType()));
                         response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.CONFIRMATION));
                         logger.info("Response with status '{}' received. Message - '{}'", response.getResponseStatus(), response.getResponse());
+                        if(response.getResponseStatus() == ResponseStatus.CONNECTION_REJECTED) {
+                            return "Connection rejected. Server is working with another user";
+                        }
                         if (response.getResponseStatus() != ResponseStatus.WAITING) {
                             return response.getResponse();
                         }
@@ -127,9 +133,21 @@ public class Invoker {
                 // If command is NON_ARGUMENT or LINE_ARGUMENT
                 response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
                 logger.info("Response with status '{}' received. Message - '{}'", response.getResponseStatus(), response.getResponse());
+                if(response.getResponseStatus() == ResponseStatus.CONNECTION_REJECTED) {
+                    return "Connection rejected. Server is working with another user";
+                }
                 return response.getResponse();
         }
     }
+
+    public void checkExit(String commandName, Object[] args) {
+        if(commandName.equals("exit")) {
+            CommandDescription commandDescription = commands.getCommandDescription(commandName);
+            formRequestAndGetResponse(commandName, args, commandDescription);
+            System.exit(0);
+        }
+    }
+
 
     public CommandResponse sendRequestAndGetResponse(Request request) {
         connection.send(request);

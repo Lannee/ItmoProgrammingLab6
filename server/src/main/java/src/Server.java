@@ -15,11 +15,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.UnknownHostException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Server {
     private final static int SERVER_PORT = 50689;
     private String fileName = "";
     private boolean running = true;
+
+    private final List<Integer> users = new LinkedList<>();
 
     public final static String invite = ">>>";
 
@@ -54,24 +58,24 @@ public class Server {
             throw new RuntimeException(e);
         }
 
-        while(running) {
-            new Thread(() -> {
-                String line;
-                while(true) {
-                    try {
-                        if(in.isBufferEmpty()) {
-                            if(invoker.getRecursionSize() != 0)
-                                invoker.clearRecursion();
-                            out.print(invite + " ");
-                        }
-                        line = in.readLine();
-                        invoker.parseCommand(line);
-                    } catch (IllegalArgumentException iae) {
-                        out.print(iae.getMessage() + "\n");
+        new Thread(() -> {
+            String line;
+            while(true) {
+                try {
+                    if(in.isBufferEmpty()) {
+                        if(invoker.getRecursionSize() != 0)
+                            invoker.clearRecursion();
+                        out.print(invite + " ");
                     }
+                    line = in.readLine();
+                    invoker.parseCommand(line);
+                } catch (IllegalArgumentException iae) {
+                    out.print(iae.getMessage() + "\n");
                 }
-            }).start();
+            }
+        }).start();
 
+        while(running) {
             Request request = (Request) connection.receive();
             logger.info("Received request from client with command '{}' and arguments '{}'", request.getCommandName(), request.getArgumentsToCommand());
             Response response = null;
@@ -92,17 +96,17 @@ public class Server {
     }
 
     public static String getFilePath(String[] args) {
-        return "base.csv";
+//        return "base.csv";
 
-//        if (args.length == 0) {
-//            logger.error("Incorrect number of arguments.");
-//            System.exit(2);
-//        }
-//        String filePath = System.getenv().get(args[0]);
-//        if (filePath == null) {
-//            logger.error("Environment variable \"" + args[0] + "\" does not exist.");
-//            System.exit(1);
-//        }
-//        return filePath;
+        if (args.length == 0) {
+            logger.error("Incorrect number of arguments.");
+            System.exit(2);
+        }
+        String filePath = System.getenv().get(args[0]);
+        if (filePath == null) {
+            logger.error("Environment variable \"" + args[0] + "\" does not exist.");
+            System.exit(1);
+        }
+        return filePath;
     }
 }

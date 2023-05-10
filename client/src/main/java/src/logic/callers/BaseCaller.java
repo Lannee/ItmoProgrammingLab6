@@ -19,8 +19,6 @@ public class BaseCaller implements Callable {
         String[] words = line.split(" ", 2);
 
         command = words[0].toLowerCase();
-        if(command.equals("exit"))
-            System.exit(0);
 
         if(words.length == 1)
             arguments = new String[0];

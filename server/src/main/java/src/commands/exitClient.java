@@ -3,34 +3,33 @@ package src.commands;
 
 import module.commands.CommandArgument;
 import module.commands.CommandType;
+import module.connection.DatagramConnection;
 import module.connection.IConnection;
-import src.logic.data.Receiver;
+import module.connection.responseModule.CommandResponse;
+import module.connection.responseModule.ResponseStatus;
 
 /**
  * Exit program
  */
-public class Exit implements Command {
+public class ExitClient implements Command {
     private static final CommandArgument[] args = new CommandArgument[0];
     public final static CommandType commandType = CommandType.NON_ARGUMENT_COMMAND;
-
-    private final Receiver receiver;
     private IConnection connection;
-
-    public Exit(Receiver receiver) {
-        this.receiver = receiver;
-    }
 
     @Override
     public String execute(Object[] args) {
         checkArgsConformity(args);
-        receiver.saveCollection();
 
-        return "Successfully";
+        DatagramConnection connectionDC = (DatagramConnection) connection;
+        connectionDC.send(new CommandResponse("", ResponseStatus.SUCCESSFULLY));
+        connectionDC.setClientPort(null);
+        connectionDC.setClientHost(null);
+        return "";
     }
 
     @Override
     public String getDescription() {
-        return "Exit program";
+        return "Exit program in client.";
     }
 
     @Override

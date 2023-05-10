@@ -4,5 +4,6 @@ public enum ResponseStatus {
     SUCCESSFULLY,
     FAILED,
     WAITING,
-    ERROR
+    ERROR,
+    CONNECTION_REJECTED
 }
