@@ -34,21 +34,26 @@ public class ChannelConnection implements IConnection {
         this.port = port;
         try {
             datagramChannel = DatagramChannel.open();
+            bindChannel(null);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void bindChannel(SocketAddress local) throws IOException {
+        datagramChannel.bind(local);
     }
 
     @Override
     public void send(Serializable obj) {
         try {
             Packet[] packets = PacketManager.split(obj);
-            ByteBuffer byteBuffer = ByteBuffer.allocate(PACKAGE_SIZE);
+            ByteBuffer byteBuffer;
 
             SocketAddress address = new InetSocketAddress(host, port);
 
             for(int i = 0; i < packets.length; i++) {
-                byteBuffer.put(PacketManager.serialize(packets[i]));
+                byteBuffer = ByteBuffer.wrap(PacketManager.serialize(packets[i]));
                 datagramChannel.send(byteBuffer, address);
             }
         } catch (IOException io) {
@@ -68,6 +73,7 @@ public class ChannelConnection implements IConnection {
             int packagesAmount = 1;
             do {
                 datagramChannel.receive(byteBuffer);
+                byteBuffer = byteBuffer.flip();
                 Packet packet = (Packet) PacketManager.deserialize(byteBuffer.array());
 
                 if(counter == 0) {
