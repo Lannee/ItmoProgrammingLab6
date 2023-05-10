@@ -29,6 +29,7 @@ module\connection\IConnection.class
 module\connection\requestModule\TypeOfRequest.class
 module\commands\CommandArgument.class
 module\connection\DatagramConnection.class
+module\annotations\Unique.class
 module\stored\Person.class
 module\stored\Dragon.class
 module\commands\CommandDescription.class

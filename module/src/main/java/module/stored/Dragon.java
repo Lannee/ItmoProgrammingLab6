@@ -16,6 +16,7 @@ public class Dragon implements Comparable<Dragon>, Serializable {
     private static long instances = 0;
 
     @Storable
+    @Unique
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     @Storable
     @Fillable

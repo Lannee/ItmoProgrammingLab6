@@ -4,6 +4,7 @@ import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 import module.annotations.Complex;
 import module.annotations.Nullable;
+import module.annotations.Unique;
 import module.logic.exceptions.FileFormatException;
 import module.logic.exceptions.FileReadModeException;
 import module.utils.ObjectUtils;
@@ -63,7 +64,7 @@ public class CSVFileDataManager<T extends Comparable<? super T>> extends FileDat
                 for (String[] values : csvContent) {
                     try {
                         add(getClT()
-                                .cast(createObject(getClT(), headers, values)));
+                                .cast(createObject(getClT(), headers, values, getElements())));
 
                     } catch (ReflectiveOperationException e) {
                         Server.out.print("Unable to create an object\n");
@@ -107,7 +108,7 @@ public class CSVFileDataManager<T extends Comparable<? super T>> extends FileDat
 
     }
 
-    private static <T> T createObject(Class<T> cl, String[] headers, String[] values) throws FileFormatException, ReflectiveOperationException {
+    private static <T> T createObject(Class<T> cl, String[] headers, String[] values, List<?> collection) throws FileFormatException, ReflectiveOperationException {
         T obj = cl.getConstructor().newInstance();
 
         List<String[]> headersElements = Arrays.stream(headers)
@@ -150,7 +151,7 @@ public class CSVFileDataManager<T extends Comparable<? super T>> extends FileDat
                 String[] exValues = Arrays.copyOfRange(values, exLevelStart, exLevelEnd + 1);
 
                 exHeaders = Arrays.stream(exHeaders).map(e -> e.substring(reducePrefix.length())).toArray(String[]::new);
-                field.set(obj, createObject(fieldType, exHeaders, exValues));
+                field.set(obj, createObject(fieldType, exHeaders, exValues, collection));
             } else {
                 if(fieldType.isEnum()) {
                     Object enumValue;
@@ -164,7 +165,6 @@ public class CSVFileDataManager<T extends Comparable<? super T>> extends FileDat
                             enumValue = Enum.valueOf((Class<Enum>) fieldType, values[i]);
                     } catch (IllegalArgumentException iae) {
                         throw new ReflectiveOperationException();
-//                        throw new RuntimeException(iae);
                     }
                     field.set(obj, enumValue);
                 } else {
@@ -175,10 +175,16 @@ public class CSVFileDataManager<T extends Comparable<? super T>> extends FileDat
                     } else {
                         if(!StringConverter.methodForType.containsKey(fieldType)) throw new FileFormatException("Unsupported field type");
                         try {
-                            field.set(obj,
-                                    StringConverter.methodForType
-                                            .get(field.getType())
-                                            .apply(value));
+                            Object valueConverted =  StringConverter.methodForType
+                                    .get(field.getType())
+                                    .apply(value);
+                            if(field.isAnnotationPresent(Unique.class)) {
+                                for (Object element : collection) {
+                                    if(valueConverted.equals(field.get(element)))
+                                        throw new ReflectiveOperationException("Unique field value cannot be repeated");
+                                }
+                            }
+                            field.set(obj, valueConverted);
                         } catch (NumberFormatException e) {
                             throw new FileFormatException("Invalid data");
                         }
