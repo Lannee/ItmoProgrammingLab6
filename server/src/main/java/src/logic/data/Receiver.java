@@ -35,34 +35,6 @@ public class Receiver {
         } catch (NoSuchFieldException | IllegalArgumentException impossible) {}
     }
 
-    public String interactiveAdd() {
-        try {
-            collection.add(
-                    getStoredType().cast(
-                            ObjectUtils.createObjectInteractively(
-                                    collection.getClT())));
-            return collection.getClT().getSimpleName() + " was successfully created\n";
-        } catch (CannotCreateObjectException e) {
-            return "Unable to create object: " + e.getMessage() + "\n";
-        }
-    }
-
-    public String interactiveAdd(Long id) {
-        try {
-            Object obj = ObjectUtils.createObjectInteractively(collection.getClT());
-            if (id <= 0)
-                throw new NumberFormatException("Incorrect argument value");
-            ObjectUtils.setFieldValue(obj, "id", id);
-            collection.add(
-                    getStoredType().cast(obj));
-        } catch (NoSuchFieldException e) {
-            return "Stored type does not support this command\n";
-        } catch (IllegalArgumentException | CannotCreateObjectException e) {
-            return "Unable to create object: " + e.getMessage() + "\n";
-        }
-        return "Successfully\n";
-    }
-
     public void clear() {
         collection.clear();
     }

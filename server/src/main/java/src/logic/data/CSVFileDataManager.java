@@ -26,8 +26,11 @@ import java.util.*;
 public class CSVFileDataManager<T extends Comparable<? super T>> extends FileDataManager<T> {
     private static final Logger logger = LoggerFactory.getLogger(CSVFileDataManager.class);
 
+    private final Class<T> clT;
+
     public CSVFileDataManager(Class<T> clT){
         super(clT);
+        this.clT = clT;
     }
 
     @Override
@@ -42,41 +45,49 @@ public class CSVFileDataManager<T extends Comparable<? super T>> extends FileDat
 
             if(!csvFile.exists() || csvFile.isDirectory()) throw new FileNotFoundException();
             if(!csvFile.canRead() && !csvFile.canWrite()) throw new FileReadModeException();
+
             super.file = csvFile;
             super.attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
             super.modification = LocalDateTime.ofInstant(attr.lastModifiedTime().toInstant(), ZoneId.systemDefault());
 
-            csvContent = reader.readAll();
-            if(!(csvContent.size() < 2)) {
-                headers = csvContent.get(0);
-                csvContent = csvContent.subList(1, csvContent.size());
+            if(csvFile.canRead()) {
+                csvContent = reader.readAll();
+                if (!(csvContent.size() < 2)) {
+                    headers = csvContent.get(0);
+                    csvContent = csvContent.subList(1, csvContent.size());
 
-            } else {
-                throw new FileFormatException("File is empty");
-            }
-
-            for(String[] values : csvContent) {
-                try {
-                    add(getClT()
-                            .cast(createObject(getClT(), headers, values)));
-
-                } catch (ReflectiveOperationException e) {
-//                    Client.out.print("Unable to create an object\n");
+                } else {
+                    throw new FileFormatException("File is empty");
                 }
+
+                for (String[] values : csvContent) {
+                    try {
+                        add(getClT()
+                                .cast(createObject(getClT(), headers, values)));
+
+                    } catch (ReflectiveOperationException e) {
+                        Server.out.print("Unable to create an object\n");
+                    }
+                }
+            } else {
+                Server.out.print("Collection was not initialized since file cannot be read\n");
             }
 
         } catch (FileFormatException e) {
-//            if(!ObjectUtils.agreement(Client.in, Client.out, e.getMessage() + ". Do you want to rewrite this file (y/n) : ", false)) {
-//                System.exit(0);
-//            }
+            if(!ObjectUtils.agreement(Server.in, Server.out, e.getMessage() + ". Do you want to rewrite this file (y/n) : ", false)) {
+                System.exit(0);
+            }
         } catch(FileReadModeException frme) {
-            logger.error("Cannot read the file\n");
+            logger.error("Cannot read and write the file\n");
+            Server.out.print("Cannot read and write the file\n");
             System.exit(3);
         } catch (FileNotFoundException fnfe) {
             logger.error("File does not exist or it is a directory\n");
+            Server.out.print("File does not exist or it is a directory\n");
             System.exit(2);
         } catch (IOException e) {
             logger.error("Unable to initialize collection\n");
+            Server.out.print("Unable to initialize collection\n");
             System.exit(1);
         }
     }
