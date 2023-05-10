@@ -13,11 +13,14 @@ import module.logic.exceptions.CannotCreateObjectException;
 import module.logic.exceptions.InvalidResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import src.Client;
 import src.logic.callers.ArgumentCaller;
 import src.logic.callers.Callable;
 import src.utils.StringConverter;
 
-import java.util.Arrays;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -30,6 +33,10 @@ public class Invoker {
     private static final Pattern ARG_PAT = Pattern.compile("\"[^\"]+\"|\\S+");
 
     private static final Logger logger = LoggerFactory.getLogger(Invoker.class);
+
+    private final Map<String, Integer> files = new HashMap<>();
+
+    private Integer recursionDepth = 1;
 
     private Callable caller;
 
@@ -83,23 +90,6 @@ public class Invoker {
         }
     }
 
-//    public String formRequestAndGetResponse (String commandName, String[] args, CommandDescription commandDescription) {
-//
-//        Request request = RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND);
-////            if(commandDescription.isCreatingObject()) {
-////                caller.getObjectArgument();
-////            }
-////        Response response = connection.sendRequestGetResponse(request);
-//        connection.send(request);
-//        Response response = (Response) connection.receive();
-//        if(response instanceof CommandResponse commandResponse) {
-//            return commandResponse.getResponse();
-//        } else {
-//            logger.error("Error with cached response.");
-//            return "Error";
-//        }
-//    }
-
     public String formRequestAndGetResponse(String commandName, Object[] args, CommandDescription commandDescription) {
         CommandResponse response;
         switch (commandDescription.getCommandType()) {
@@ -125,12 +115,17 @@ public class Invoker {
                         }
                     } catch (CannotCreateObjectException e) {
                         logger.error("Cannot create object as argument to command with its type.");
-                        return "Error with creating object as argument to command.";
+//                        return "Error with creating object as argument to command.";
+                        return e.getMessage();
                     }
                 }
                 response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
-                System.out.println("Почти вышел из switch");
+//                System.out.println("Почти вышел из switch");
                 return response.getResponse();
+
+            case SCRIPT_ARGUMENT_COMMAND:
+                return execute_script((String) args[0]);
+
             default:
                 // If command is NON_ARGUMENT or LINE_ARGUMENT
                 response = sendRequestAndGetResponse(RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND));
@@ -163,5 +158,55 @@ public class Invoker {
                 .map(MatchResult::group)
                 .map(e -> e.replaceAll("\"", ""))
                 .toArray(String[]::new);
+    }
+
+    public String execute_script(String file) {
+        if(!new File(file).exists()) {
+            return "File \"" + file + "\" does not exist";
+        }
+
+        if(files.containsKey(file)) {
+            Integer value = files.get(file);
+            if(value >= recursionDepth) {
+                files.clear();
+                return "Recursion was cached. After executing file " + file + " " + recursionDepth + " times";
+            }
+
+            files.put(file, ++value);
+        } else {
+            files.put(file, 1);
+            if(files.size() == 1) {
+                int input = 0;
+                do {
+                    try {
+                         Client.out.print("Please enter recursion depth (1, 50) : ");
+                         input = Integer.parseInt(Client.in.readLine());
+                    } catch (NumberFormatException ignored) {}
+                } while (input < 1 || input > 50);
+                recursionDepth = input;
+            }
+        }
+
+        try(InputStream fileInputStream = new FileInputStream(file);
+            Reader decoder = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
+            BufferedReader lineReader = new BufferedReader(decoder)) {
+
+            List<String> lines = new LinkedList<>();
+            String line;
+            while((line = lineReader.readLine()) != null) {
+                lines.add(line);
+            }
+
+            ListIterator<String> iterator = lines.listIterator(lines.size());
+
+            while(iterator.hasPrevious()) {
+                 Client.in.write(iterator.previous());
+            }
+
+        } catch (IOException e) {
+            return "Command cannot be executed: file " + file + " does not exist";
+            // Client.out.print("Command cannot be executed: file " + file + " does not exist.\n");
+        }
+        return "";
     }
 }

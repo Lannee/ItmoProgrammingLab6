@@ -9,7 +9,7 @@ import module.connection.IConnection;
  */
 public class ExecuteScript implements Command {
     public final static CommandArgument[] args = {new CommandArgument("file_name", String.class)};
-    public final static CommandType commandType = CommandType.OBJECT_ARGUMENT_COMMAND;
+    public final static CommandType commandType = CommandType.SCRIPT_ARGUMENT_COMMAND;
 
     private final Invoker invoker;
     private IConnection connection;
@@ -21,8 +21,8 @@ public class ExecuteScript implements Command {
     @Override
     public String execute(Object[] args) {
         checkArgsConformity(args);
-        invoker.execute_script((String) args[0]);
-        return "Successfully\n";
+//        invoker.execute_script((String) args[0]);
+        return "Successfully";
     }
 
     @Override

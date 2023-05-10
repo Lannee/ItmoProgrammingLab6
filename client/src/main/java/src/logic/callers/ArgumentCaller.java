@@ -1,8 +1,7 @@
 package src.logic.callers;
 
 import module.logic.exceptions.CannotCreateObjectException;
-import module.stored.Dragon;
-import module.utils.ObjectUtils;
+import src.utils.ObjectUtils;
 
 public class ArgumentCaller extends BaseCaller {
     @Override
