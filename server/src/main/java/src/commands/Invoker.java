@@ -40,7 +40,7 @@ public class Invoker {
         declaredClientCommands.put("execute_script", new ExecuteScript(this));
         declaredClientCommands.put("add", new Add(receiver));
         declaredClientCommands.put("clear", new Clear(receiver));
-        declaredClientCommands.put("exit", new Exit());
+        declaredClientCommands.put("exit", new Exit(receiver));
 //        declaredClientCommands.put("save", new Save(receiver));
         declaredClientCommands.put("show", new Show(receiver));
         declaredClientCommands.put("remove_first", new RemoveFirst(receiver));
@@ -51,7 +51,7 @@ public class Invoker {
         declaredClientCommands.put("count_greater_than_weight", new CountGreaterThanWeight(receiver));
         declaredClientCommands.put("group_counting_by_id", new GroupCountingById(receiver));
 
-        declaredServerCommands.put("exit", new Exit());
+        declaredServerCommands.put("exit", new Exit(receiver));
         declaredServerCommands.put("save", new Save(receiver));
 
         logger.info("Invoker initialized.");
@@ -132,7 +132,7 @@ public class Invoker {
             return declaredClientCommands.get(command).execute(args);
         } else {
             logger.error("Unknown command.");
-            return "Unknown command " + command + ". Type help to get information about all commands.\n";
+            return "Unknown command " + command + ". Type help to get information about all commands.";
         }
     }
 

@@ -27,15 +27,16 @@ public class RemoveById implements Command {
 //            Long id = Long.parseLong(args[0]);
             Long id = (Long) args[0];
             Object obj = receiver.getElementByFieldValue(args()[0].getArgumentName(), id);
-            if(!receiver.removeOn(e -> e == obj, true).equals("")) {
+            if(obj != null) {
+                receiver.removeOn(e -> e == obj, false);
                 return "Object with " + args()[0] + " " + id + " was successfully removed";
             } else {
                 return "Unable to remove element from the collection. No element with such " + args()[0];
             }
         } catch (NoSuchFieldException e) {
-            return "Stored type does not support this command";
+            return "Stored type does not support this command\n";
         } catch (NumberFormatException e) {
-            return "Invalid command argument";
+            return "Invalid command argument\n";
         }
     }
 

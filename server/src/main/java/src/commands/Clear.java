@@ -23,7 +23,7 @@ public class Clear implements Command {
     public String execute(Object[] args) {
         checkArgsConformity(args);
         receiver.clear();
-        return "Successfully\n";
+        return "Successfully";
     }
 
     @Override

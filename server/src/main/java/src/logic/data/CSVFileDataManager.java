@@ -41,7 +41,7 @@ public class CSVFileDataManager<T extends Comparable<? super T>> extends FileDat
             CSVReader reader = new CSVReader(isr)) {
 
             if(!csvFile.exists() || csvFile.isDirectory()) throw new FileNotFoundException();
-            if(!csvFile.canRead()) throw new FileReadModeException();
+            if(!csvFile.canRead() && !csvFile.canWrite()) throw new FileReadModeException();
             super.file = csvFile;
             super.attr = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
             super.modification = LocalDateTime.ofInstant(attr.lastModifiedTime().toInstant(), ZoneId.systemDefault());

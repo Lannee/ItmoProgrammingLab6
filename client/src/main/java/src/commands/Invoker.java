@@ -51,11 +51,13 @@ public class Invoker {
         line = line.trim();
         if(line.equals(""))
             return "";
+
         caller = new ArgumentCaller();
         caller.handleCommand(line);
         String command = caller.getCommand();
         String[] args = caller.getArguments();
-        return validateCommand(command, args);
+        String commandResult = validateCommand(command, args);
+        return commandResult.equals("") ? "" : commandResult + "\n";
     }
 
     public String validateCommand(String commandName, String[] args) throws NullPointerException {

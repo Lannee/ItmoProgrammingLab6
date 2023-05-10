@@ -21,7 +21,8 @@ public class ConsoleInputManager extends InputManager {
             } catch (IOException e) {}
 
             if(line == null) {
-                System.exit(1);
+                write("exit");
+                return "";
             }
         }
         return line;

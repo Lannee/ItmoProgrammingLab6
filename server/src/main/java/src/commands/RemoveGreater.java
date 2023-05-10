@@ -26,8 +26,8 @@ public class RemoveGreater implements Command {
     public String execute(Object[] args) {
 //        checkArgsConformity(args);
         Object obj = args[0];
-        receiver.removeOn(e -> e.compareTo(receiver.getStoredType().cast(obj)) > 0, false);
-        return "";
+        return receiver.removeOn(e -> e.compareTo(receiver.getStoredType().cast(obj)) > 0, false);
+//        return "";
     }
 
     @Override
