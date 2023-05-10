@@ -44,7 +44,6 @@ public class PacketManager {
             ObjectOutputStream objOS = new ObjectOutputStream(byteOS);
             objOS.writeObject(packet);
             dataToSend = byteOS.toByteArray();
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

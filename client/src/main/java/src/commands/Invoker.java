@@ -83,23 +83,6 @@ public class Invoker {
         }
     }
 
-//    public String formRequestAndGetResponse (String commandName, String[] args, CommandDescription commandDescription) {
-//
-//        Request request = RequestFactory.createRequest(commandName, args, TypeOfRequest.COMMAND);
-////            if(commandDescription.isCreatingObject()) {
-////                caller.getObjectArgument();
-////            }
-////        Response response = connection.sendRequestGetResponse(request);
-//        connection.send(request);
-//        Response response = (Response) connection.receive();
-//        if(response instanceof CommandResponse commandResponse) {
-//            return commandResponse.getResponse();
-//        } else {
-//            logger.error("Error with cached response.");
-//            return "Error";
-//        }
-//    }
-
     public String formRequestAndGetResponse(String commandName, Object[] args, CommandDescription commandDescription) {
         CommandResponse response;
         switch (commandDescription.getCommandType()) {

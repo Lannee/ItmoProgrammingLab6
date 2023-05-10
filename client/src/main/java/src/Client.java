@@ -1,5 +1,6 @@
 package src;
 
+import module.connection.ChannelConnection;
 import module.connection.DatagramConnection;
 import module.connection.IConnection;
 import module.logic.streams.ConsoleInputManager;
@@ -16,6 +17,7 @@ public class Client {
 
     private final static String SERVER_HOST = "localhost";
     private final static int SERVER_PORT = 50689;
+    private static boolean running = true;
 
     private Invoker invoker;
 
@@ -41,7 +43,7 @@ public class Client {
 
     public Client() {
         try {
-            connection = new DatagramConnection("localhost", SERVER_PORT);
+            connection = new ChannelConnection("localhost", SERVER_PORT);
             invoker = new Invoker(connection);
         } catch (UnknownHostException uhe) {
             uhe.printStackTrace();
@@ -55,7 +57,7 @@ public class Client {
         out.print("Type \"help\" to get the information about all commands\n");
         String line;
         logger.info("Client is ready to take commands and send them on server.");
-        while (true) {
+        while (running) {
             try {
                 System.out.print(invite + " ");
                 line = in.readLine();
