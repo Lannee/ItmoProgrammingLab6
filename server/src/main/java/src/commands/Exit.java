@@ -24,7 +24,7 @@ public class Exit implements Command {
     public String execute(Object[] args) {
         checkArgsConformity(args);
         receiver.saveCollection();
-
+        System.exit(0);
         return "Successfully";
     }
 
